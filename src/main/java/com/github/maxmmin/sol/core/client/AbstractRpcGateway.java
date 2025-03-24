@@ -117,7 +117,7 @@ public abstract class AbstractRpcGateway implements RpcGateway {
     protected String getDescription(Map<String, Integer> methods, String endpoint) {
         StringBuilder description = new StringBuilder();
         methods.forEach((method, value) -> {
-            if (!description.isEmpty()) description.append(", ");
+            if (description.length() == 0) description.append(", ");
             description.append(String.format("%sx%s", method, value));
         });
         return String.format("[%s] -> [%s]", description, endpoint);
