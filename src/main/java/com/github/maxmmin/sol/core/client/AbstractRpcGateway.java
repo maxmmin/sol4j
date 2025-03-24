@@ -14,6 +14,8 @@ import com.github.maxmmin.sol.core.exception.RpcResponseException;
 import com.github.maxmmin.sol.core.type.request.Param;
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
 import com.github.maxmmin.sol.core.type.response.RpcResponse;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -88,7 +90,7 @@ public abstract class AbstractRpcGateway implements RpcGateway {
     }
 
     protected Map<String, Integer> countMethods(Collection<RpcRequest>requests) {
-        return new HashMap<>() {{
+        return new HashMap<String, Integer>() {{
             requests.forEach(r -> {
                 String method = r.getMethod();
                 int counter = getOrDefault(method, 0);
@@ -102,7 +104,7 @@ public abstract class AbstractRpcGateway implements RpcGateway {
                 getDescription(countMethods(requestDefinition.getRequests()), getEndpoint()) :
                 getDescription(requestDefinition.getRequests().get(0).getMethod(), getEndpoint());
         log.trace(requestDescription);
-        var responseBytes = doRequest(requestDefinition);
+        byte[] responseBytes = doRequest(requestDefinition);
         return fromJson(responseBytes, responseType);
     }
 
@@ -123,13 +125,13 @@ public abstract class AbstractRpcGateway implements RpcGateway {
 
     protected ParameterizedType constructBatchingResponseType(ParameterizedType responseType) {
         return new ParameterizedType() {
-            @NonNull
+            @NotNull
             @Override
             public Type[] getActualTypeArguments() {
                 return new Type[] {responseType};
             }
 
-            @NonNull
+            @NotNull
             @Override
             public Type getRawType() {
                 return List.class;
