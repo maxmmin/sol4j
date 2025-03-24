@@ -86,7 +86,7 @@ public abstract class AbstractRpcGateway implements RpcGateway {
     public <V> List<RpcResponse<V>> sendBatched(List<RpcRequest> requests, TypeReference<V> typeReference) throws RpcException {
         Map<String, RpcResponse<V>> resultMap = new ConcurrentHashMap<>();
         sendBatched(requests, typeReference, resultMap);
-        return SolUtil.collectOrderedResults(requests, resultMap);
+        return Collector.collectResultsOrdered(requests, resultMap);
     }
 
     protected Map<String, Integer> countMethods(Collection<RpcRequest>requests) {

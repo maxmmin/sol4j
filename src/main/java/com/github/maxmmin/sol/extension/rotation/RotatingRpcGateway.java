@@ -1,6 +1,7 @@
 package com.github.maxmmin.sol.extension.rotation;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.github.maxmmin.sol.core.client.Collector;
 import lombok.extern.slf4j.Slf4j;
 import com.github.maxmmin.clue.sol.SolUtil;
 import com.github.maxmmin.sol.core.client.RpcGateway;
@@ -89,7 +90,7 @@ public class RotatingRpcGateway implements RpcGateway {
     public <V> List<RpcResponse<V>> sendBatched(List<RpcRequest> requests, TypeReference<V> typeReference) throws RpcException {
         Map<String, RpcResponse<V>> resultMap = new ConcurrentHashMap<>();
         sendBatched(requests, typeReference, resultMap);
-        return SolUtil.collectOrderedResults(requests, resultMap);
+        return Collector.collectResultsOrdered(requests, resultMap);
     }
 
     @Override
