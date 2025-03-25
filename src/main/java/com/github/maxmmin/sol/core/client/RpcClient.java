@@ -12,7 +12,7 @@ import com.github.maxmmin.sol.core.type.response.account.json.JsonProgramAccount
 import com.github.maxmmin.sol.core.type.response.signature.SignatureInformation;
 import com.github.maxmmin.sol.core.type.response.tx.Transaction;
 import com.github.maxmmin.sol.core.type.response.tx.json.JsonTransaction;
-import org.springframework.lang.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.github.maxmmin.sol.core.client;
+package com.github.maxmmin.sol.util;
 
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
 import com.github.maxmmin.sol.core.type.response.RpcResponse;

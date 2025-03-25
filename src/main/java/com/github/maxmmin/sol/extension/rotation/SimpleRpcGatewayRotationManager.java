@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import com.github.maxmmin.sol.core.client.RpcGateway;
 import com.github.maxmmin.sol.extension.feature.Feature;
-import org.springframework.lang.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.*;

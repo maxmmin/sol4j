@@ -1,7 +1,7 @@
 package com.github.maxmmin.sol.extension.rotation;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.github.maxmmin.sol.core.client.Collector;
+import com.github.maxmmin.sol.util.Collector;
 import lombok.extern.slf4j.Slf4j;
 import com.github.maxmmin.clue.sol.SolUtil;
 import com.github.maxmmin.sol.core.client.RpcGateway;
@@ -79,7 +79,7 @@ public class RotatingRpcGateway implements RpcGateway {
         AtomicReference<List<RpcRequest>> requestsRef = new AtomicReference<>(requests);
         invokeHandled(features, rpcGateway -> {
             if (!target.isEmpty()) requestsRef.set(
-                    requestsRef.get().stream().filter(request -> !target.containsKey(request.getId())).toList()
+                    requestsRef.get().stream().filter(request -> !target.containsKey(request.getId())).collect(Collectors.toList())
             );
             rpcGateway.sendBatched(requestsRef.get(), typeReference, target);
             return null;

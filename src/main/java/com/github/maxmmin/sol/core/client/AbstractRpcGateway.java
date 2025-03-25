@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.github.maxmmin.sol.util.Collector;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import com.github.maxmmin.sol.core.exception.RpcBatchedResponseException;
