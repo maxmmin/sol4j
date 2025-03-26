@@ -5,6 +5,8 @@ import com.github.maxmmin.sol.core.client.RpcGateway;
 import com.github.maxmmin.sol.core.exception.RpcException;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
@@ -15,41 +17,45 @@ import java.util.function.BiConsumer;
  * @param <J> - JSON Response Type
  * @param <P> - JSON Parsed Response Type
  */
-public class ExecRequest<D, B, J, P> {
-    private final RpcRequest request;
+public abstract class ExecRequest<D, B, J, P> {
     private final RpcGateway gateway;
 
     private final TypeReference<D> defaultType;
     private final @Nullable TypeReference<B> baseEncType;
     private final @Nullable TypeReference<J> jsonType;
     private final @Nullable TypeReference<P> jsonParsedType;
-    private final @Nullable BiConsumer<RpcRequest, Encoding> encWriter;
     private final Set<Encoding> supportedEncodings;
 
-    public ExecRequest(RpcRequest request, RpcGateway gateway, TypeReference<D> defaultType) {
-        this(request, gateway, defaultType, null, null, null, null, Set.of());
+    protected ExecRequest(RpcGateway gateway, TypeReference<D> defaultType) {
+        this(gateway, defaultType, null, null, null);
     }
 
-    public ExecRequest(RpcRequest request, RpcGateway gateway, TypeReference<D> defaultType,
-                       @Nullable TypeReference<B> baseEncType, @Nullable TypeReference<J> jsonType, @Nullable TypeReference<P> jsonParsedType,
-                       @Nullable BiConsumer<RpcRequest, Encoding> encWriter, Set<Encoding> supportedEncodings) {
-        this.request = request;
+    public ExecRequest(RpcGateway gateway, TypeReference<D> defaultType, @Nullable TypeReference<B> baseEncType,
+                       @Nullable TypeReference<J> jsonType, @Nullable TypeReference<P> jsonParsedType) {
         this.gateway = gateway;
-        this.encWriter = encWriter;
-        this.supportedEncodings = supportedEncodings;
         this.defaultType = defaultType;
         this.baseEncType = baseEncType;
         this.jsonType = jsonType;
         this.jsonParsedType = jsonParsedType;
+        this.supportedEncodings = introspectSupportedEncodings();
     }
 
-    protected void applyEncoding(Encoding encoding) {
-        if (encoding != Encoding.NIL) {
-            if (supportedEncodings.contains(encoding)) {
-                assert encWriter != null;
-                encWriter.accept(request, encoding);
-            } else throw new UnsupportedOperationException("Unsupported encoding: " + encoding);
+    protected Set<Encoding> introspectSupportedEncodings() {
+        Set<Encoding> supportedEncodings = new HashSet<>();
+        supportedEncodings.add(Encoding.NIL);
+        if (baseEncType != null) supportedEncodings.addAll(List.of(Encoding.BASE58, Encoding.BASE64));
+        if (jsonType != null) supportedEncodings.add(Encoding.JSON);
+        if (jsonParsedType != null) supportedEncodings.add(Encoding.JSON_PARSED);
+        return supportedEncodings;
+    }
+
+    protected abstract RpcRequest constructRequest(Encoding encoding);
+
+    protected RpcRequest build(Encoding encoding) {
+        if (encoding != Encoding.NIL && !supportedEncodings.contains(encoding)) {
+            throw new UnsupportedOperationException("Unsupported encoding: " + encoding);
         }
+        return constructRequest(encoding);
     }
 
     public D exec() throws RpcException {
@@ -72,8 +78,7 @@ public class ExecRequest<D, B, J, P> {
         return send(jsonParsedType, Encoding.JSON_PARSED);
     }
 
-    protected <T> T send(TypeReference<T> typeReference, @Nullable Encoding encoding) throws RpcException {
-        if (encoding != null) applyEncoding(encoding);
-        return gateway.send(request, typeReference).getResult();
+    protected <T> T send(TypeReference<T> typeReference, Encoding encoding) throws RpcException {
+        return gateway.send(build(encoding), typeReference).getResult();
     }
 }
