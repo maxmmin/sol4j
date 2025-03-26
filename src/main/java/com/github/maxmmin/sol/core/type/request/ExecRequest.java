@@ -3,12 +3,28 @@ package com.github.maxmmin.sol.core.type.request;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.maxmmin.sol.core.client.RpcGateway;
 import com.github.maxmmin.sol.core.exception.RpcException;
+import com.github.maxmmin.sol.util.Types;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.BiConsumer;
+
+/**
+ * interface for types introspection
+ */
+interface RpcVariety<D, B, J, P> {
+    D exec() throws RpcException;
+    B base58() throws RpcException, UnsupportedOperationException;
+    B base64() throws RpcException, UnsupportedOperationException;
+    J json() throws RpcException, UnsupportedOperationException;
+    P jsonParsed() throws RpcException, UnsupportedOperationException;
+}
 
 /**
  *
@@ -17,68 +33,90 @@ import java.util.function.BiConsumer;
  * @param <J> - JSON Response Type
  * @param <P> - JSON Parsed Response Type
  */
-public abstract class ExecRequest<D, B, J, P> {
+public abstract class ExecRequest<D, B, J, P> implements RpcVariety<D, B, J, P> {
     private final RpcGateway gateway;
 
-    private final TypeReference<D> defaultType;
-    private final @Nullable TypeReference<B> baseEncType;
-    private final @Nullable TypeReference<J> jsonType;
-    private final @Nullable TypeReference<P> jsonParsedType;
+    private final TypesMetadata typesMetadata;
     private final Set<Encoding> supportedEncodings;
 
-    protected ExecRequest(RpcGateway gateway, TypeReference<D> defaultType) {
-        this(gateway, defaultType, null, null, null);
-    }
-
-    public ExecRequest(RpcGateway gateway, TypeReference<D> defaultType, @Nullable TypeReference<B> baseEncType,
-                       @Nullable TypeReference<J> jsonType, @Nullable TypeReference<P> jsonParsedType) {
+    public ExecRequest(RpcGateway gateway) {
         this.gateway = gateway;
-        this.defaultType = defaultType;
-        this.baseEncType = baseEncType;
-        this.jsonType = jsonType;
-        this.jsonParsedType = jsonParsedType;
-        this.supportedEncodings = introspectSupportedEncodings();
+        this.typesMetadata = introspectTypes();
+        this.supportedEncodings = introspectSupportedEncodings(typesMetadata);
     }
 
-    protected Set<Encoding> introspectSupportedEncodings() {
+    private TypesMetadata introspectTypes() {
+        Type[] genericTypes = getClass().getSuperclass().getGenericInterfaces();
+        Type defaultType = genericTypes[0];
+
+        Type baseEncType = genericTypes[1];
+        if (baseEncType.equals(Object.class)) baseEncType = null;
+
+        Type jsonType = genericTypes[2];
+        if (jsonType.equals(Object.class)) jsonType = null;
+
+        Type jsonParsedType = genericTypes[3];
+        if (jsonParsedType.equals(Object.class)) jsonParsedType = null;
+
+        return new TypesMetadata(Types.asRef(defaultType), getRef(baseEncType), getRef(jsonType), getRef(jsonParsedType));
+    }
+
+    protected <V> TypeReference<V> getRef(@Nullable Type type) {
+        return type != null ? Types.asRef(type) : null;
+    }
+
+    private Set<Encoding> introspectSupportedEncodings(TypesMetadata typeMetadata) {
         Set<Encoding> supportedEncodings = new HashSet<>();
         supportedEncodings.add(Encoding.NIL);
-        if (baseEncType != null) supportedEncodings.addAll(List.of(Encoding.BASE58, Encoding.BASE64));
-        if (jsonType != null) supportedEncodings.add(Encoding.JSON);
-        if (jsonParsedType != null) supportedEncodings.add(Encoding.JSON_PARSED);
+
+        if (typeMetadata.getBaseEncType() != null) supportedEncodings.addAll(List.of(Encoding.BASE58, Encoding.BASE64));
+        if (typeMetadata.getJsonType() != null) supportedEncodings.add(Encoding.JSON);
+        if (typeMetadata.getJsonParsedType() != null) supportedEncodings.add(Encoding.JSON_PARSED);
+
         return supportedEncodings;
     }
 
     protected abstract RpcRequest constructRequest(Encoding encoding);
 
-    protected RpcRequest build(Encoding encoding) {
-        if (encoding != Encoding.NIL && !supportedEncodings.contains(encoding)) {
-            throw new UnsupportedOperationException("Unsupported encoding: " + encoding);
-        }
-        return constructRequest(encoding);
-    }
-
+    @Override
     public D exec() throws RpcException {
-        return send(defaultType, Encoding.NIL);
+        return send(typesMetadata.getDefaultType(), Encoding.NIL);
     }
 
+    @Override
     public B base58() throws RpcException, UnsupportedOperationException {
-        return send(baseEncType, Encoding.BASE58);
+        return send(typesMetadata.getBaseEncType(), Encoding.BASE58);
     }
 
+    @Override
     public B base64() throws RpcException, UnsupportedOperationException {
-        return send(baseEncType, Encoding.BASE64);
+        return send(typesMetadata.getBaseEncType(), Encoding.BASE64);
     }
 
+    @Override
     public J json() throws RpcException, UnsupportedOperationException {
-        return send(jsonType, Encoding.JSON);
+        return send(typesMetadata.getJsonType(), Encoding.JSON);
     }
 
+    @Override
     public P jsonParsed() throws RpcException, UnsupportedOperationException {
-        return send(jsonParsedType, Encoding.JSON_PARSED);
+        return send(typesMetadata.getJsonParsedType(), Encoding.JSON_PARSED);
     }
 
     protected <T> T send(TypeReference<T> typeReference, Encoding encoding) throws RpcException {
-        return gateway.send(build(encoding), typeReference).getResult();
+        if (encoding != Encoding.NIL && !supportedEncodings.contains(encoding)) {
+            throw new UnsupportedOperationException("Unsupported encoding: " + encoding);
+        }
+        return gateway.send(constructRequest(encoding), typeReference).getResult();
+    }
+
+    @Getter
+    @Builder
+    @RequiredArgsConstructor
+    class TypesMetadata {
+        private final TypeReference<D> defaultType;
+        private final TypeReference<B> baseEncType;
+        private final TypeReference<J> jsonType;
+        private final TypeReference<P> jsonParsedType;
     }
 }
