@@ -6,7 +6,7 @@ import lombok.Data;
 import java.math.BigInteger;
 
 @Data
-public class AccountDetails<D> {
+public class Account<D> {
     @JsonProperty("data")
     private D data;
 

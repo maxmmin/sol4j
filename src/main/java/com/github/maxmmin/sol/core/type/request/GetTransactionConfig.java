@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 public class GetTransactionConfig {
-    private final Encoding encoding;
     private final Commitment commitment;
     private final Integer maxSupportedTransactionVersion = 0;
 

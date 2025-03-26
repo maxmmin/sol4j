@@ -49,13 +49,13 @@ public abstract class ExecRequest<D, B, J, P> implements RpcVariety<D, B, J, P> 
         Type defaultType = genericTypes[0];
 
         Type baseEncType = genericTypes[1];
-        if (baseEncType.equals(Object.class)) baseEncType = null;
+        if (baseEncType.equals(Void.class)) baseEncType = null;
 
         Type jsonType = genericTypes[2];
-        if (jsonType.equals(Object.class)) jsonType = null;
+        if (jsonType.equals(Void.class)) jsonType = null;
 
         Type jsonParsedType = genericTypes[3];
-        if (jsonParsedType.equals(Object.class)) jsonParsedType = null;
+        if (jsonParsedType.equals(Void.class)) jsonParsedType = null;
 
         return new TypesMetadata(Types.asRef(defaultType), getRef(baseEncType), getRef(jsonType), getRef(jsonParsedType));
     }

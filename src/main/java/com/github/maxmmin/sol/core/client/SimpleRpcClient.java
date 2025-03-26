@@ -10,9 +10,9 @@ import com.github.maxmmin.sol.core.type.request.*;
 import com.github.maxmmin.sol.core.type.response.ContextWrapper;
 import com.github.maxmmin.sol.core.type.response.RpcResponse;
 import com.github.maxmmin.sol.core.type.response.SolanaNodeInfo;
-import com.github.maxmmin.sol.core.type.response.account.AccountDetails;
+import com.github.maxmmin.sol.core.type.response.account.Account;
 import com.github.maxmmin.sol.core.type.response.account.ProgramAccount;
-import com.github.maxmmin.sol.core.type.response.account.base.BaseEncAccountDetails;
+import com.github.maxmmin.sol.core.type.response.account.base.BaseEncAccount;
 import com.github.maxmmin.sol.core.type.response.account.json.JsonProgramAccount;
 import com.github.maxmmin.sol.core.type.response.signature.SignatureInformation;
 import com.github.maxmmin.sol.core.type.response.tx.Transaction;
@@ -146,17 +146,17 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
-    public ContextWrapper<List<BaseEncAccountDetails>> getMultipleAccounts(List<String> accounts) throws RpcException {
+    public ContextWrapper<List<BaseEncAccount>> getMultipleAccounts(List<String> accounts) throws RpcException {
         return getMultipleAccounts(accounts, null);
     }
 
     @Override
-    public ContextWrapper<List<BaseEncAccountDetails>> getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config) throws RpcException {
-        return getMultipleAccounts(accounts, config, new TypeReference<BaseEncAccountDetails>() {});
+    public ContextWrapper<List<BaseEncAccount>> getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config) throws RpcException {
+        return getMultipleAccounts(accounts, config, new TypeReference<BaseEncAccount>() {});
     }
 
     @Override
-    public <V extends AccountDetails<?>> ContextWrapper<List<V>> getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config, TypeReference<V> typeRef) throws RpcException {
+    public <V extends Account<?>> ContextWrapper<List<V>> getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config, TypeReference<V> typeRef) throws RpcException {
         JavaType responseType = TypeFactory.defaultInstance().constructParametricType(ContextWrapper.class, Types.toListType(typeRef));
         return call("getMultipleAccounts", buildParams(accounts, config), Types.asRef(responseType));
     }

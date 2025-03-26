@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class ProgramAccount<D extends AccountDetails<?>> {
+public class ProgramAccount<D extends Account<?>> {
     @JsonProperty("account")
     private D account;
 
