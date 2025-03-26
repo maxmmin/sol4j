@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.Set;
  * interface for types introspection
  */
 interface RpcVariety<D, B, J, P> {
-    D exec() throws RpcException;
+    D noarg() throws RpcException;
     B base58() throws RpcException, UnsupportedOperationException;
     B base64() throws RpcException, UnsupportedOperationException;
     J json() throws RpcException, UnsupportedOperationException;
@@ -79,7 +78,7 @@ public abstract class ExecRequest<D, B, J, P> implements RpcVariety<D, B, J, P> 
     protected abstract RpcRequest constructRequest(Encoding encoding);
 
     @Override
-    public D exec() throws RpcException {
+    public D noarg() throws RpcException {
         return send(typesMetadata.getDefaultType(), Encoding.NIL);
     }
 
