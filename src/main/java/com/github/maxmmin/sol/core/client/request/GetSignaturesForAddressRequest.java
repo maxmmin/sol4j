@@ -1,8 +1,11 @@
-package com.github.maxmmin.sol.core.type.request;
+package com.github.maxmmin.sol.core.client.request;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.maxmmin.sol.core.client.RpcGateway;
+import com.github.maxmmin.sol.core.type.request.Encoding;
+import com.github.maxmmin.sol.core.type.request.GetSignaturesForAddressConfig;
+import com.github.maxmmin.sol.core.type.request.RpcRequest;
 import com.github.maxmmin.sol.core.type.response.signature.SignatureInformation;
 
 import java.util.List;
@@ -20,7 +23,7 @@ public class GetSignaturesForAddressRequest extends ExecRequest<List<SignatureIn
     }
 
     @Override
-    protected RpcRequest constructRequest(Encoding encoding) {
+    protected RpcRequest constructRpcRequest(Encoding encoding) {
         Map<String, Object> cfg = objectMapper.convertValue(config, new TypeReference<Map<String, Object>> () {});
         if (!encoding.isNil()) cfg.put("encoding", encoding);
         return new RpcRequest("getSignaturesForAddress", List.of(address, cfg));

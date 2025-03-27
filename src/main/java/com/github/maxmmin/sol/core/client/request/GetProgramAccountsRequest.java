@@ -1,15 +1,17 @@
-package com.github.maxmmin.sol.core.type.request;
+package com.github.maxmmin.sol.core.client.request;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.maxmmin.sol.core.client.RpcGateway;
+import com.github.maxmmin.sol.core.type.request.Encoding;
+import com.github.maxmmin.sol.core.type.request.GetProgramAccountsConfig;
+import com.github.maxmmin.sol.core.type.request.RpcRequest;
 import com.github.maxmmin.sol.core.type.response.account.base.BaseEncProgramAccount;
 import com.github.maxmmin.sol.core.type.response.account.json.JsonProgramAccount;
 import com.github.maxmmin.sol.core.type.response.account.jsonparsed.JsonParsedProgramAccount;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class GetProgramAccountsRequest extends ExecRequest<List<JsonProgramAccount>, List<BaseEncProgramAccount>, List<JsonProgramAccount>, List<JsonParsedProgramAccount>> {
     private final String programId;
@@ -23,7 +25,7 @@ public class GetProgramAccountsRequest extends ExecRequest<List<JsonProgramAccou
     }
 
     @Override
-    protected RpcRequest constructRequest(Encoding encoding) {
+    protected RpcRequest constructRpcRequest(Encoding encoding) {
         Map<String, ObjectMapper> cfg = objectMapper.convertValue(config, new TypeReference<Map<String, ObjectMapper>>() {});
         if (!encoding.isNil()) cfg.put("encoding", new ObjectMapper());
         return new RpcRequest("getProgramAccounts", List.of(programId, cfg));

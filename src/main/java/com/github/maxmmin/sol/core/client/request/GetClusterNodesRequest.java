@@ -1,6 +1,8 @@
-package com.github.maxmmin.sol.core.type.request;
+package com.github.maxmmin.sol.core.client.request;
 
 import com.github.maxmmin.sol.core.client.RpcGateway;
+import com.github.maxmmin.sol.core.type.request.Encoding;
+import com.github.maxmmin.sol.core.type.request.RpcRequest;
 import com.github.maxmmin.sol.core.type.response.SolanaNodeInfo;
 
 import java.util.List;
@@ -11,7 +13,7 @@ public class GetClusterNodesRequest extends ExecRequest<List<SolanaNodeInfo>, Vo
     }
 
     @Override
-    protected RpcRequest constructRequest(Encoding encoding) {
+    protected RpcRequest constructRpcRequest(Encoding encoding) {
         return new RpcRequest("getClusterNodes", List.of());
     }
 }

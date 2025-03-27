@@ -1,8 +1,12 @@
-package com.github.maxmmin.sol.core.type.request;
+package com.github.maxmmin.sol.core.client.request;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.maxmmin.sol.core.client.RpcGateway;
+import com.github.maxmmin.sol.core.type.request.Encoding;
+import com.github.maxmmin.sol.core.type.request.GetTokenAccountsByOwnerConfig;
+import com.github.maxmmin.sol.core.type.request.GetTokenAccountsByOwnerParams;
+import com.github.maxmmin.sol.core.type.request.RpcRequest;
 import com.github.maxmmin.sol.core.type.response.ContextWrapper;
 import com.github.maxmmin.sol.core.type.response.account.base.BaseEncProgramAccount;
 import com.github.maxmmin.sol.core.type.response.account.json.JsonProgramAccount;
@@ -26,7 +30,7 @@ public class GetTokenAccountsByOwnerRequest extends ExecRequest<ContextWrapper<L
     }
 
     @Override
-    protected RpcRequest constructRequest(Encoding encoding) {
+    protected RpcRequest constructRpcRequest(Encoding encoding) {
         Map<String, Object> paramsMap = objectMapper.convertValue(params, new TypeReference<Map<String, Object>>() {});
         Map<String, Object> cfgMap = objectMapper.convertValue(config, new TypeReference<Map<String, Object>>() {});
         if (!encoding.isNil()) cfgMap.put("encoding", encoding);

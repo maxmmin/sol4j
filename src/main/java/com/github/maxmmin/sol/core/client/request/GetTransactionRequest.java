@@ -1,8 +1,11 @@
-package com.github.maxmmin.sol.core.type.request;
+package com.github.maxmmin.sol.core.client.request;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.maxmmin.sol.core.client.RpcGateway;
+import com.github.maxmmin.sol.core.type.request.Encoding;
+import com.github.maxmmin.sol.core.type.request.GetTransactionConfig;
+import com.github.maxmmin.sol.core.type.request.RpcRequest;
 import com.github.maxmmin.sol.core.type.response.tx.base.BaseEncTransaction;
 import com.github.maxmmin.sol.core.type.response.tx.json.JsonTransaction;
 import com.github.maxmmin.sol.core.type.response.tx.jsonparsed.JsonParsedTransaction;
@@ -23,7 +26,7 @@ public class GetTransactionRequest extends ExecRequest<JsonTransaction, BaseEncT
     }
 
     @Override
-    protected RpcRequest constructRequest(Encoding encoding) {
+    protected RpcRequest constructRpcRequest(Encoding encoding) {
         Map<String, Object> mapCfg = mapper.convertValue(config, new TypeReference<Map<String, Object>>() {});
         if (!encoding.isNil()) mapCfg.put("encoding", encoding);
         return new RpcRequest("getTransaction", List.of(signature, mapCfg));
