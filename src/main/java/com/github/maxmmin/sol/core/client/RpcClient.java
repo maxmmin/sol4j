@@ -1,6 +1,7 @@
 package com.github.maxmmin.sol.core.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.github.maxmmin.sol.core.client.request.*;
 import com.github.maxmmin.sol.core.exception.RpcException;
 import com.github.maxmmin.sol.core.type.request.*;
 import com.github.maxmmin.sol.core.type.response.ContextWrapper;
@@ -22,29 +23,21 @@ public interface RpcClient {
     <V> void callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef, Map<String, V> target) throws RpcException;
     <V> List<V> callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef) throws RpcException;
 
-    List<SignatureInformation> getSignaturesForAddress(String address) throws RpcException;
-    List<SignatureInformation> getSignaturesForAddress(String address, @Nullable GetSignaturesForAddressConfig config) throws RpcException;
+    GetSignaturesForAddressRequest getSignaturesForAddress(String address) throws RpcException;
+    GetSignaturesForAddressRequest getSignaturesForAddress(String address, @Nullable GetSignaturesForAddressConfig config) throws RpcException;
 
-    List<JsonProgramAccount> getProgramAccounts(String programId) throws RpcException;
-    List<JsonProgramAccount> getProgramAccounts(String programId, @Nullable GetProgramAccountsConfig config) throws RpcException;
+    GetProgramAccountsRequest getProgramAccounts(String programId) throws RpcException;
+    GetProgramAccountsRequest getProgramAccounts(String programId, @Nullable GetProgramAccountsConfig config) throws RpcException;
     <V extends ProgramAccount<?>> List<V> getProgramAccounts(String programId, @Nullable GetProgramAccountsConfig config, TypeReference<V> typeRef) throws RpcException;
 
-    ContextWrapper<List<JsonProgramAccount>> getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params) throws RpcException;
-    ContextWrapper<List<JsonProgramAccount>> getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @Nullable GetTokenAccountsByOwnerConfig config) throws RpcException;
-    <V extends ProgramAccount<?>> ContextWrapper<List<V>> getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params,
-                                                                                  @Nullable GetTokenAccountsByOwnerConfig config, TypeReference<V> typeRef) throws RpcException;
+    GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params) throws RpcException;
+    GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @Nullable GetTokenAccountsByOwnerConfig config) throws RpcException;
 
-    JsonTransaction getTransaction(String signature) throws RpcException;
-    JsonTransaction getTransaction(String signature, @Nullable GetTransactionConfig config) throws RpcException;
-    <V extends Transaction<?, ?>> V getTransaction(String signature, @Nullable GetTransactionConfig config, TypeReference<V> typeRef) throws RpcException;
+    GetTransactionRequest getTransaction(String signature) throws RpcException;
+    GetTransactionRequest getTransaction(String signature, @Nullable GetTransactionConfig config) throws RpcException;
 
-    List<JsonTransaction> getTransaction(List<String>signature) throws RpcException;
-    List<JsonTransaction> getTransaction(List<String> signature, @Nullable GetTransactionConfig config) throws RpcException;
-    <V extends Transaction<?, ?>> List<V> getTransaction(List<String> signature, @Nullable GetTransactionConfig config, TypeReference<V> typeRef) throws RpcException;
+    GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts) throws RpcException;
+    GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config) throws RpcException;
 
-    ContextWrapper<List<BaseEncAccount>> getMultipleAccounts(List<String> accounts) throws RpcException;
-    ContextWrapper<List<BaseEncAccount>> getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config) throws RpcException;
-    <V extends Account<?>> ContextWrapper<List<V>> getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config, TypeReference<V> typeRef) throws RpcException;
-
-    List<SolanaNodeInfo> getClusterNodes() throws RpcException;
+    GetClusterNodesRequest getClusterNodes() throws RpcException;
 }
