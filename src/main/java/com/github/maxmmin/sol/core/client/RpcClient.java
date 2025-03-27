@@ -23,21 +23,20 @@ public interface RpcClient {
     <V> void callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef, Map<String, V> target) throws RpcException;
     <V> List<V> callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef) throws RpcException;
 
-    GetSignaturesForAddressRequest getSignaturesForAddress(String address) throws RpcException;
-    GetSignaturesForAddressRequest getSignaturesForAddress(String address, @Nullable GetSignaturesForAddressConfig config) throws RpcException;
+    GetSignaturesForAddressRequest getSignaturesForAddress(String address);
+    GetSignaturesForAddressRequest getSignaturesForAddress(String address, @Nullable GetSignaturesForAddressConfig config);
 
     GetProgramAccountsRequest getProgramAccounts(String programId) throws RpcException;
-    GetProgramAccountsRequest getProgramAccounts(String programId, @Nullable GetProgramAccountsConfig config) throws RpcException;
-    <V extends ProgramAccount<?>> List<V> getProgramAccounts(String programId, @Nullable GetProgramAccountsConfig config, TypeReference<V> typeRef) throws RpcException;
+    GetProgramAccountsRequest getProgramAccounts(String programId, @Nullable GetProgramAccountsConfig config);
 
-    GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params) throws RpcException;
-    GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @Nullable GetTokenAccountsByOwnerConfig config) throws RpcException;
+    GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params);
+    GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @Nullable GetTokenAccountsByOwnerConfig config);
 
-    GetTransactionRequest getTransaction(String signature) throws RpcException;
-    GetTransactionRequest getTransaction(String signature, @Nullable GetTransactionConfig config) throws RpcException;
+    GetTransactionRequest getTransaction(String signature);
+    GetTransactionRequest getTransaction(String signature, @Nullable GetTransactionConfig config);
 
-    GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts) throws RpcException;
-    GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config) throws RpcException;
+    GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts);
+    GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config);
 
-    GetClusterNodesRequest getClusterNodes() throws RpcException;
+    GetClusterNodesRequest getClusterNodes();
 }

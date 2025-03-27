@@ -3,6 +3,7 @@ package com.github.maxmmin.sol.core.client;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.github.maxmmin.sol.core.client.request.*;
 import com.github.maxmmin.sol.util.Types;
 import lombok.RequiredArgsConstructor;
 import com.github.maxmmin.sol.core.exception.RpcException;
@@ -73,98 +74,58 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
-    public List<SignatureInformation> getSignaturesForAddress(String address) throws RpcException {
+    public GetSignaturesForAddressRequest getSignaturesForAddress(String address) {
         return getSignaturesForAddress(address, null);
     }
 
     @Override
-    public List<SignatureInformation> getSignaturesForAddress(String address, @Nullable GetSignaturesForAddressConfig config) throws RpcException {
-        return call("getSignaturesForAddress", buildParams(address, config), new TypeReference<List<SignatureInformation>>() {});
+    public GetSignaturesForAddressRequest getSignaturesForAddress(String address, @Nullable GetSignaturesForAddressConfig config) {
+        return new GetSignaturesForAddressRequest(rpcGateway, address, config != null ? config : GetSignaturesForAddressConfig.builder().build());
     }
 
     @Override
-    public List<JsonProgramAccount> getProgramAccounts(String programId) throws RpcException {
+    public GetProgramAccountsRequest getProgramAccounts(String programId) {
         return getProgramAccounts(programId, null);
     }
 
     @Override
-    public List<JsonProgramAccount> getProgramAccounts(String programId, @Nullable GetProgramAccountsConfig config) throws RpcException {
-        if (config != null && config.getEncoding() != null && config.getEncoding() != Encoding.JSON) throw new IllegalArgumentException("Invalid encoding");
-        return getProgramAccounts(programId, config, new TypeReference<JsonProgramAccount>() {});
+    public GetProgramAccountsRequest getProgramAccounts(String programId, @Nullable GetProgramAccountsConfig config) {
+        return new GetProgramAccountsRequest(rpcGateway, programId, config != null ? config : GetProgramAccountsConfig.builder().build());
     }
 
     @Override
-    public <V extends ProgramAccount<?>> List<V> getProgramAccounts(String programId, @Nullable GetProgramAccountsConfig config, TypeReference<V> typeRef) throws RpcException {
-        return call("getProgramAccounts", buildParams(programId, config), Types.toListRef(typeRef));
-    }
-
-    @Override
-    public ContextWrapper<List<JsonProgramAccount>> getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params) throws RpcException {
+    public GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params) {
         return getTokenAccountsByOwner(owner, params, null);
     }
 
     @Override
-    public ContextWrapper<List<JsonProgramAccount>> getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @Nullable GetTokenAccountsByOwnerConfig config) throws RpcException {
-        return getTokenAccountsByOwner(owner, params, config, new TypeReference<JsonProgramAccount>() {});
+    public GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @Nullable GetTokenAccountsByOwnerConfig config) {
+        return new GetTokenAccountsByOwnerRequest(rpcGateway, owner, params, config != null ? config : GetTokenAccountsByOwnerConfig.builder().build());        
     }
 
     @Override
-    public <V extends ProgramAccount<?>> ContextWrapper<List<V>> getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @Nullable GetTokenAccountsByOwnerConfig config, TypeReference<V> typeRef) throws RpcException {
-        JavaType responseType = TypeFactory.defaultInstance().constructParametricType(ContextWrapper.class, Types.toListType(typeRef));
-        return call("getTokenAccountsByOwner", buildParams(owner, params, config), Types.asRef(responseType));
-    }
-
-    @Override
-    public JsonTransaction getTransaction(String signature) throws RpcException {
+    public GetTransactionRequest getTransaction(String signature) {
         return getTransaction(signature, null);
     }
 
     @Override
-    public JsonTransaction getTransaction(String signature, @Nullable GetTransactionConfig config) throws RpcException {
-        return getTransaction(signature, config, new TypeReference<JsonTransaction>() {});
+    public GetTransactionRequest getTransaction(String signature, @Nullable GetTransactionConfig config) {
+        return new GetTransactionRequest(rpcGateway, signature, config != null ? config : GetTransactionConfig.builder().build());
     }
-
+    
     @Override
-    public <V extends Transaction<?, ?>> V getTransaction(String signature, @Nullable GetTransactionConfig config, TypeReference<V> typeRef) throws RpcException {
-        return call("getTransaction", buildParams(signature, config), typeRef);
-    }
-
-    @Override
-    public List<JsonTransaction> getTransaction(List<String> signatures) throws RpcException {
-        return getTransaction(signatures, null);
-    }
-
-    @Override
-    public List<JsonTransaction> getTransaction(List<String> signatures, @Nullable GetTransactionConfig config) throws RpcException {
-        return getTransaction(signatures, config, new TypeReference<JsonTransaction>() {});
-    }
-
-    @Override
-    public <V extends Transaction<?, ?>> List<V> getTransaction(List<String> signatures, @Nullable GetTransactionConfig config, TypeReference<V> typeRef) throws RpcException {
-        List<List<Object>>params = signatures.stream().map(signature -> buildParams(signature, config)).collect(Collectors.toList());
-        return callBatched("getTransaction", params, typeRef);
-    }
-
-    @Override
-    public ContextWrapper<List<BaseEncAccount>> getMultipleAccounts(List<String> accounts) throws RpcException {
+    public GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts) {
         return getMultipleAccounts(accounts, null);
     }
 
     @Override
-    public ContextWrapper<List<BaseEncAccount>> getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config) throws RpcException {
-        return getMultipleAccounts(accounts, config, new TypeReference<BaseEncAccount>() {});
+    public GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config) {
+        return new GetMultipleAccountsRequest(rpcGateway, accounts, config != null ? config : GetMultipleAccountsConfig.builder().build());
     }
-
+    
     @Override
-    public <V extends Account<?>> ContextWrapper<List<V>> getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config, TypeReference<V> typeRef) throws RpcException {
-        JavaType responseType = TypeFactory.defaultInstance().constructParametricType(ContextWrapper.class, Types.toListType(typeRef));
-        return call("getMultipleAccounts", buildParams(accounts, config), Types.asRef(responseType));
-    }
-
-    @Override
-    public List<SolanaNodeInfo> getClusterNodes() throws RpcException {
-        JavaType responseType = TypeFactory.defaultInstance().constructParametricType(List.class, SolanaNodeInfo.class);
-        return call("getClusterNodes", null, Types.asRef(responseType));
+    public GetClusterNodesRequest getClusterNodes() {
+        return new GetClusterNodesRequest(rpcGateway);
     }
 
 
