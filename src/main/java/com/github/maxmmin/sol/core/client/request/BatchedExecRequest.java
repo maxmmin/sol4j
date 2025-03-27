@@ -7,6 +7,7 @@ import com.github.maxmmin.sol.core.type.request.Encoding;
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
 import com.github.maxmmin.sol.core.type.response.RpcResponse;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,5 +46,15 @@ public class BatchedExecRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B,
 
     public List<P> jsonParsed() throws RpcException, UnsupportedOperationException {
         return send(getTypesMetadata().getJsonParsedType(), Encoding.JSON_PARSED);
+    }
+
+    public List<? extends ExecRequest<D, B, J, P>> getRequests() {
+        return requests;
+    }
+
+    public BatchedExecRequest<D, B, J, P> add(ExecRequest<D, B, J, P> request) {
+        List<ExecRequest<D, B, J, P>> newRequests = new ArrayList<>(requests);
+        newRequests.add(request);
+        return new BatchedExecRequest<>(gateway, newRequests);
     }
 }
