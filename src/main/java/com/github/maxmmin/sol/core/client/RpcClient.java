@@ -26,7 +26,7 @@ public interface RpcClient {
     GetSignaturesForAddressRequest getSignaturesForAddress(String address);
     GetSignaturesForAddressRequest getSignaturesForAddress(String address, @Nullable GetSignaturesForAddressConfig config);
 
-    GetProgramAccountsRequest getProgramAccounts(String programId) throws RpcException;
+    GetProgramAccountsRequest getProgramAccounts(String programId);
     GetProgramAccountsRequest getProgramAccounts(String programId, @Nullable GetProgramAccountsConfig config);
 
     GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params);
