@@ -31,14 +31,6 @@ import java.util.stream.Collectors;
 public class SimpleRpcClient implements RpcClient {
     private final RpcGateway rpcGateway;
 
-    protected List<Object> buildParams(Object...params) {
-        List<Object>paramsList = new ArrayList<>(params.length);
-        for (Object param: params) {
-            if (param != null) paramsList.add(param);
-        }
-        return paramsList;
-    }
-
     @Override
     public <V> V call(String method, List<Object> params, TypeReference<V> typeRef) throws RpcException {
         RpcRequest rpcRequest = new RpcRequest(method, params);
