@@ -20,9 +20,9 @@ import java.util.Set;
  * @param <J>
  * @param <P>
  *
- *      Class used for request type params introspection
+ *      Class used for RPC variety type params introspection
  */
-public abstract class TypedRequest<D, B, J, P> implements RpcVariety<D, B, J, P> {
+public abstract class IntrospectedRpcVariety<D, B, J, P> implements RpcVariety<D, B, J, P> {
     private final TypesMetadata typesMetadata;
     private final Set<Encoding> supportedEncodings;
 
@@ -34,7 +34,7 @@ public abstract class TypedRequest<D, B, J, P> implements RpcVariety<D, B, J, P>
         return supportedEncodings;
     }
 
-    public TypedRequest() {
+    public IntrospectedRpcVariety() {
         this.typesMetadata = introspectTypes();
         this.supportedEncodings = introspectSupportedEncodings(typesMetadata);
     }

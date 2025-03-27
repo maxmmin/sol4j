@@ -11,11 +11,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BatchExecRequest<D, B, J, P> extends TypedRequest<D, B, J, P> {
+public class BatchedExecRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B, J, P> {
     private final RpcGateway gateway;
     private final List<? extends ExecRequest<D, B, J, P>> requests;
 
-    public BatchExecRequest(RpcGateway gateway, Collection<? extends ExecRequest<D, B, J, P>> requests) {
+    public BatchedExecRequest(RpcGateway gateway, Collection<? extends ExecRequest<D, B, J, P>> requests) {
         this.gateway = gateway;
         this.requests = List.copyOf(requests);
     }
@@ -27,29 +27,23 @@ public class BatchExecRequest<D, B, J, P> extends TypedRequest<D, B, J, P> {
                 .collect(Collectors.toList());
     }
 
-
-    @Override
-    public D noarg() throws RpcException {
-        return send()
+    public List<D> noarg() throws RpcException {
+        return send(getTypesMetadata().getDefaultType(), Encoding.NIL);
     }
 
-    @Override
-    public B base58() throws RpcException, UnsupportedOperationException {
-        return null;
+    public List<B> base58() throws RpcException, UnsupportedOperationException {
+        return send(getTypesMetadata().getBaseEncType(), Encoding.BASE58);
     }
 
-    @Override
-    public B base64() throws RpcException, UnsupportedOperationException {
-        return null;
+    public List<B> base64() throws RpcException, UnsupportedOperationException {
+        return send(getTypesMetadata().getBaseEncType(), Encoding.BASE64);
     }
 
-    @Override
-    public J json() throws RpcException, UnsupportedOperationException {
-        return null;
+    public List<J> json() throws RpcException, UnsupportedOperationException {
+        return send(getTypesMetadata().getJsonType(), Encoding.JSON);
     }
 
-    @Override
-    public P jsonParsed() throws RpcException, UnsupportedOperationException {
-        return null;
+    public List<P> jsonParsed() throws RpcException, UnsupportedOperationException {
+        return send(getTypesMetadata().getJsonParsedType(), Encoding.JSON_PARSED);
     }
 }
