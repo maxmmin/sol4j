@@ -1,5 +1,6 @@
 package com.github.maxmmin.sol.core.client;
 
+import com.github.maxmmin.sol.core.exception.RpcUnavailableException;
 import okhttp3.*;
 import com.github.maxmmin.sol.core.exception.RpcException;
 
@@ -29,9 +30,9 @@ public class HttpRpcGateway extends AbstractRpcGateway implements RpcGateway {
             if (body == null) throw new NullPointerException("Response body is null");
             return body.bytes();
         } catch (SSLHandshakeException e) {
-            throw new RpcException("SSL Handshake failed: " + e.getMessage());
+            throw new RpcUnavailableException("SSL Handshake failed: " + e.getMessage());
         } catch (IOException e) {
-            throw new RpcException("IO error during RPC call: " + e.getMessage());
+            throw new RpcUnavailableException("IO error during RPC call: " + e.getMessage());
         } catch (NullPointerException e) {
             if (retryOnEmpty) return doRequestInternal(requestDefinition, false);
             else throw new RpcException("Empty response received: " + e.getMessage());
