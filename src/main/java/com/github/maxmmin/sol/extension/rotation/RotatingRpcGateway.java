@@ -31,8 +31,12 @@ public class RotatingRpcGateway implements RpcGateway {
         this.connectionFailDetector = connectionFailDetector;
     }
 
-    public static RotatingRpcGateway create (List<RpcGatewayContext<RpcGateway>> clients) {
-        return new RotatingRpcGateway(new SimpleRpcGatewayRotationManager<>(clients, true), new SimpleFeaturesDeterminer(), new SimpleConnectionFailDetector());
+    public static RotatingRpcGateway create(List<RpcGatewayContext<RpcGateway>> clients) {
+        return create(clients, true);
+    }
+
+    public static RotatingRpcGateway create (List<RpcGatewayContext<RpcGateway>> clients, boolean balanced) {
+        return new RotatingRpcGateway(new SimpleRpcGatewayRotationManager<>(clients, balanced), new SimpleFeaturesDeterminer(), new SimpleConnectionFailDetector());
     }
 
     protected RpcGatewayContext<RpcGateway>getRpcContext() {
