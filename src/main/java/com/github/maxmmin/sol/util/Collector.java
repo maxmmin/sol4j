@@ -15,7 +15,7 @@ public class Collector {
         for (RpcRequest r : requests) {
             positions.put(r.getId(), idx++);
         }
-        RpcResponse<V>[]results = new RpcResponse[responses.size()];
+        @SuppressWarnings("unchecked") RpcResponse<V>[]results = new RpcResponse[responses.size()];
         responses.forEach((key, value) -> {
             results[positions.get(key)] = value;
         });
