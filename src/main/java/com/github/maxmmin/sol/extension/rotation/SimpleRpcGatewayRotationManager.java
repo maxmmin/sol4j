@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public class SimpleRpcGatewayRotationManager<V extends RpcGateway> implements RpcGatewayRotationManager<V> {
-    private final Map<RpcGatewayContext<V>, RotationData> services;
+    private final Map<RpcGatewayContext, RotationData> services;
     private final Lock lock = new ReentrantLock();
     private final Long chargeTime = Duration.ofSeconds(10).toMillis();
 
@@ -26,11 +26,11 @@ public class SimpleRpcGatewayRotationManager<V extends RpcGateway> implements Rp
     private final Predicate<RotationData> isAvailable =
             rotationData -> rotationData.getRotatedAt() == null || System.currentTimeMillis() - rotationData.getRotatedAt() > chargeTime;
 
-    public SimpleRpcGatewayRotationManager(List<RpcGatewayContext<V>> registrations) {
+    public SimpleRpcGatewayRotationManager(List<RpcGatewayContext> registrations) {
         this(registrations, false);
     }
 
-    public SimpleRpcGatewayRotationManager(List<RpcGatewayContext<V>> registrations, boolean balanced) {
+    public SimpleRpcGatewayRotationManager(List<RpcGatewayContext> registrations, boolean balanced) {
         services = new ConcurrentHashMap<>() {{
             registrations.forEach(web3jService -> put(web3jService, new RotationData()));
         }};
@@ -38,7 +38,7 @@ public class SimpleRpcGatewayRotationManager<V extends RpcGateway> implements Rp
     }
 
     @Override
-    public Optional<RpcGatewayContext<V>> tryRotate(RpcGatewayContext<V> web3jService, Set<Feature> requiredFeatures) {
+    public Optional<RpcGatewayContext> tryRotate(RpcGatewayContext web3jService, Set<Feature> requiredFeatures) {
         lock.lock();
         try {
             markAsRotated(getRotationData(web3jService));
@@ -49,12 +49,12 @@ public class SimpleRpcGatewayRotationManager<V extends RpcGateway> implements Rp
     }
 
     @Override
-    public Optional<RpcGatewayContext<V>> tryRotate(RpcGatewayContext<V> web3jService) {
+    public Optional<RpcGatewayContext> tryRotate(RpcGatewayContext web3jService) {
         return tryRotate(web3jService, Collections.emptySet());
     }
 
     @Override
-    public boolean backToPool(RpcGatewayContext<V> web3jService, boolean markAsNew) {
+    public boolean backToPool(RpcGatewayContext web3jService, boolean markAsNew) {
         lock.lock();
         try {
             RotationData rotationData = getRotationData(web3jService);
@@ -64,7 +64,7 @@ public class SimpleRpcGatewayRotationManager<V extends RpcGateway> implements Rp
         }
     }
 
-    protected Optional<RpcGatewayContext<V>> obtain(Set<Feature> requiredFeatures, boolean includeDistributed) {
+    protected Optional<RpcGatewayContext> obtain(Set<Feature> requiredFeatures, boolean includeDistributed) {
         return getAvailableWithCondition(e -> {
             if (!includeDistributed && e.getValue().isDistributed()) return false;
             return requiredFeatures.isEmpty() || e.getKey().hasFeatures(requiredFeatures);
@@ -72,33 +72,33 @@ public class SimpleRpcGatewayRotationManager<V extends RpcGateway> implements Rp
     }
 
     @Override
-    public Optional<RpcGatewayContext<V>> obtain(Set<Feature> features) {
-        Optional<RpcGatewayContext<V>>context = obtain(features, !balanced);
+    public Optional<RpcGatewayContext> obtain(Set<Feature> features) {
+        Optional<RpcGatewayContext>context = obtain(features, !balanced);
         if (balanced && context.isEmpty()) {
             return obtain(features, true);
         } else return context;
     }
 
     @Override
-    public Optional<RpcGatewayContext<V>> obtain() {
+    public Optional<RpcGatewayContext> obtain() {
         return obtain(Collections.emptySet());
     }
 
-    protected Optional<RpcGatewayContext<V>> getAvailableWithCondition(@Nullable Predicate<Map.Entry<RpcGatewayContext<V>, RotationData>> condition) {
-        Predicate<Map.Entry<RpcGatewayContext<V>, RotationData>>filter = e -> isAvailable.test(e.getValue());
+    protected Optional<RpcGatewayContext> getAvailableWithCondition(@Nullable Predicate<Map.Entry<RpcGatewayContext, RotationData>> condition) {
+        Predicate<Map.Entry<RpcGatewayContext, RotationData>>filter = e -> isAvailable.test(e.getValue());
         if (condition != null) filter = filter.and(condition);
 
-        Stream<Map.Entry<RpcGatewayContext<V>, RotationData>> servicesStream = services.entrySet()
+        Stream<Map.Entry<RpcGatewayContext, RotationData>> servicesStream = services.entrySet()
                 .stream()
                 .filter(filter);
 
-        Optional<Map.Entry<RpcGatewayContext<V>, RotationData>> primary = getWithHighestPriority(servicesStream);
+        Optional<Map.Entry<RpcGatewayContext, RotationData>> primary = getWithHighestPriority(servicesStream);
         primary.ifPresent(entry -> markAsDistributed(entry.getValue()));
 
         return primary.map(Map.Entry::getKey);
     }
 
-    protected Optional<Map.Entry<RpcGatewayContext<V>, RotationData>> getWithHighestPriority(Stream<Map.Entry<RpcGatewayContext<V>, RotationData>> stream) {
+    protected Optional<Map.Entry<RpcGatewayContext, RotationData>> getWithHighestPriority(Stream<Map.Entry<RpcGatewayContext, RotationData>> stream) {
         return stream.min((e1, e2) ->
                 Integer.compare(e2.getKey().getPriority(), e1.getKey().getPriority())
         );
@@ -127,7 +127,7 @@ public class SimpleRpcGatewayRotationManager<V extends RpcGateway> implements Rp
         } else return false;
     }
 
-    protected RotationData getRotationData(RpcGatewayContext<V> web3jService) {
+    protected RotationData getRotationData(RpcGatewayContext web3jService) {
         RotationData rotationData = services.get(web3jService);
         if (rotationData == null) throw new RuntimeException("Rotation data not found.");
         return rotationData;

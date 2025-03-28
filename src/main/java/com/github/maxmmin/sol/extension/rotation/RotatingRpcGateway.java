@@ -31,40 +31,40 @@ public class RotatingRpcGateway implements RpcGateway {
         this.connectionFailDetector = connectionFailDetector;
     }
 
-    public static RotatingRpcGateway create(List<RpcGatewayContext<RpcGateway>> clients) {
+    public static RotatingRpcGateway create(List<RpcGatewayContext> clients) {
         return create(clients, true);
     }
 
-    public static RotatingRpcGateway create (List<RpcGatewayContext<RpcGateway>> clients, boolean balanced) {
+    public static RotatingRpcGateway create (List<RpcGatewayContext> clients, boolean balanced) {
         return new RotatingRpcGateway(new SimpleRpcGatewayRotationManager<>(clients, balanced), new SimpleFeaturesDeterminer(), new SimpleConnectionFailDetector());
     }
 
-    protected RpcGatewayContext<RpcGateway>getRpcContext() {
+    protected RpcGatewayContext getRpcContext() {
         return getRpcContext(Set.of());
     }
 
-    protected RpcGatewayContext<RpcGateway>getRpcContext(Set<Feature> requiredFeatures) {
+    protected RpcGatewayContext getRpcContext(Set<Feature> requiredFeatures) {
         return rotationManager.obtain(requiredFeatures)
                 .orElseThrow(()->new RuntimeException("No rpc clients available"));
     }
 
     protected <V> V invokeHandled(Set<Feature> requiredFeatures, RpcCallback<V> callback) throws RpcException {
-        RpcGatewayContext<RpcGateway> serviceHolder = getRpcContext(requiredFeatures);
+        RpcGatewayContext serviceHolder = getRpcContext(requiredFeatures);
 
         while (true) {
             try {
-                return callback.doRequest(serviceHolder.getWeb3jService());
+                return callback.doRequest(serviceHolder.getRpcGateway());
             } catch (RpcException targetException) {
                 if (connectionFailDetector.isConnectionFail(targetException)) throw targetException;
 
                 log.debug("An exception was thrown while trying to invoke the handler method. Rotating...", targetException);
-                String oldEndpoint = serviceHolder.getWeb3jService().getEndpoint();
+                String oldEndpoint = serviceHolder.getRpcGateway().getEndpoint();
                 serviceHolder = rotationManager.tryRotate(serviceHolder, requiredFeatures).orElse(null);
                 if (serviceHolder == null) {
                     log.warn("No available rpc gateways available, try again later.");
                     throw targetException;
                 }
-                log.debug("Service was successfully rotated. [{} -> {}]", oldEndpoint, serviceHolder.getWeb3jService().getEndpoint());
+                log.debug("Service was successfully rotated. [{} -> {}]", oldEndpoint, serviceHolder.getRpcGateway().getEndpoint());
             }
         }
     }
@@ -104,7 +104,7 @@ public class RotatingRpcGateway implements RpcGateway {
 
     @Override
     public String getEndpoint() {
-        return getRpcContext().getWeb3jService().getEndpoint();
+        return getRpcContext().getRpcGateway().getEndpoint();
     }
 
     protected interface RpcCallback<V> {

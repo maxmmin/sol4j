@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RpcGatewayContextFactory {
-    public <V extends RpcGateway> RpcGatewayContext<V> construct(V gateway, RpcConfig.RpcEndpoint endpoint) {
+    public <V extends RpcGateway> RpcGatewayContext construct(RpcGateway gateway, RpcConfig.RpcEndpoint endpoint) {
         List<Feature> features = Arrays.stream(endpoint.getFeatures())
                 .map(rpcFeature -> {
                     try {
@@ -18,8 +18,8 @@ public class RpcGatewayContextFactory {
                         throw new IllegalArgumentException("Unknown feature " + rpcFeature.getName());
                     }
                 })
-                .collect(Collectors.collect(Collectors.toList()));
+                .collect(Collectors.toList());
 
-        return new RpcGatewayContext<>(gateway, features, endpoint.getPriority());
+        return new RpcGatewayContext(gateway, features, endpoint.getPriority());
     }
 }

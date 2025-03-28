@@ -7,14 +7,14 @@ import com.github.maxmmin.sol.extension.feature.Featured;
 
 import java.util.*;
 
-public class RpcGatewayContext<S extends RpcGateway> implements Prioritized, Featured {
+public class RpcGatewayContext implements Prioritized, Featured {
     @Getter
-    private final S web3jService;
+    private final RpcGateway rpcGateway;
     private final int priority;
     private final Set<Feature> features;
 
-    public RpcGatewayContext(S web3jService, Collection<Feature> features, int priority) {
-        this.web3jService = web3jService;
+    public RpcGatewayContext(RpcGateway rpcGateway, Collection<Feature> features, int priority) {
+        this.rpcGateway = rpcGateway;
         this.priority = priority;
         this.features = Set.of(features.toArray(Feature[]::new));
 
