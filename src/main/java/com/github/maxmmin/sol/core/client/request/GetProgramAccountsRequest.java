@@ -3,6 +3,7 @@ package com.github.maxmmin.sol.core.client.request;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.maxmmin.sol.core.client.RpcGateway;
+import com.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
 import com.github.maxmmin.sol.core.type.request.Encoding;
 import com.github.maxmmin.sol.core.type.request.GetProgramAccountsConfig;
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
@@ -13,7 +14,7 @@ import com.github.maxmmin.sol.core.type.response.account.jsonparsed.JsonParsedPr
 import java.util.List;
 import java.util.Map;
 
-public class GetProgramAccountsRequest extends ExecRequest<List<JsonProgramAccount>, List<BaseEncProgramAccount>, List<JsonProgramAccount>, List<JsonParsedProgramAccount>> {
+public class GetProgramAccountsRequest extends MultiEncRequest<List<JsonProgramAccount>, List<BaseEncProgramAccount>, List<JsonProgramAccount>, List<JsonParsedProgramAccount>> {
     private final String programId;
     private final GetProgramAccountsConfig config;
     private final ObjectMapper objectMapper = new ObjectMapper();

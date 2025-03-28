@@ -3,6 +3,7 @@ package com.github.maxmmin.sol.core.client.request;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.maxmmin.sol.core.client.RpcGateway;
+import com.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
 import com.github.maxmmin.sol.core.type.request.Encoding;
 import com.github.maxmmin.sol.core.type.request.GetMultipleAccountsConfig;
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
@@ -13,7 +14,7 @@ import com.github.maxmmin.sol.core.type.response.account.jsonparsed.JsonParsedAc
 import java.util.List;
 import java.util.Map;
 
-public class GetMultipleAccountsRequest extends ExecRequest<ContextWrapper<List<BaseEncAccount>>, ContextWrapper<List<BaseEncAccount>>, Void, ContextWrapper<List<JsonParsedAccount>>> {
+public class GetMultipleAccountsRequest extends MultiEncRequest<ContextWrapper<List<BaseEncAccount>>, ContextWrapper<List<BaseEncAccount>>, Void, ContextWrapper<List<JsonParsedAccount>>> {
     private final List<String> accounts;
     private final GetMultipleAccountsConfig config;
     private final ObjectMapper mapper = new ObjectMapper();

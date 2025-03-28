@@ -3,6 +3,7 @@ package com.github.maxmmin.sol.core.client.request;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.maxmmin.sol.core.client.RpcGateway;
+import com.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
 import com.github.maxmmin.sol.core.type.request.Encoding;
 import com.github.maxmmin.sol.core.type.request.GetTransactionConfig;
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class GetTransactionRequest extends ExecRequest<JsonTransaction, BaseEncTransaction, JsonTransaction, JsonParsedTransaction> {
+public class GetTransactionRequest extends MultiEncRequest<JsonTransaction, BaseEncTransaction, JsonTransaction, JsonParsedTransaction> {
     private final String signature;
     private final GetTransactionConfig config;
     private final ObjectMapper mapper = new ObjectMapper();

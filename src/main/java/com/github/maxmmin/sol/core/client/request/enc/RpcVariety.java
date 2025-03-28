@@ -1,4 +1,4 @@
-package com.github.maxmmin.sol.core.client.request;
+package com.github.maxmmin.sol.core.client.request.enc;
 
 /**
  *

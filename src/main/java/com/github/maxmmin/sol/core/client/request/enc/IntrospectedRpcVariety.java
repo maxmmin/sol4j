@@ -1,4 +1,4 @@
-package com.github.maxmmin.sol.core.client.request;
+package com.github.maxmmin.sol.core.client.request.enc;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.maxmmin.sol.core.type.request.Encoding;

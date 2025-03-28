@@ -3,6 +3,7 @@ package com.github.maxmmin.sol.core.client.request;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.maxmmin.sol.core.client.RpcGateway;
+import com.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
 import com.github.maxmmin.sol.core.type.request.Encoding;
 import com.github.maxmmin.sol.core.type.request.GetTokenAccountsByOwnerConfig;
 import com.github.maxmmin.sol.core.type.request.GetTokenAccountsByOwnerParams;
@@ -15,7 +16,7 @@ import com.github.maxmmin.sol.core.type.response.account.jsonparsed.JsonParsedPr
 import java.util.List;
 import java.util.Map;
 
-public class GetTokenAccountsByOwnerRequest extends ExecRequest<ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<BaseEncProgramAccount>>,
+public class GetTokenAccountsByOwnerRequest extends MultiEncRequest<ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<BaseEncProgramAccount>>,
         ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<JsonParsedProgramAccount>>> {
     private final String owner;
     private final GetTokenAccountsByOwnerParams params;

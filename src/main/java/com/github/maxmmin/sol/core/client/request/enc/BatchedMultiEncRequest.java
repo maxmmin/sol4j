@@ -1,4 +1,4 @@
-package com.github.maxmmin.sol.core.client.request;
+package com.github.maxmmin.sol.core.client.request.enc;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.maxmmin.sol.core.client.RpcGateway;
@@ -12,11 +12,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BatchedExecRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B, J, P> {
+public class BatchedMultiEncRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B, J, P> {
     private final RpcGateway gateway;
-    private final List<? extends ExecRequest<D, B, J, P>> requests;
+    private final List<? extends MultiEncRequest<D, B, J, P>> requests;
 
-    public BatchedExecRequest(RpcGateway gateway, Collection<? extends ExecRequest<D, B, J, P>> requests) {
+    public BatchedMultiEncRequest(RpcGateway gateway, Collection<? extends MultiEncRequest<D, B, J, P>> requests) {
         this.gateway = gateway;
         this.requests = List.copyOf(requests);
     }
@@ -48,13 +48,13 @@ public class BatchedExecRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B,
         return send(getTypesMetadata().getJsonParsedType(), Encoding.JSON_PARSED);
     }
 
-    public List<? extends ExecRequest<D, B, J, P>> getRequests() {
+    public List<? extends MultiEncRequest<D, B, J, P>> getRequests() {
         return requests;
     }
 
-    public BatchedExecRequest<D, B, J, P> add(ExecRequest<D, B, J, P> request) {
-        List<ExecRequest<D, B, J, P>> newRequests = new ArrayList<>(requests);
+    public BatchedMultiEncRequest<D, B, J, P> add(MultiEncRequest<D, B, J, P> request) {
+        List<MultiEncRequest<D, B, J, P>> newRequests = new ArrayList<>(requests);
         newRequests.add(request);
-        return new BatchedExecRequest<>(gateway, newRequests);
+        return new BatchedMultiEncRequest<>(gateway, newRequests);
     }
 }
