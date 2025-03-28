@@ -98,7 +98,23 @@ Bandwidth bandwidth = Bandwidth.builder()
 
 Bucket bucket = Bucket.builder().addLimit(bandwidth).build();
 
-RateLimitedRpcGateway rateLimitedRpcGateway = new RateLimitedRpcGateway(rpcGateway, bucket);
+RpcGateway rateLimitedRpcGateway = new RateLimitedRpcGateway(rpcGateway, bucket);
+```
+
+<b>Working with multiple RPC endpoints</b>
+
+```
+RpcGatewayContext rateLimitedRpcGatewayContext = new RpcGatewayContext(
+	rateLimitedRpcGateway, Set.of(Feature.GET_TRANSACTION_SUPPORT), Prioritized.DEFAULT_PRIORITY
+);
+
+RpcGatewayContext anotherRpcGatewayContext = new RpcGatewayContext(
+	anotherRpcGateway, Set.of(), Prioritized.MAX_PRIORITY
+);
+
+List<RpcGatewayContext> rpcList = List.of(rateLimitedRpcGatewayContext, anotherRpcGatewayContext);
+// or pass false to make RPC cluster non-balanced
+RotatingRpcGateway rotatingRpcGateway = RotatingRpcGateway.create(rpcList, true);
 ```
 
 <b>Creating RPC Client</b>
