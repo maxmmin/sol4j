@@ -3,7 +3,6 @@ package com.github.maxmmin.sol.extension.rotation;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.maxmmin.sol.util.Collector;
 import lombok.extern.slf4j.Slf4j;
-import com.github.maxmmin.clue.sol.SolUtil;
 import com.github.maxmmin.sol.core.client.RpcGateway;
 import com.github.maxmmin.sol.core.exception.RpcException;
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
