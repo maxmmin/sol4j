@@ -21,14 +21,18 @@ import java.util.stream.Collectors;
 public class RotatingRpcGateway implements RpcGateway {
     private final SimpleRpcGatewayRotationManager<RpcGateway> rotationManager;
     private final SimpleFeaturesDeterminer featuresDeterminer;
+    private final ConnectionFailDetector connectionFailDetector;
 
-    public RotatingRpcGateway(SimpleRpcGatewayRotationManager<RpcGateway> rotationManager, SimpleFeaturesDeterminer featuresDeterminer) {
+    public RotatingRpcGateway(SimpleRpcGatewayRotationManager<RpcGateway> rotationManager,
+                              SimpleFeaturesDeterminer featuresDeterminer,
+                              ConnectionFailDetector connectionFailDetector) {
         this.rotationManager = rotationManager;
         this.featuresDeterminer = featuresDeterminer;
+        this.connectionFailDetector = connectionFailDetector;
     }
 
     public static RotatingRpcGateway create (List<RpcGatewayContext<RpcGateway>> clients) {
-        return new RotatingRpcGateway(new SimpleRpcGatewayRotationManager<>(clients, true), new SimpleFeaturesDeterminer());
+        return new RotatingRpcGateway(new SimpleRpcGatewayRotationManager<>(clients, true), new SimpleFeaturesDeterminer(), new SimpleConnectionFailDetector());
     }
 
     protected RpcGatewayContext<RpcGateway>getRpcContext() {
@@ -47,6 +51,8 @@ public class RotatingRpcGateway implements RpcGateway {
             try {
                 return callback.doRequest(serviceHolder.getWeb3jService());
             } catch (RpcException targetException) {
+                if (connectionFailDetector.isConnectionFail(targetException)) throw targetException;
+
                 log.debug("An exception was thrown while trying to invoke the handler method. Rotating...", targetException);
                 String oldEndpoint = serviceHolder.getWeb3jService().getEndpoint();
                 serviceHolder = rotationManager.tryRotate(serviceHolder, requiredFeatures).orElse(null);
