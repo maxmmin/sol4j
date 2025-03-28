@@ -1,12 +1,14 @@
 <h1>Sol4j 👾</h1>
 Pure java lib for interacting with Solana RPC API
 
+
 <h2>Requirements</h2>
 - Java 11+
 
+
 <h2>OutOfBox supported methods</h2>
 <details>
-<summary><b>HTTP (Click to view)</b></summary>
+<summary><b>HTTP</b></summary>
 Under active development
 
 	- getAccountInfo ✅
@@ -63,24 +65,31 @@ Under active development
 	- simulateTransaction ❌
 </details>
 <details>
-<summary><b>WebSocket (Click to view)</b></summary>
+<summary><b>WebSocket</b></summary>
 Not implemented yet
 </details>
 
+
 <h2>Getting started</h2>
+
 <b>Installation</b>
-```
+  
+```xml
 <dependency>
 	<groupId>com.github.maxmmin</groupId>
 	<artifactId>sol4j</artifactId>
 	<version>1.0-SNAPSHOT</version>
 </dependency>
 ```
+
 <b>Creating gateway</b>
+
 ```
 RpcGateway rpcGateway = HttpRpcGateway.create("https://api.mainnet-beta.solana.com");
 ```
+
 <b>Applying rate limits</b>
+
 ```
 Bandwidth bandwidth = Bandwidth.builder()
                 .capacity(15)
@@ -91,11 +100,15 @@ Bucket bucket = Bucket.builder().addLimit(bandwidth).build();
 
 RateLimitedRpcGateway rateLimitedRpcGateway = new RateLimitedRpcGateway(rpcGateway, bucket);
 ```
+
 <b>Creating RPC Client</b>
+
 ```
 RpcClient client = new SimpleRpcClient(rateLimitedRpcGateway);
 ```
+
 <b>Making requests</b>
+
 ```
 GetTransactionRequest txRequest = client.getTransaction(txSignature);
 
