@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class RotatingRpcGateway implements RpcGateway {
-    private final SimpleRpcGatewayRotationManager<RpcGateway> rotationManager;
+    private final SimpleRpcGatewayRotationManager rotationManager;
     private final SimpleFeaturesDeterminer featuresDeterminer;
     private final ConnectionFailDetector connectionFailDetector;
 
-    public RotatingRpcGateway(SimpleRpcGatewayRotationManager<RpcGateway> rotationManager,
+    public RotatingRpcGateway(SimpleRpcGatewayRotationManager rotationManager,
                               SimpleFeaturesDeterminer featuresDeterminer,
                               ConnectionFailDetector connectionFailDetector) {
         this.rotationManager = rotationManager;
@@ -36,7 +36,7 @@ public class RotatingRpcGateway implements RpcGateway {
     }
 
     public static RotatingRpcGateway create (List<RpcGatewayContext> clients, boolean balanced) {
-        return new RotatingRpcGateway(new SimpleRpcGatewayRotationManager<>(clients, balanced), new SimpleFeaturesDeterminer(), new SimpleConnectionFailDetector());
+        return new RotatingRpcGateway(new SimpleRpcGatewayRotationManager(clients, balanced), new SimpleFeaturesDeterminer(), new SimpleConnectionFailDetector());
     }
 
     protected RpcGatewayContext getRpcContext() {

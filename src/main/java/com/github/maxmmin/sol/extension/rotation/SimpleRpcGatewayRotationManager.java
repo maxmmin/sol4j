@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
-public class SimpleRpcGatewayRotationManager<V extends RpcGateway> implements RpcGatewayRotationManager<V> {
+public class SimpleRpcGatewayRotationManager implements RpcGatewayRotationManager {
     private final Map<RpcGatewayContext, RotationData> services;
     private final Lock lock = new ReentrantLock();
     private final Long chargeTime = Duration.ofSeconds(10).toMillis();

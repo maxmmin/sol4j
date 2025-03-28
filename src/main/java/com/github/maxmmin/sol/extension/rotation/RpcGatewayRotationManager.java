@@ -6,7 +6,7 @@ import com.github.maxmmin.sol.extension.feature.Feature;
 import java.util.Optional;
 import java.util.Set;
 
-public interface RpcGatewayRotationManager<V extends RpcGateway> {
+public interface RpcGatewayRotationManager {
     Optional<RpcGatewayContext> tryRotate(RpcGatewayContext web3jService, Set<Feature> requiredFeatures);
     Optional<RpcGatewayContext> tryRotate(RpcGatewayContext web3jService);
     Optional<RpcGatewayContext> obtain(Set<Feature> features);
