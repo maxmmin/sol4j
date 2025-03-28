@@ -66,3 +66,42 @@ Under active development
 <summary><b>WebSocket (Click to view)</b></summary>
 Not implemented yet
 </details>
+
+<h2>Getting started</h2>
+<b>Installation</b>
+```
+<dependency>
+	<groupId>com.github.maxmmin</groupId>
+	<artifactId>sol4j</artifactId>
+	<version>1.0-SNAPSHOT</version>
+</dependency>
+```
+<b>Creating gateway</b>
+```
+RpcGateway rpcGateway = HttpRpcGateway.create("https://api.mainnet-beta.solana.com");
+```
+<b>Applying rate limits</b>
+```
+Bandwidth bandwidth = Bandwidth.builder()
+                .capacity(15)
+                .refillGreedy(15, Duration.ofSeconds(1))
+                .build();
+
+Bucket bucket = Bucket.builder().addLimit(bandwidth).build();
+
+RateLimitedRpcGateway rateLimitedRpcGateway = new RateLimitedRpcGateway(rpcGateway, bucket);
+```
+<b>Creating RPC Client</b>
+```
+RpcClient client = new SimpleRpcClient(rateLimitedRpcGateway);
+```
+<b>Making requests</b>
+```
+GetTransactionRequest txRequest = client.getTransaction(txSignature);
+
+var defaultEncodedTx = txRequest.noarg();
+BaseEncTransaction base58EncodedTx = txRequest.base58();
+BaseEncTransaction base64EncodedTx = txRequest.base64();
+JsonTransaction jsonEncodedTx = txRequest.json();
+JsonParsedTransaction jsonParsedEncTx = txRequest.jsonParsed();
+```
