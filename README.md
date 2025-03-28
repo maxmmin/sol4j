@@ -1,10 +1,10 @@
-#Sol4j 👾
+<h1>Sol4j 👾</h1>
 Pure java lib for interacting with Solana RPC API
 
-##Requirements
+<h2>Requirements</h2>
 - Java 11+
 
-##OutOfBox supported methods
+<h2>OutOfBox supported methods</h2>
 <details>
 <summary><b>HTTP (Click to view)</b></summary>
 Under active development
