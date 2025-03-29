@@ -1,4 +1,4 @@
-package com.github.maxmmin.sol.core.client.request;
+package com.github.maxmmin.sol.core.client.request.registry;
 
 import com.github.maxmmin.sol.core.client.RpcGateway;
 import com.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
