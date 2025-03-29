@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.List;
@@ -40,16 +41,19 @@ public abstract class IntrospectedRpcVariety<D, B, J, P> implements RpcVariety<D
     }
 
     private TypesMetadata introspectTypes() {
-        Type[] genericTypes = getClass().getSuperclass().getGenericInterfaces();
-        Type defaultType = genericTypes[0];
+        Type relative = getClass().getGenericInterfaces()[0];
+        if (!(relative instanceof ParameterizedType)) throw new RuntimeException("Expected parameterized type");
+        Type[] typeArguments = ((ParameterizedType) relative).getActualTypeArguments();
 
-        Type baseEncType = genericTypes[1];
+        Type defaultType = typeArguments[0];
+
+        Type baseEncType = typeArguments[1];
         if (baseEncType.equals(Void.class)) baseEncType = null;
 
-        Type jsonType = genericTypes[2];
+        Type jsonType = typeArguments[2];
         if (jsonType.equals(Void.class)) jsonType = null;
 
-        Type jsonParsedType = genericTypes[3];
+        Type jsonParsedType = typeArguments[3];
         if (jsonParsedType.equals(Void.class)) jsonParsedType = null;
 
         return new TypesMetadata(Types.asRef(defaultType), getRef(baseEncType), getRef(jsonType), getRef(jsonParsedType));
