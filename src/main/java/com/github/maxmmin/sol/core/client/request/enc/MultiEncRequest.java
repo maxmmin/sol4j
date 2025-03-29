@@ -2,11 +2,12 @@ package com.github.maxmmin.sol.core.client.request.enc;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.maxmmin.sol.core.client.RpcGateway;
+import com.github.maxmmin.sol.core.client.request.Request;
 import com.github.maxmmin.sol.core.exception.RpcException;
 import com.github.maxmmin.sol.core.type.request.Encoding;
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
 
-public abstract class MultiEncRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B, J, P> {
+public abstract class MultiEncRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B, J, P> implements Request<D> {
     private final RpcGateway gateway;
 
     public MultiEncRequest(RpcGateway gateway) {
@@ -15,7 +16,8 @@ public abstract class MultiEncRequest<D, B, J, P> extends IntrospectedRpcVariety
 
     protected abstract RpcRequest constructRpcRequest(Encoding encoding);
 
-    public D noarg() throws RpcException {
+    @Override
+    public D send() throws RpcException {
         return send(getTypesMetadata().getDefaultType(), Encoding.NIL);
     }
 
