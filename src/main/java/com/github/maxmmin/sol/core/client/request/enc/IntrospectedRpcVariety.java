@@ -75,7 +75,6 @@ public abstract class IntrospectedRpcVariety<D, B, J, P> implements RpcVariety<D
     }
 
     @Getter
-    @Builder
     @RequiredArgsConstructor
     protected class TypesMetadata {
         private final TypeReference<D> defaultType;
