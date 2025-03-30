@@ -7,6 +7,15 @@ import com.github.maxmmin.sol.core.exception.RpcException;
 import com.github.maxmmin.sol.core.type.request.Encoding;
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
 
+
+/**
+ *
+ * @param <D> - Default response type
+ * @param <B> - Base encoded response type
+ * @param <J> - JSON response type
+ * @param <P> - JSON Parsed response type
+ *
+**/
 public abstract class MultiEncRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B, J, P> implements Request<D> {
     private final RpcGateway gateway;
 

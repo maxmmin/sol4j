@@ -14,4 +14,8 @@ public class GetSignaturesForAddressConfig {
     private final String until;
     private final Integer limit;
     private final Long untilTime;
+
+    public static GetSignaturesForAddressConfig empty() {
+        return builder().build();
+    }
 }

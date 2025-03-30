@@ -11,7 +11,7 @@ public class GetTransactionConfig {
     private final Commitment commitment;
     private final Integer maxSupportedTransactionVersion = 0;
 
-    public static GetTransactionConfig defaultParams() {
-        return GetTransactionConfig.builder().build();
+    public static GetTransactionConfig empty() {
+        return builder().build();
     }
 }

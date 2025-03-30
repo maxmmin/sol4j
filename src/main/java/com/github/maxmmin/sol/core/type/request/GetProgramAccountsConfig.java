@@ -14,4 +14,8 @@ public class GetProgramAccountsConfig {
     private final List<?>filters;
     private final Commitment commitment;
     private final DataSliceConfig dataSlice;
+
+    public static GetProgramAccountsConfig empty() {
+        return builder().build();
+    }
 }

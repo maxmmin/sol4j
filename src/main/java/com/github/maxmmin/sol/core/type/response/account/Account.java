@@ -21,4 +21,7 @@ public class Account<D> {
 
     @JsonProperty("rentEpoch")
     private BigInteger rentEpoch;
+
+    @JsonProperty("space")
+    private Integer space;
 }

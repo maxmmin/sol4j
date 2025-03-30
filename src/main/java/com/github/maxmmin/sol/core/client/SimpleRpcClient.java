@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import com.github.maxmmin.sol.core.exception.RpcException;
 import com.github.maxmmin.sol.core.type.request.*;
 import com.github.maxmmin.sol.core.type.response.RpcResponse;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -54,54 +55,64 @@ public class SimpleRpcClient implements RpcClient {
 
     @Override
     public GetSignaturesForAddressRequest getSignaturesForAddress(String address) {
-        return getSignaturesForAddress(address, null);
+        return getSignaturesForAddress(address, GetSignaturesForAddressConfig.empty());
     }
 
     @Override
-    public GetSignaturesForAddressRequest getSignaturesForAddress(String address, @Nullable GetSignaturesForAddressConfig config) {
-        return new GetSignaturesForAddressRequest(rpcGateway, address, config != null ? config : GetSignaturesForAddressConfig.builder().build());
+    public GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config) {
+        return new GetSignaturesForAddressRequest(rpcGateway, address, GetSignaturesForAddressConfig.empty());
     }
 
     @Override
     public GetProgramAccountsRequest getProgramAccounts(String programId) {
-        return getProgramAccounts(programId, null);
+        return getProgramAccounts(programId, GetProgramAccountsConfig.empty());
     }
 
     @Override
-    public GetProgramAccountsRequest getProgramAccounts(String programId, @Nullable GetProgramAccountsConfig config) {
-        return new GetProgramAccountsRequest(rpcGateway, programId, config != null ? config : GetProgramAccountsConfig.builder().build());
+    public GetProgramAccountsRequest getProgramAccounts(String programId, @NotNull GetProgramAccountsConfig config) {
+        return new GetProgramAccountsRequest(rpcGateway, programId, config);
     }
 
     @Override
     public GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params) {
-        return getTokenAccountsByOwner(owner, params, null);
+        return getTokenAccountsByOwner(owner, params, GetTokenAccountsByOwnerConfig.empty());
     }
 
     @Override
-    public GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @Nullable GetTokenAccountsByOwnerConfig config) {
-        return new GetTokenAccountsByOwnerRequest(rpcGateway, owner, params, config != null ? config : GetTokenAccountsByOwnerConfig.builder().build());        
+    public GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @NotNull GetTokenAccountsByOwnerConfig config) {
+        return new GetTokenAccountsByOwnerRequest(rpcGateway, owner, params, config);
     }
 
     @Override
     public GetTransactionRequest getTransaction(String signature) {
-        return getTransaction(signature, null);
+        return getTransaction(signature, GetTransactionConfig.empty());
     }
 
     @Override
-    public GetTransactionRequest getTransaction(String signature, @Nullable GetTransactionConfig config) {
-        return new GetTransactionRequest(rpcGateway, signature, config != null ? config : GetTransactionConfig.builder().build());
+    public GetTransactionRequest getTransaction(String signature, @NotNull GetTransactionConfig config) {
+        return new GetTransactionRequest(rpcGateway, signature, config);
     }
     
     @Override
     public GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts) {
-        return getMultipleAccounts(accounts, null);
+        return getMultipleAccounts(accounts, GetMultipleAccountsConfig.empty());
     }
 
     @Override
-    public GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts, @Nullable GetMultipleAccountsConfig config) {
-        return new GetMultipleAccountsRequest(rpcGateway, accounts, config != null ? config : GetMultipleAccountsConfig.builder().build());
+    public GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts, @NotNull GetMultipleAccountsConfig config) {
+        return new GetMultipleAccountsRequest(rpcGateway, accounts, config);
     }
-    
+
+    @Override
+    public GetAccountInfoRequest getAccountInfo(String publicKey) {
+        return getAccountInfo(publicKey, GetAccountInfoConfig.empty());
+    }
+
+    @Override
+    public GetAccountInfoRequest getAccountInfo(String publicKey, @NotNull GetAccountInfoConfig config) {
+        return new GetAccountInfoRequest(rpcGateway, publicKey, config);
+    }
+
     @Override
     public GetClusterNodesRequest getClusterNodes() {
         return new GetClusterNodesRequest(rpcGateway);

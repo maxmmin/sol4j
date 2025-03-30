@@ -12,4 +12,8 @@ public class GetTokenAccountsByOwnerConfig {
     private final Long minContextSlot;
     private final DataSliceConfig dataSlice;
     private final Encoding encoding;
+
+    public static GetTokenAccountsByOwnerConfig empty() {
+        return builder().build();
+    }
 }
