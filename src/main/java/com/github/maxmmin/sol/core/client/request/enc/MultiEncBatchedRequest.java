@@ -2,7 +2,7 @@ package com.github.maxmmin.sol.core.client.request.enc;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.maxmmin.sol.core.client.RpcGateway;
-import com.github.maxmmin.sol.core.client.request.Request;
+import com.github.maxmmin.sol.core.client.request.BatchedRequest;
 import com.github.maxmmin.sol.core.exception.RpcException;
 import com.github.maxmmin.sol.core.type.request.Encoding;
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
@@ -13,17 +13,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BatchedMultiEncRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B, J, P> implements Request<List<D>> {
+public class MultiEncBatchedRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B, J, P> implements BatchedRequest<D> {
     private final RpcGateway gateway;
     private final List<? extends MultiEncRequest<D, B, J, P>> requests;
 
-    public BatchedMultiEncRequest(RpcGateway gateway, Collection<? extends MultiEncRequest<D, B, J, P>> requests) {
+    public MultiEncBatchedRequest(RpcGateway gateway, Collection<? extends MultiEncRequest<D, B, J, P>> requests) {
         this.gateway = gateway;
         this.requests = List.copyOf(requests);
     }
 
     protected <T> List<T> execute(TypeReference<T> typeReference, Encoding encoding) throws RpcException {
-        List<RpcRequest> rpcRequests = requests.stream().map(request -> request.constructRpcRequest(encoding)).collect(Collectors.toList());
+        List<RpcRequest> rpcRequests = requests.stream().map(request -> request.construct(encoding)).collect(Collectors.toList());
         return gateway.sendBatched(rpcRequests, typeReference).stream()
                 .map(RpcResponse::getResult)
                 .collect(Collectors.toList());
@@ -54,9 +54,9 @@ public class BatchedMultiEncRequest<D, B, J, P> extends IntrospectedRpcVariety<D
         return requests;
     }
 
-    public BatchedMultiEncRequest<D, B, J, P> add(MultiEncRequest<D, B, J, P> request) {
+    public MultiEncBatchedRequest<D, B, J, P> add(MultiEncRequest<D, B, J, P> request) {
         List<MultiEncRequest<D, B, J, P>> newRequests = new ArrayList<>(requests);
         newRequests.add(request);
-        return new BatchedMultiEncRequest<>(gateway, newRequests);
+        return new MultiEncBatchedRequest<>(gateway, newRequests);
     }
 }

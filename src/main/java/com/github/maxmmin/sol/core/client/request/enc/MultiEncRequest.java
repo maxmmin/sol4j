@@ -14,7 +14,12 @@ public abstract class MultiEncRequest<D, B, J, P> extends IntrospectedRpcVariety
         this.gateway = gateway;
     }
 
-    protected abstract RpcRequest constructRpcRequest(Encoding encoding);
+    protected abstract RpcRequest construct(Encoding encoding);
+
+    @Override
+    public RpcRequest construct() {
+        return construct(Encoding.NIL);
+    }
 
     @Override
     public D send() throws RpcException {
@@ -41,6 +46,6 @@ public abstract class MultiEncRequest<D, B, J, P> extends IntrospectedRpcVariety
         if (encoding != Encoding.NIL && !getSupportedEncodings().contains(encoding)) {
             throw new UnsupportedOperationException("Unsupported encoding: " + encoding);
         }
-        return gateway.send(constructRpcRequest(encoding), typeReference).getResult();
+        return gateway.send(construct(encoding), typeReference).getResult();
     }
 }

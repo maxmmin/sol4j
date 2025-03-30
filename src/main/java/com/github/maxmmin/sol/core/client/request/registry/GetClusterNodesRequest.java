@@ -14,7 +14,7 @@ public class GetClusterNodesRequest extends MultiEncRequest<List<SolanaNodeInfo>
     }
 
     @Override
-    protected RpcRequest constructRpcRequest(Encoding encoding) {
+    protected RpcRequest construct(Encoding encoding) {
         return new RpcRequest("getClusterNodes", List.of());
     }
 }

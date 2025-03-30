@@ -24,7 +24,7 @@ public class GetSignaturesForAddressRequest extends MultiEncRequest<List<Signatu
     }
 
     @Override
-    protected RpcRequest constructRpcRequest(Encoding encoding) {
+    protected RpcRequest construct(Encoding encoding) {
         Map<String, Object> cfg = objectMapper.convertValue(config, new TypeReference<Map<String, Object>> () {});
         if (!encoding.isNil()) cfg.put("encoding", encoding);
         return new RpcRequest("getSignaturesForAddress", List.of(address, cfg));

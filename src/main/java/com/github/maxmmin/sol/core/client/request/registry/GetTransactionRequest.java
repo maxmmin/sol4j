@@ -27,7 +27,7 @@ public class GetTransactionRequest extends MultiEncRequest<JsonTransaction, Base
     }
 
     @Override
-    protected RpcRequest constructRpcRequest(Encoding encoding) {
+    protected RpcRequest construct(Encoding encoding) {
         Map<String, Object> mapCfg = mapper.convertValue(config, new TypeReference<Map<String, Object>>() {});
         if (!encoding.isNil()) mapCfg.put("encoding", encoding);
         return new RpcRequest("getTransaction", List.of(signature, mapCfg));

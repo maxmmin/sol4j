@@ -26,7 +26,7 @@ public class GetProgramAccountsRequest extends MultiEncRequest<List<JsonProgramA
     }
 
     @Override
-    protected RpcRequest constructRpcRequest(Encoding encoding) {
+    protected RpcRequest construct(Encoding encoding) {
         Map<String, ObjectMapper> cfg = objectMapper.convertValue(config, new TypeReference<Map<String, ObjectMapper>>() {});
         if (!encoding.isNil()) cfg.put("encoding", new ObjectMapper());
         return new RpcRequest("getProgramAccounts", List.of(programId, cfg));

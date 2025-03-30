@@ -26,7 +26,7 @@ public class GetMultipleAccountsRequest extends MultiEncRequest<ContextWrapper<L
     }
 
     @Override
-    protected RpcRequest constructRpcRequest(Encoding encoding) {
+    protected RpcRequest construct(Encoding encoding) {
         Map<String, Object> cfgMap = mapper.convertValue(config, new TypeReference<Map<String, Object>>() {});
         if (!encoding.isNil()) cfgMap.put("encoding", encoding);
         return new RpcRequest("getMultipleAccounts", List.of(accounts, cfgMap));

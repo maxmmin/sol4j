@@ -31,7 +31,7 @@ public class GetTokenAccountsByOwnerRequest extends MultiEncRequest<ContextWrapp
     }
 
     @Override
-    protected RpcRequest constructRpcRequest(Encoding encoding) {
+    protected RpcRequest construct(Encoding encoding) {
         Map<String, Object> paramsMap = objectMapper.convertValue(params, new TypeReference<Map<String, Object>>() {});
         Map<String, Object> cfgMap = objectMapper.convertValue(config, new TypeReference<Map<String, Object>>() {});
         if (!encoding.isNil()) cfgMap.put("encoding", encoding);
