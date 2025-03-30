@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface RpcClient {
-    <V> Request<V> call(String method, List<Object> params, TypeReference<V> typeRef) throws RpcException;
-    <V> BatchedRequest<V> callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef) throws RpcException;
+    <V> Request<V> call(String method, List<Object> params, TypeReference<V> typeRef);
+    <V> BatchedRequest<V> callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef);
 
     GetSignaturesForAddressRequest getSignaturesForAddress(String address);
     GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config);
