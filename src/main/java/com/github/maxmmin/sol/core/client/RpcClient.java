@@ -1,6 +1,8 @@
 package com.github.maxmmin.sol.core.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.github.maxmmin.sol.core.client.request.BatchedRequest;
+import com.github.maxmmin.sol.core.client.request.Request;
 import com.github.maxmmin.sol.core.client.request.registry.*;
 import com.github.maxmmin.sol.core.exception.RpcException;
 import com.github.maxmmin.sol.core.type.request.*;
@@ -11,9 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface RpcClient {
-    <V> V call(String method, List<Object> params, TypeReference<V> typeRef) throws RpcException;
-    <V> void callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef, Map<String, V> target) throws RpcException;
-    <V> List<V> callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef) throws RpcException;
+    <V> Request<V> call(String method, List<Object> params, TypeReference<V> typeRef) throws RpcException;
+    <V> BatchedRequest<V> callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef) throws RpcException;
 
     GetSignaturesForAddressRequest getSignaturesForAddress(String address);
     GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config);

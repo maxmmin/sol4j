@@ -1,6 +1,10 @@
 package com.github.maxmmin.sol.core.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.github.maxmmin.sol.core.client.request.BatchedRequest;
+import com.github.maxmmin.sol.core.client.request.Request;
+import com.github.maxmmin.sol.core.client.request.SimpleBatchedRequest;
+import com.github.maxmmin.sol.core.client.request.SimpleRequest;
 import com.github.maxmmin.sol.core.client.request.registry.*;
 import lombok.RequiredArgsConstructor;
 import com.github.maxmmin.sol.core.exception.RpcException;
@@ -20,33 +24,17 @@ public class SimpleRpcClient implements RpcClient {
     private final RpcGateway rpcGateway;
 
     @Override
-    public <V> V call(String method, List<Object> params, TypeReference<V> typeRef) throws RpcException {
-        RpcRequest rpcRequest = new RpcRequest(method, params);
-        RpcResponse<V> rpcResponse = rpcGateway.send(rpcRequest, typeRef);
-        return extractRpcResponse(rpcResponse);
+    public <V> Request<V> call(String method, List<Object> params, TypeReference<V> typeRef) throws RpcException {
+        return new SimpleRequest<>(rpcGateway, method, params);
     }
 
     @Override
-    public <V> void callBatched(String method, List<List<Object>> paramsLists, TypeReference<V> typeRef, Map<String, V> results) throws RpcException {
-        Map<String, RpcResponse<V>> intermediateMap = new HashMap<>(results.size());
-        List<RpcRequest>requests = paramsLists.stream().map(params -> new RpcRequest(method, params)).collect(Collectors.toList());
-        try {
-            rpcGateway.sendBatched(requests, typeRef, intermediateMap);
-        } finally {
-            for (Map.Entry<String, RpcResponse<V>> entry : intermediateMap.entrySet()) {
-                String key = entry.getKey();
-                RpcResponse<V> value = entry.getValue();
-                results.put(key, extractRpcResponse(value));
-            }
-        }
-    }
-
-    @Override
-    public <V> List<V> callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef) throws RpcException {
-        List<RpcRequest>requests = params.stream().map(param -> new RpcRequest(method, param)).collect(Collectors.toList());
-        return rpcGateway.sendBatched(requests, typeRef).stream()
-                .map(this::extractRpcResponse)
+    public <V> BatchedRequest<V> callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef) throws RpcException {
+        List<Request<V>>requests = params.stream()
+                .map(param -> new SimpleRequest<V>(rpcGateway, method, param))
                 .collect(Collectors.toList());
+
+        return new SimpleBatchedRequest<>(rpcGateway, requests);
     }
 
     protected <V> V extractRpcResponse(RpcResponse<V> rpcResponse) {
