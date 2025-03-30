@@ -23,11 +23,13 @@ import java.util.stream.Collectors;
 public class SimpleRpcClient implements RpcClient {
     private final RpcGateway rpcGateway;
 
+    // @todo possible type erasure - needs check
     @Override
     public <V> Request<V> call(String method, List<Object> params, TypeReference<V> typeRef) throws RpcException {
         return new SimpleRequest<>(rpcGateway, method, params);
     }
 
+    // @todo possible type erasure - needs check
     @Override
     public <V> BatchedRequest<V> callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef) throws RpcException {
         List<Request<V>>requests = params.stream()
