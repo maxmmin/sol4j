@@ -22,7 +22,7 @@ Under active development
 	- getBlockTime ✅
 	- getClusterNodes ✅
 	- getEpochInfo ✅
-	- getEpochSchedule ❌
+	- getEpochSchedule ✅
 	- getFeeForMessage ❌
 	- getFirstAvailableBlock ✅
 	- getGenesisHash ✅

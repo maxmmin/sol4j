@@ -38,6 +38,8 @@ public interface RpcClient {
     GetEpochInfoRequest getEpochInfo();
     GetEpochInfoRequest getEpochInfo(@NotNull GetEpochInfoConfig config);
 
+    GetEpochScheduleRequest getEpochSchedule();
+
     GetSignaturesForAddressRequest getSignaturesForAddress(String address);
     GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config);
 

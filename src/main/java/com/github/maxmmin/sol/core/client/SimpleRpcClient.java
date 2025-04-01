@@ -163,6 +163,11 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetEpochScheduleRequest getEpochSchedule() {
+        return new GetEpochScheduleRequest(rpcGateway);
+    }
+
+    @Override
     public GetClusterNodesRequest getClusterNodes() {
         return new GetClusterNodesRequest(rpcGateway);
     }
