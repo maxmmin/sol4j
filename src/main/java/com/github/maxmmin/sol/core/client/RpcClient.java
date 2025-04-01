@@ -8,6 +8,7 @@ import com.github.maxmmin.sol.core.type.request.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public interface RpcClient {
@@ -19,6 +20,8 @@ public interface RpcClient {
 
     GetBalanceRequest getBalance(String publicKey);
     GetBalanceRequest getBalance(String publicKey, @NotNull GetBalanceConfig config);
+
+    GetBlockCommitmentRequest getBlockCommitment(BigInteger blockNumber);
 
     GetSignaturesForAddressRequest getSignaturesForAddress(String address);
     GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config);

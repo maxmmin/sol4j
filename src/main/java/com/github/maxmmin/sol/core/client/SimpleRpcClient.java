@@ -13,6 +13,7 @@ import com.github.maxmmin.sol.core.type.response.RpcResponse;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,6 +110,11 @@ public class SimpleRpcClient implements RpcClient {
     @Override
     public GetBalanceRequest getBalance(String publicKey, @NotNull GetBalanceConfig config) {
         return new GetBalanceRequest(rpcGateway, publicKey, config);
+    }
+
+    @Override
+    public GetBlockCommitmentRequest getBlockCommitment(BigInteger blockNumber) {
+        return new GetBlockCommitmentRequest(rpcGateway, blockNumber);
     }
 
     @Override
