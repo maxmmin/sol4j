@@ -1,6 +1,7 @@
 package com.github.maxmmin.sol.core.type.response.epoch;
 
 import lombok.Data;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 
@@ -11,5 +12,5 @@ public class EpochInfo {
     private BigInteger epoch;
     private BigInteger slotIndex;
     private BigInteger slotsInEpoch;
-    private BigInteger transactionCount;
+    private @Nullable BigInteger transactionCount;
 }

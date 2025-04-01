@@ -27,7 +27,7 @@ Under active development
 	- getFirstAvailableBlock ✅
 	- getGenesisHash ✅
 	- getHealth ✅
-	- getHighestSnapshotSlot ❌
+	- getHighestSnapshotSlot ✅
 	- getIdentity ❌
 	- getInflationGovernor ❌
 	- getInflationRate ❌

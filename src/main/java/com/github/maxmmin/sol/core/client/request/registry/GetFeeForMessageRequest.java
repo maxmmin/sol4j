@@ -5,6 +5,7 @@ import com.github.maxmmin.sol.core.client.RpcGateway;
 import com.github.maxmmin.sol.core.client.request.SimpleRequest;
 import com.github.maxmmin.sol.core.exception.RpcException;
 import com.github.maxmmin.sol.core.type.request.GetFeeForMessageConfig;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -15,7 +16,7 @@ public class GetFeeForMessageRequest extends SimpleRequest<BigInteger> {
     }
 
     @Override
-    public BigInteger send() throws RpcException {
+    public @Nullable BigInteger send() throws RpcException {
         return super.send();
     }
 }

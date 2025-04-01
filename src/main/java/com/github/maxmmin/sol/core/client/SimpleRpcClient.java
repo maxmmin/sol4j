@@ -158,6 +158,11 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetHighestSnapshotSlotRequest getHighestSnapshotSlot() {
+        return new GetHighestSnapshotSlotRequest(rpcGateway);
+    }
+
+    @Override
     public GetEpochInfoRequest getEpochInfo() {
         return getEpochInfo(GetEpochInfoConfig.empty());
     }
