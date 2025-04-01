@@ -12,7 +12,7 @@ Pure java lib for interacting with Solana RPC API
 Under active development
 
 	- getAccountInfo ✅
-	- getBalance ❌
+	- getBalance ✅
 	- getBlock ❌
 	- getBlockCommitment ❌
 	- getBlockHeight ❌
