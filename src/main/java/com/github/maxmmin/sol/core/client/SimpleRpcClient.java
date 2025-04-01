@@ -244,6 +244,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public IsBlockhashValidRequest isBlockhashValid(String blockHash) {
+        return isBlockhashValid(blockHash, IsBlockhashValidConfig.empty());
+    }
+
+    @Override
+    public IsBlockhashValidRequest isBlockhashValid(String blockHash, @NotNull IsBlockhashValidConfig config) {
+        return new IsBlockhashValidRequest(rpcGateway, blockHash, config);
+    }
+
+    @Override
     public MinimumLedgerSlotRequest minimumLedgerSlot() {
         return new MinimumLedgerSlotRequest(rpcGateway);
     }

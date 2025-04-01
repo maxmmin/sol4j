@@ -58,7 +58,7 @@ Under active development
 	- getTransactionCount ✅
 	- getVersion ✅
 	- getVoteAccounts ❌
-	- isBlockhashValid ❌
+	- isBlockhashValid ✅
 	- minimumLedgerSlot ✅
 	- requestAirdrop ❌
 	- sendTransaction ❌

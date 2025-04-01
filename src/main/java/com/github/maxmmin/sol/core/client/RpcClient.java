@@ -81,5 +81,8 @@ public interface RpcClient {
 
     GetVersionRequest getVersion();
 
+    IsBlockhashValidRequest isBlockhashValid(String blockHash);
+    IsBlockhashValidRequest isBlockhashValid(String blockHash, @NotNull IsBlockhashValidConfig config);
+
     MinimumLedgerSlotRequest minimumLedgerSlot();
 }
