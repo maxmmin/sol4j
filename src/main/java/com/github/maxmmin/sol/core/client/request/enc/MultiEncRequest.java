@@ -6,6 +6,11 @@ import com.github.maxmmin.sol.core.client.request.Request;
 import com.github.maxmmin.sol.core.exception.RpcException;
 import com.github.maxmmin.sol.core.type.request.Encoding;
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 
 /**
@@ -19,7 +24,8 @@ import com.github.maxmmin.sol.core.type.request.RpcRequest;
 public abstract class MultiEncRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B, J, P> implements Request<D> {
     private final RpcGateway gateway;
 
-    public MultiEncRequest(RpcGateway gateway) {
+    public MultiEncRequest(RpcTypes<D, B, J, P> types, RpcGateway gateway) {
+        super(types);
         this.gateway = gateway;
     }
 

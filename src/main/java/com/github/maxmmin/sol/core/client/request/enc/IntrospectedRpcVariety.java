@@ -3,7 +3,6 @@ package com.github.maxmmin.sol.core.client.request.enc;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.maxmmin.sol.core.type.request.Encoding;
 import com.github.maxmmin.sol.util.Types;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
@@ -16,16 +15,21 @@ import java.util.Set;
 
 /**
  *
- * @param <D>
- * @param <B>
- * @param <J>
- * @param <P>
+ * @param <D> - Default Response Type
+ * @param <B> - Base Enc Response Type
+ * @param <J> - JSON Response Type
+ * @param <P> - JSON Parsed Response Type
  *
- *      Class used for RPC variety type params introspection
+ *  Class for types introspection
  */
-public abstract class IntrospectedRpcVariety<D, B, J, P> implements RpcVariety<D, B, J, P> {
+public abstract class IntrospectedRpcVariety<D, B, J, P> {
+    private final RpcTypes<D, B, J, P> rpcTypes;
     private final TypesMetadata typesMetadata;
     private final Set<Encoding> supportedEncodings;
+
+    protected RpcTypes<D, B, J, P> getRpcTypes() {
+        return rpcTypes;
+    }
 
     protected TypesMetadata getTypesMetadata() {
         return typesMetadata;
@@ -35,14 +39,18 @@ public abstract class IntrospectedRpcVariety<D, B, J, P> implements RpcVariety<D
         return supportedEncodings;
     }
 
-    public IntrospectedRpcVariety() {
-        this.typesMetadata = introspectTypes();
+    public IntrospectedRpcVariety(RpcTypes<D, B, J, P> rpcTypes) {
+        this.rpcTypes = rpcTypes;
+        this.typesMetadata = introspectTypes(rpcTypes);
         this.supportedEncodings = introspectSupportedEncodings(typesMetadata);
     }
 
-    private TypesMetadata introspectTypes() {
-        Type relative = getClass().getGenericInterfaces()[0];
-        if (!(relative instanceof ParameterizedType)) throw new RuntimeException("Expected parameterized type");
+    private TypesMetadata introspectTypes(RpcTypes<D, B, J, P> types) {
+        Type relative = types.getClass().getGenericSuperclass();
+
+        if (!(relative instanceof ParameterizedType)) throw new RuntimeException("Expected parameterized type. Actual type: " + relative.getTypeName());
+        else if (((ParameterizedType) relative).getRawType().equals(RpcTypes.class)) throw new RuntimeException("Unexpected type: " + relative.getTypeName());
+
         Type[] typeArguments = ((ParameterizedType) relative).getActualTypeArguments();
 
         Type defaultType = typeArguments[0];
@@ -82,4 +90,6 @@ public abstract class IntrospectedRpcVariety<D, B, J, P> implements RpcVariety<D
         private final TypeReference<J> jsonType;
         private final TypeReference<P> jsonParsedType;
     }
+
+    public static abstract class RpcTypes<D, B, J, P> { }
 }

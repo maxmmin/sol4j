@@ -17,7 +17,8 @@ public class MultiEncBatchedRequest<D, B, J, P> extends IntrospectedRpcVariety<D
     private final RpcGateway gateway;
     private final List<? extends MultiEncRequest<D, B, J, P>> requests;
 
-    public MultiEncBatchedRequest(RpcGateway gateway, Collection<? extends MultiEncRequest<D, B, J, P>> requests) {
+    public MultiEncBatchedRequest(RpcTypes<D, B, J, P> types, RpcGateway gateway, Collection<? extends MultiEncRequest<D, B, J, P>> requests) {
+        super(types);
         this.gateway = gateway;
         this.requests = List.copyOf(requests);
     }
@@ -57,6 +58,6 @@ public class MultiEncBatchedRequest<D, B, J, P> extends IntrospectedRpcVariety<D
     public MultiEncBatchedRequest<D, B, J, P> add(MultiEncRequest<D, B, J, P> request) {
         List<MultiEncRequest<D, B, J, P>> newRequests = new ArrayList<>(requests);
         newRequests.add(request);
-        return new MultiEncBatchedRequest<>(gateway, newRequests);
+        return new MultiEncBatchedRequest<>(getRpcTypes(), gateway, newRequests);
     }
 }
