@@ -153,6 +153,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetEpochInfoRequest getEpochInfo() {
+        return getEpochInfo(GetEpochInfoConfig.empty());
+    }
+
+    @Override
+    public GetEpochInfoRequest getEpochInfo(@NotNull GetEpochInfoConfig config) {
+        return new GetEpochInfoRequest(rpcGateway, config);
+    }
+
+    @Override
     public GetClusterNodesRequest getClusterNodes() {
         return new GetClusterNodesRequest(rpcGateway);
     }

@@ -21,7 +21,7 @@ Under active development
 	- getBlocksWithLimit ❌
 	- getBlockTime ✅
 	- getClusterNodes ✅
-	- getEpochInfo ❌
+	- getEpochInfo ✅
 	- getEpochSchedule ❌
 	- getFeeForMessage ❌
 	- getFirstAvailableBlock ✅

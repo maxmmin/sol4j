@@ -35,6 +35,9 @@ public interface RpcClient {
 
     GetGenesisHashRequest getGenesisHash();
 
+    GetEpochInfoRequest getEpochInfo();
+    GetEpochInfoRequest getEpochInfo(@NotNull GetEpochInfoConfig config);
+
     GetSignaturesForAddressRequest getSignaturesForAddress(String address);
     GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config);
 

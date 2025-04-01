@@ -1,4 +1,4 @@
-package com.github.maxmmin.sol.core.type.response;
+package com.github.maxmmin.sol.core.type.response.node;
 
 import lombok.Data;
 
