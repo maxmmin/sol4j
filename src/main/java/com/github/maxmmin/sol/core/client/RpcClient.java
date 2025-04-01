@@ -70,4 +70,6 @@ public interface RpcClient {
     GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts, @NotNull GetMultipleAccountsConfig config);
 
     GetClusterNodesRequest getClusterNodes();
+
+    GetMinimumLedgerSlotRequest getMinimumLedgerSlot();
 }

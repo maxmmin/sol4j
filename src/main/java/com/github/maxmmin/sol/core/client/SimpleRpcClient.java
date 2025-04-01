@@ -212,5 +212,10 @@ public class SimpleRpcClient implements RpcClient {
         return new GetClusterNodesRequest(rpcGateway);
     }
 
+    @Override
+    public GetMinimumLedgerSlotRequest getMinimumLedgerSlot() {
+        return new GetMinimumLedgerSlotRequest(rpcGateway);
+    }
+
 
 }
