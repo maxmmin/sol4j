@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.maxmmin.sol.core.client.RpcGateway;
 import com.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
+import com.github.maxmmin.sol.core.exception.RpcException;
 import com.github.maxmmin.sol.core.type.request.Encoding;
 import com.github.maxmmin.sol.core.type.request.GetProgramAccountsConfig;
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
@@ -20,7 +21,7 @@ public class GetProgramAccountsRequest extends MultiEncRequest<List<JsonProgramA
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GetProgramAccountsRequest(RpcGateway gateway, String programId, GetProgramAccountsConfig config) {
-        super(gateway);
+        super(new RpcTypes<List<JsonProgramAccount>, List<BaseEncProgramAccount>, List<JsonProgramAccount>, List<JsonParsedProgramAccount>>() {}, gateway);
         this.programId = programId;
         this.config = config;
     }
@@ -32,5 +33,28 @@ public class GetProgramAccountsRequest extends MultiEncRequest<List<JsonProgramA
         return new RpcRequest("getProgramAccounts", List.of(programId, cfg));
     }
 
+    @Override
+    public List<JsonProgramAccount> send() throws RpcException {
+        return super.send();
+    }
 
+    @Override
+    public List<BaseEncProgramAccount> base58() throws RpcException, UnsupportedOperationException {
+        return super.base58();
+    }
+
+    @Override
+    public List<BaseEncProgramAccount> base64() throws RpcException, UnsupportedOperationException {
+        return super.base64();
+    }
+
+    @Override
+    public List<JsonProgramAccount> json() throws RpcException, UnsupportedOperationException {
+        return super.json();
+    }
+
+    @Override
+    public List<JsonParsedProgramAccount> jsonParsed() throws RpcException, UnsupportedOperationException {
+        return super.jsonParsed();
+    }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.maxmmin.sol.core.client.RpcGateway;
 import com.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
+import com.github.maxmmin.sol.core.exception.RpcException;
 import com.github.maxmmin.sol.core.type.request.Encoding;
 import com.github.maxmmin.sol.core.type.request.GetMultipleAccountsConfig;
 import com.github.maxmmin.sol.core.type.request.RpcRequest;
@@ -20,7 +21,7 @@ public class GetMultipleAccountsRequest extends MultiEncRequest<ContextWrapper<L
     private final ObjectMapper mapper = new ObjectMapper();
 
     public GetMultipleAccountsRequest(RpcGateway gateway, List<String> accounts, GetMultipleAccountsConfig config) {
-        super(gateway);
+        super(new RpcTypes<ContextWrapper<List<BaseEncAccount>>, ContextWrapper<List<BaseEncAccount>>, Void, ContextWrapper<List<JsonParsedAccount>>>() {}, gateway);
         this.accounts = accounts;
         this.config = config;
     }
@@ -30,5 +31,30 @@ public class GetMultipleAccountsRequest extends MultiEncRequest<ContextWrapper<L
         Map<String, Object> cfgMap = mapper.convertValue(config, new TypeReference<Map<String, Object>>() {});
         if (!encoding.isNil()) cfgMap.put("encoding", encoding);
         return new RpcRequest("getMultipleAccounts", List.of(accounts, cfgMap));
+    }
+
+    @Override
+    public ContextWrapper<List<BaseEncAccount>> send() throws RpcException {
+        return super.send();
+    }
+
+    @Override
+    public ContextWrapper<List<BaseEncAccount>> base58() throws RpcException, UnsupportedOperationException {
+        return super.base58();
+    }
+
+    @Override
+    public ContextWrapper<List<BaseEncAccount>> base64() throws RpcException, UnsupportedOperationException {
+        return super.base64();
+    }
+
+    @Override
+    public Void json() throws RpcException, UnsupportedOperationException {
+        return super.json();
+    }
+
+    @Override
+    public ContextWrapper<List<JsonParsedAccount>> jsonParsed() throws RpcException, UnsupportedOperationException {
+        return super.jsonParsed();
     }
 }
