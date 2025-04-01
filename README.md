@@ -33,7 +33,7 @@ Under active development
 	- getInflationRate ✅
 	- getInflationReward ❌
 	- getLargestAccounts ❌
-	- getLatestBlockhash ❌
+	- getLatestBlockhash ✅
 	- getLeaderSchedule ❌
 	- getMaxRetransmitSlot ✅
 	- getMaxShredInsertSlot ✅

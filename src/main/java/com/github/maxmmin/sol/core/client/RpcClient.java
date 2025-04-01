@@ -45,6 +45,9 @@ public interface RpcClient {
 
     GetInflationRateRequest getInflationRate();
 
+    GetLatestBlockhashRequest getLatestBlockhash();
+    GetLatestBlockhashRequest getLatestBlockhash(@NotNull GetLatestBlockhashConfig config);
+
     GetEpochInfoRequest getEpochInfo();
     GetEpochInfoRequest getEpochInfo(@NotNull GetEpochInfoConfig config);
 

@@ -209,6 +209,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetLatestBlockhashRequest getLatestBlockhash() {
+        return getLatestBlockhash(GetLatestBlockhashConfig.empty());
+    }
+
+    @Override
+    public GetLatestBlockhashRequest getLatestBlockhash(@NotNull GetLatestBlockhashConfig config) {
+        return new GetLatestBlockhashRequest(rpcGateway, config);
+    }
+
+    @Override
     public GetEpochInfoRequest getEpochInfo() {
         return getEpochInfo(GetEpochInfoConfig.empty());
     }
