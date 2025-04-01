@@ -126,9 +126,15 @@ RpcClient client = new SimpleRpcClient(rateLimitedRpcGateway);
 <b>Making requests</b>
 
 ```
+List<SolanaNodeInfo> nodes = client.getClusterNodes().send();
+```
+
+<b>Multiple encodings support for specific methods</b>
+
+```
 GetTransactionRequest txRequest = client.getTransaction(txSignature);
 
-var defaultEncodedTx = txRequest.noarg();
+var defaultEncodedTx = txRequest.send();
 BaseEncTransaction base58EncodedTx = txRequest.base58();
 BaseEncTransaction base64EncodedTx = txRequest.base64();
 JsonTransaction jsonEncodedTx = txRequest.json();
