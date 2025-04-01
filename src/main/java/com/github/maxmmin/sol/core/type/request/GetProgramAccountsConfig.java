@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Getter
@@ -14,6 +15,7 @@ public class GetProgramAccountsConfig {
     private final List<?>filters;
     private final Commitment commitment;
     private final DataSliceConfig dataSlice;
+    private final BigInteger minContextSlot;
 
     public static GetProgramAccountsConfig empty() {
         return builder().build();
