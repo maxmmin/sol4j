@@ -69,6 +69,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetStakeMinimumDelegationRequest getStakeMinimumDelegation() {
+        return getStakeMinimumDelegation(GetStakeMinimumDelegationConfig.empty());
+    }
+
+    @Override
+    public GetStakeMinimumDelegationRequest getStakeMinimumDelegation(@NotNull GetStakeMinimumDelegationConfig config) {
+        return new GetStakeMinimumDelegationRequest(rpcGateway, config);
+    }
+
+    @Override
     public GetTransactionRequest getTransaction(String signature) {
         return getTransaction(signature, GetTransactionConfig.empty());
     }

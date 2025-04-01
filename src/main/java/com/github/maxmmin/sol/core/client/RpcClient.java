@@ -61,7 +61,10 @@ public interface RpcClient {
     GetProgramAccountsRequest getProgramAccounts(String programId, @NotNull GetProgramAccountsConfig config);
 
     GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params);
-    GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @Nullable GetTokenAccountsByOwnerConfig config);
+    GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @NotNull GetTokenAccountsByOwnerConfig config);
+
+    GetStakeMinimumDelegationRequest getStakeMinimumDelegation();
+    GetStakeMinimumDelegationRequest getStakeMinimumDelegation(@NotNull GetStakeMinimumDelegationConfig config);
 
     GetTransactionRequest getTransaction(String signature);
     GetTransactionRequest getTransaction(String signature, @NotNull GetTransactionConfig config);

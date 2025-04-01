@@ -47,7 +47,7 @@ Under active development
 	- getSlot ❌
 	- getSlotLeader ❌
 	- getSlotLeaders ❌
-	- getStakeMinimumDelegation ❌
+	- getStakeMinimumDelegation ✅
 	- getSupply ❌
 	- getTokenAccountBalance ❌
 	- getTokenAccountsByDelegate ❌
