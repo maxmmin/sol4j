@@ -4,15 +4,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigInteger;
+
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class GetMultipleAccountsConfig {
-    private final Encoding encoding;
+public class GetBlockHeightConfig {
     private final Commitment commitment;
-    private final DataSlice dataSlice;
+    private final BigInteger minContextSlot;
 
-    public static GetMultipleAccountsConfig empty() {
-        return builder().build();
+    public static GetBlockHeightConfig empty() {
+        return GetBlockHeightConfig.builder().build();
     }
 }

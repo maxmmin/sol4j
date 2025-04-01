@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 public class GetTokenAccountsByOwnerConfig {
     private final String commitment;
     private final Long minContextSlot;
-    private final DataSliceConfig dataSlice;
+    private final DataSlice dataSlice;
     private final Encoding encoding;
 
     public static GetTokenAccountsByOwnerConfig empty() {

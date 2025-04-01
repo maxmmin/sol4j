@@ -7,13 +7,12 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class GetAccountInfoConfig {
+public class GetBlockProductionConfig {
     private final Commitment commitment;
-    private final Encoding encoding;
-    private final DataSlice dataSlice;
-    private final String minContextSlot;
+    private final String identity;
+    private final BlockRange range;
 
-    public static GetAccountInfoConfig empty () {
+    public static GetBlockProductionConfig empty() {
         return builder().build();
     }
 }

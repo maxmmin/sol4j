@@ -23,6 +23,12 @@ public interface RpcClient {
 
     GetBlockCommitmentRequest getBlockCommitment(BigInteger blockNumber);
 
+    GetBlockHeightRequest getBlockHeight();
+    GetBlockHeightRequest getBlockHeight(@NotNull GetBlockHeightConfig config);
+
+    GetBlockProductionRequest getBlockProduction();
+    GetBlockProductionRequest getBlockProduction(@NotNull GetBlockProductionConfig config);
+
     GetSignaturesForAddressRequest getSignaturesForAddress(String address);
     GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config);
 

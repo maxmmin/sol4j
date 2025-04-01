@@ -118,6 +118,26 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetBlockHeightRequest getBlockHeight() {
+        return getBlockHeight(GetBlockHeightConfig.empty());
+    }
+
+    @Override
+    public GetBlockHeightRequest getBlockHeight(@NotNull GetBlockHeightConfig config) {
+        return new GetBlockHeightRequest(rpcGateway, config);
+    }
+
+    @Override
+    public GetBlockProductionRequest getBlockProduction() {
+        return getBlockProduction(GetBlockProductionConfig.empty());
+    }
+
+    @Override
+    public GetBlockProductionRequest getBlockProduction(@NotNull GetBlockProductionConfig config) {
+        return new GetBlockProductionRequest(rpcGateway, config);
+    }
+
+    @Override
     public GetClusterNodesRequest getClusterNodes() {
         return new GetClusterNodesRequest(rpcGateway);
     }

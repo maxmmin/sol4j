@@ -14,7 +14,7 @@ public class GetProgramAccountsConfig {
     private final Encoding encoding;
     private final List<?>filters;
     private final Commitment commitment;
-    private final DataSliceConfig dataSlice;
+    private final DataSlice dataSlice;
     private final BigInteger minContextSlot;
 
     public static GetProgramAccountsConfig empty() {
