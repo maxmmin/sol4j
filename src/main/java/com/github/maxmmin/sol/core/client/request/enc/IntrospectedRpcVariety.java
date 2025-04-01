@@ -49,7 +49,7 @@ public abstract class IntrospectedRpcVariety<D, B, J, P> {
         Type relative = types.getClass().getGenericSuperclass();
 
         if (!(relative instanceof ParameterizedType)) throw new RuntimeException("Expected parameterized type. Actual type: " + relative.getTypeName());
-        else if (((ParameterizedType) relative).getRawType().equals(RpcTypes.class)) throw new RuntimeException("Unexpected type: " + relative.getTypeName());
+        else if (!((ParameterizedType) relative).getRawType().equals(RpcTypes.class)) throw new RuntimeException("Unexpected type: " + relative.getTypeName());
 
         Type[] typeArguments = ((ParameterizedType) relative).getActualTypeArguments();
 
