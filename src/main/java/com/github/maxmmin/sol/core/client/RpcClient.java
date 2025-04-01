@@ -33,6 +33,8 @@ public interface RpcClient {
 
     GetFirstAvailableBlockRequest getFirstAvailableBlock();
 
+    GetGenesisHashRequest getGenesisHash();
+
     GetSignaturesForAddressRequest getSignaturesForAddress(String address);
     GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config);
 

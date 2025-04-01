@@ -25,7 +25,7 @@ Under active development
 	- getEpochSchedule ❌
 	- getFeeForMessage ❌
 	- getFirstAvailableBlock ✅
-	- getGenesisHash ❌
+	- getGenesisHash ✅
 	- getHealth ❌
 	- getHighestSnapshotSlot ❌
 	- getIdentity ❌

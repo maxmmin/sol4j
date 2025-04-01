@@ -148,6 +148,11 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetGenesisHashRequest getGenesisHash() {
+        return new GetGenesisHashRequest(rpcGateway);
+    }
+
+    @Override
     public GetClusterNodesRequest getClusterNodes() {
         return new GetClusterNodesRequest(rpcGateway);
     }
