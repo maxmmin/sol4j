@@ -138,6 +138,11 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetBlockTimeRequest getBlockTime(BigInteger blockNumber) {
+        return new GetBlockTimeRequest(rpcGateway, blockNumber);
+    }
+
+    @Override
     public GetClusterNodesRequest getClusterNodes() {
         return new GetClusterNodesRequest(rpcGateway);
     }

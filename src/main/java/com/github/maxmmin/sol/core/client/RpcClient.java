@@ -29,6 +29,8 @@ public interface RpcClient {
     GetBlockProductionRequest getBlockProduction();
     GetBlockProductionRequest getBlockProduction(@NotNull GetBlockProductionConfig config);
 
+    GetBlockTimeRequest getBlockTime(BigInteger blockNumber);
+
     GetSignaturesForAddressRequest getSignaturesForAddress(String address);
     GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config);
 

@@ -19,7 +19,7 @@ Under active development
 	- getBlockProduction ✅
 	- getBlocks ❌
 	- getBlocksWithLimit ❌
-	- getBlockTime ❌
+	- getBlockTime ✅
 	- getClusterNodes ✅
 	- getEpochInfo ❌
 	- getEpochSchedule ❌
