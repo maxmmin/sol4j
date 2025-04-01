@@ -55,7 +55,7 @@ Under active development
 	- getTokenLargestAccounts ❌
 	- getTokenSupply ❌
 	- getTransaction ✅
-	- getTransactionCount ❌
+	- getTransactionCount ✅
 	- getVersion ✅
 	- getVoteAccounts ❌
 	- isBlockhashValid ❌

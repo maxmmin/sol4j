@@ -66,6 +66,9 @@ public interface RpcClient {
     GetTransactionRequest getTransaction(String signature);
     GetTransactionRequest getTransaction(String signature, @NotNull GetTransactionConfig config);
 
+    GetTransactionCountRequest getTransactionCount();
+    GetTransactionCountRequest getTransactionCount(@NotNull GetTransactionCountConfig config);
+
     GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts);
     GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts, @NotNull GetMultipleAccountsConfig config);
 

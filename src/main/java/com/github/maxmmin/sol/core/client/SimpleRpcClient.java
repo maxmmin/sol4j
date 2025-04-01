@@ -77,7 +77,17 @@ public class SimpleRpcClient implements RpcClient {
     public GetTransactionRequest getTransaction(String signature, @NotNull GetTransactionConfig config) {
         return new GetTransactionRequest(rpcGateway, signature, config);
     }
-    
+
+    @Override
+    public GetTransactionCountRequest getTransactionCount() {
+        return getTransactionCount(GetTransactionCountConfig.empty());
+    }
+
+    @Override
+    public GetTransactionCountRequest getTransactionCount(@NotNull GetTransactionCountConfig config) {
+        return new GetTransactionCountRequest(rpcGateway, config);
+    }
+
     @Override
     public GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts) {
         return getMultipleAccounts(accounts, GetMultipleAccountsConfig.empty());
