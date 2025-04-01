@@ -23,20 +23,18 @@ import java.util.stream.Collectors;
 public class SimpleRpcClient implements RpcClient {
     private final RpcGateway rpcGateway;
 
-    // @todo possible type erasure - needs check
     @Override
     public <V> Request<V> call(String method, List<Object> params, TypeReference<V> typeRef) {
-        return new SimpleRequest<>(rpcGateway, method, params);
+        return new SimpleRequest<>(typeRef, rpcGateway, method, params);
     }
 
-    // @todo possible type erasure - needs check
     @Override
     public <V> BatchedRequest<V> callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef) {
         List<Request<V>>requests = params.stream()
-                .map(param -> new SimpleRequest<V>(rpcGateway, method, param))
+                .map(param -> new SimpleRequest<V>(typeRef, rpcGateway, method, param))
                 .collect(Collectors.toList());
 
-        return new SimpleBatchedRequest<>(rpcGateway, requests);
+        return new SimpleBatchedRequest<>(typeRef, rpcGateway, requests);
     }
 
     protected <V> V extractRpcResponse(RpcResponse<V> rpcResponse) {
