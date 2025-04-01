@@ -28,7 +28,7 @@ Under active development
 	- getGenesisHash ✅
 	- getHealth ✅
 	- getHighestSnapshotSlot ✅
-	- getIdentity ❌
+	- getIdentity ✅
 	- getInflationGovernor ❌
 	- getInflationRate ❌
 	- getInflationReward ❌

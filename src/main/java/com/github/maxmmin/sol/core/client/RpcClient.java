@@ -39,6 +39,8 @@ public interface RpcClient {
 
     GetHighestSnapshotSlotRequest getHighestSnapshotSlot();
 
+    GetIdentityRequest getIdentity();
+
     GetEpochInfoRequest getEpochInfo();
     GetEpochInfoRequest getEpochInfo(@NotNull GetEpochInfoConfig config);
 

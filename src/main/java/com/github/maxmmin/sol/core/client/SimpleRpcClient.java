@@ -163,6 +163,11 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetIdentityRequest getIdentity() {
+        return new GetIdentityRequest(rpcGateway);
+    }
+
+    @Override
     public GetEpochInfoRequest getEpochInfo() {
         return getEpochInfo(GetEpochInfoConfig.empty());
     }
