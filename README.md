@@ -26,7 +26,7 @@ Under active development
 	- getFeeForMessage ✅
 	- getFirstAvailableBlock ✅
 	- getGenesisHash ✅
-	- getHealth ❌
+	- getHealth ✅
 	- getHighestSnapshotSlot ❌
 	- getIdentity ❌
 	- getInflationGovernor ❌

@@ -153,6 +153,11 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetHealthRequest getHealth() {
+        return new GetHealthRequest(rpcGateway);
+    }
+
+    @Override
     public GetEpochInfoRequest getEpochInfo() {
         return getEpochInfo(GetEpochInfoConfig.empty());
     }

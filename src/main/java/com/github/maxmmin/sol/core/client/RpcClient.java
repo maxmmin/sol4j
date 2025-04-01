@@ -35,6 +35,8 @@ public interface RpcClient {
 
     GetGenesisHashRequest getGenesisHash();
 
+    GetHealthRequest getHealth();
+
     GetEpochInfoRequest getEpochInfo();
     GetEpochInfoRequest getEpochInfo(@NotNull GetEpochInfoConfig config);
 
