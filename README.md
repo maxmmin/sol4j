@@ -30,7 +30,7 @@ Under active development
 	- getHighestSnapshotSlot ✅
 	- getIdentity ✅
 	- getInflationGovernor ✅
-	- getInflationRate ❌
+	- getInflationRate ✅
 	- getInflationReward ❌
 	- getLargestAccounts ❌
 	- getLatestBlockhash ❌

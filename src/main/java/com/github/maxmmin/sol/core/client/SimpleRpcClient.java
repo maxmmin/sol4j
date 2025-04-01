@@ -178,6 +178,11 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetInflationRateRequest getInflationRate() {
+        return new GetInflationRateRequest(rpcGateway);
+    }
+
+    @Override
     public GetEpochInfoRequest getEpochInfo() {
         return getEpochInfo(GetEpochInfoConfig.empty());
     }
