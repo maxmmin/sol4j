@@ -29,7 +29,7 @@ Under active development
 	- getHealth ✅
 	- getHighestSnapshotSlot ✅
 	- getIdentity ✅
-	- getInflationGovernor ❌
+	- getInflationGovernor ✅
 	- getInflationRate ❌
 	- getInflationReward ❌
 	- getLargestAccounts ❌

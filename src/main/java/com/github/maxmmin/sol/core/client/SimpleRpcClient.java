@@ -168,6 +168,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetInflationGovernorRequest getInflationGovernor() {
+        return getInflationGovernor(GetInflationGovernorConfig.empty());
+    }
+
+    @Override
+    public GetInflationGovernorRequest getInflationGovernor(@NotNull GetInflationGovernorConfig config) {
+        return new GetInflationGovernorRequest(rpcGateway, config);
+    }
+
+    @Override
     public GetEpochInfoRequest getEpochInfo() {
         return getEpochInfo(GetEpochInfoConfig.empty());
     }

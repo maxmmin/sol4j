@@ -41,6 +41,9 @@ public interface RpcClient {
 
     GetIdentityRequest getIdentity();
 
+    GetInflationGovernorRequest getInflationGovernor();
+    GetInflationGovernorRequest getInflationGovernor(@NotNull GetInflationGovernorConfig config);
+
     GetEpochInfoRequest getEpochInfo();
     GetEpochInfoRequest getEpochInfo(@NotNull GetEpochInfoConfig config);
 
