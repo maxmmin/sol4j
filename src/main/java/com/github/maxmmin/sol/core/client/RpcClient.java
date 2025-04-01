@@ -31,6 +31,8 @@ public interface RpcClient {
 
     GetBlockTimeRequest getBlockTime(BigInteger blockNumber);
 
+    GetFirstAvailableBlockRequest getFirstAvailableBlock();
+
     GetSignaturesForAddressRequest getSignaturesForAddress(String address);
     GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config);
 

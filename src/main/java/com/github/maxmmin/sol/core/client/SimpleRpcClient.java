@@ -143,6 +143,11 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetFirstAvailableBlockRequest getFirstAvailableBlock() {
+        return new GetFirstAvailableBlockRequest(rpcGateway);
+    }
+
+    @Override
     public GetClusterNodesRequest getClusterNodes() {
         return new GetClusterNodesRequest(rpcGateway);
     }
