@@ -71,5 +71,7 @@ public interface RpcClient {
 
     GetClusterNodesRequest getClusterNodes();
 
-    MinimumLedgerSlotRequest getMinimumLedgerSlot();
+    GetVersionRequest getVersion();
+
+    MinimumLedgerSlotRequest minimumLedgerSlot();
 }

@@ -209,7 +209,12 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
-    public MinimumLedgerSlotRequest getMinimumLedgerSlot() {
+    public GetVersionRequest getVersion() {
+        return new GetVersionRequest(rpcGateway);
+    }
+
+    @Override
+    public MinimumLedgerSlotRequest minimumLedgerSlot() {
         return new MinimumLedgerSlotRequest(rpcGateway);
     }
 

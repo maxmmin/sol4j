@@ -56,7 +56,7 @@ Under active development
 	- getTokenSupply ❌
 	- getTransaction ✅
 	- getTransactionCount ❌
-	- getVersion ❌
+	- getVersion ✅
 	- getVoteAccounts ❌
 	- isBlockhashValid ❌
 	- minimumLedgerSlot ✅
