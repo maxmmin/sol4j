@@ -102,6 +102,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetBalanceRequest getBalance(String publicKey) {
+        return getBalance(publicKey, GetBalanceConfig.empty());
+    }
+
+    @Override
+    public GetBalanceRequest getBalance(String publicKey, @NotNull GetBalanceConfig config) {
+        return new GetBalanceRequest(rpcGateway, publicKey, config);
+    }
+
+    @Override
     public GetClusterNodesRequest getClusterNodes() {
         return new GetClusterNodesRequest(rpcGateway);
     }
