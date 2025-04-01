@@ -15,8 +15,8 @@ Under active development
 	- getBalance ✅
 	- getBlock ❌
 	- getBlockCommitment ✅
-	- getBlockHeight ❌
-	- getBlockProduction ❌
+	- getBlockHeight ✅
+	- getBlockProduction ✅
 	- getBlocks ❌
 	- getBlocksWithLimit ❌
 	- getBlockTime ❌
