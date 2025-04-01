@@ -7,16 +7,12 @@ import com.github.maxmmin.sol.core.client.request.SimpleBatchedRequest;
 import com.github.maxmmin.sol.core.client.request.SimpleRequest;
 import com.github.maxmmin.sol.core.client.request.registry.*;
 import lombok.RequiredArgsConstructor;
-import com.github.maxmmin.sol.core.exception.RpcException;
 import com.github.maxmmin.sol.core.type.request.*;
 import com.github.maxmmin.sol.core.type.response.RpcResponse;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -213,8 +209,8 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
-    public GetMinimumLedgerSlotRequest getMinimumLedgerSlot() {
-        return new GetMinimumLedgerSlotRequest(rpcGateway);
+    public MinimumLedgerSlotRequest getMinimumLedgerSlot() {
+        return new MinimumLedgerSlotRequest(rpcGateway);
     }
 
 

@@ -59,7 +59,7 @@ Under active development
 	- getVersion ❌
 	- getVoteAccounts ❌
 	- isBlockhashValid ❌
-	- minimumLedgerSlot ❌
+	- minimumLedgerSlot ✅
 	- requestAirdrop ❌
 	- sendTransaction ❌
 	- simulateTransaction ❌
