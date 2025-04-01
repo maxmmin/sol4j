@@ -99,6 +99,11 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetMaxRetransmitSlotRequest getMaxRetransmitSlot() {
+        return new GetMaxRetransmitSlotRequest(rpcGateway);
+    }
+
+    @Override
     public GetMaxShredInsertSlotRequest getMaxShredInsertSlot() {
         return new GetMaxShredInsertSlotRequest(rpcGateway);
     }

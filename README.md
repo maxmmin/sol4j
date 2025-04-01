@@ -35,7 +35,7 @@ Under active development
 	- getLargestAccounts ❌
 	- getLatestBlockhash ❌
 	- getLeaderSchedule ❌
-	- getMaxRetransmitSlot ❌
+	- getMaxRetransmitSlot ✅
 	- getMaxShredInsertSlot ✅
 	- getMinimumBalanceForRentExemption ❌
 	- getMultipleAccounts ✅

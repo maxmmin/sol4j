@@ -71,6 +71,7 @@ public interface RpcClient {
     GetTransactionCountRequest getTransactionCount();
     GetTransactionCountRequest getTransactionCount(@NotNull GetTransactionCountConfig config);
 
+    GetMaxRetransmitSlotRequest getMaxRetransmitSlot();
     GetMaxShredInsertSlotRequest getMaxShredInsertSlot();
 
     GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts);
