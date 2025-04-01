@@ -6,7 +6,6 @@ import com.github.maxmmin.sol.core.client.request.Request;
 import com.github.maxmmin.sol.core.client.request.registry.*;
 import com.github.maxmmin.sol.core.type.request.*;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -71,6 +70,8 @@ public interface RpcClient {
 
     GetTransactionCountRequest getTransactionCount();
     GetTransactionCountRequest getTransactionCount(@NotNull GetTransactionCountConfig config);
+
+    GetMaxShredInsertSlotRequest getMaxShredInsertSlot();
 
     GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts);
     GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts, @NotNull GetMultipleAccountsConfig config);

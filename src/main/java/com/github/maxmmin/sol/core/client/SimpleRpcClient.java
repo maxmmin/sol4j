@@ -99,6 +99,11 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetMaxShredInsertSlotRequest getMaxShredInsertSlot() {
+        return new GetMaxShredInsertSlotRequest(rpcGateway);
+    }
+
+    @Override
     public GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts) {
         return getMultipleAccounts(accounts, GetMultipleAccountsConfig.empty());
     }

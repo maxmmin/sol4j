@@ -36,7 +36,7 @@ Under active development
 	- getLatestBlockhash ❌
 	- getLeaderSchedule ❌
 	- getMaxRetransmitSlot ❌
-	- getMaxShredInsertSlot ❌
+	- getMaxShredInsertSlot ✅
 	- getMinimumBalanceForRentExemption ❌
 	- getMultipleAccounts ✅
 	- getProgramAccounts ✅
