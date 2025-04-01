@@ -40,6 +40,9 @@ public interface RpcClient {
 
     GetEpochScheduleRequest getEpochSchedule();
 
+    GetFeeForMessageRequest getFeeForMessage(String base64EncodedMessage);
+    GetFeeForMessageRequest getFeeForMessage(String base64EncodedMessage, GetFeeForMessageConfig config);
+
     GetSignaturesForAddressRequest getSignaturesForAddress(String address);
     GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config);
 

@@ -168,6 +168,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetFeeForMessageRequest getFeeForMessage(String base64EncodedMessage) {
+        return getFeeForMessage(base64EncodedMessage, GetFeeForMessageConfig.empty());
+    }
+
+    @Override
+    public GetFeeForMessageRequest getFeeForMessage(String base64EncodedMessage, GetFeeForMessageConfig config) {
+        return new GetFeeForMessageRequest(rpcGateway, base64EncodedMessage, config);
+    }
+
+    @Override
     public GetClusterNodesRequest getClusterNodes() {
         return new GetClusterNodesRequest(rpcGateway);
     }

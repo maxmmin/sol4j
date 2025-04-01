@@ -23,7 +23,7 @@ Under active development
 	- getClusterNodes ✅
 	- getEpochInfo ✅
 	- getEpochSchedule ✅
-	- getFeeForMessage ❌
+	- getFeeForMessage ✅
 	- getFirstAvailableBlock ✅
 	- getGenesisHash ✅
 	- getHealth ❌
