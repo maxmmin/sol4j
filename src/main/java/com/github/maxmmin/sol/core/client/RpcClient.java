@@ -62,6 +62,9 @@ public interface RpcClient {
     GetProgramAccountsRequest getProgramAccounts(String programId);
     GetProgramAccountsRequest getProgramAccounts(String programId, @NotNull GetProgramAccountsConfig config);
 
+    GetTokenAccountBalanceRequest getTokenAccountBalance(String publicKey);
+    GetTokenAccountBalanceRequest getTokenAccountBalance(String publicKey, @NotNull GetTokenAccountBalanceConfig config);
+
     GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params);
     GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @NotNull GetTokenAccountsByOwnerConfig config);
 

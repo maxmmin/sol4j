@@ -59,6 +59,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetTokenAccountBalanceRequest getTokenAccountBalance(String publicKey) {
+        return getTokenAccountBalance(publicKey, GetTokenAccountBalanceConfig.empty());
+    }
+
+    @Override
+    public GetTokenAccountBalanceRequest getTokenAccountBalance(String publicKey, @NotNull GetTokenAccountBalanceConfig config) {
+        return new GetTokenAccountBalanceRequest(rpcGateway, publicKey, config);
+    }
+
+    @Override
     public GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params) {
         return getTokenAccountsByOwner(owner, params, GetTokenAccountsByOwnerConfig.empty());
     }
