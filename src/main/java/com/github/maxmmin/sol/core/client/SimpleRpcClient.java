@@ -69,6 +69,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetTokenAccountsByDelegateRequest getTokenAccountsByDelegate(String delegate, GetTokenAccountsByDelegateParams params) {
+        return getTokenAccountsByDelegate(delegate, params, GetTokenAccountsByDelegateConfig.empty());
+    }
+
+    @Override
+    public GetTokenAccountsByDelegateRequest getTokenAccountsByDelegate(String delegate, GetTokenAccountsByDelegateParams params, @NotNull GetTokenAccountsByDelegateConfig config) {
+        return new GetTokenAccountsByDelegateRequest(rpcGateway, delegate, config, params);
+    }
+
+    @Override
     public GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params) {
         return getTokenAccountsByOwner(owner, params, GetTokenAccountsByOwnerConfig.empty());
     }

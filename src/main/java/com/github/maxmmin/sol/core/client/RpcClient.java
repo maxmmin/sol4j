@@ -65,6 +65,9 @@ public interface RpcClient {
     GetTokenAccountBalanceRequest getTokenAccountBalance(String publicKey);
     GetTokenAccountBalanceRequest getTokenAccountBalance(String publicKey, @NotNull GetTokenAccountBalanceConfig config);
 
+    GetTokenAccountsByDelegateRequest getTokenAccountsByDelegate(String delegate, GetTokenAccountsByDelegateParams params);
+    GetTokenAccountsByDelegateRequest getTokenAccountsByDelegate(String delegate, GetTokenAccountsByDelegateParams params, @NotNull GetTokenAccountsByDelegateConfig config);
+
     GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params);
     GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @NotNull GetTokenAccountsByOwnerConfig config);
 

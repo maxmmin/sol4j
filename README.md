@@ -50,7 +50,7 @@ Under active development
 	- getStakeMinimumDelegation ✅
 	- getSupply ❌
 	- getTokenAccountBalance ✅
-	- getTokenAccountsByDelegate ❌
+	- getTokenAccountsByDelegate ✅
 	- getTokenAccountsByOwner ✅
 	- getTokenLargestAccounts ❌
 	- getTokenSupply ❌
