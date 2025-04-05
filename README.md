@@ -7,7 +7,6 @@ Pure java lib for interacting with Solana RPC API
 
 <h2>Dependencies</h2>
 
-##
     - OkHttp
     - Jackson
     - Project Lombok
