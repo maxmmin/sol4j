@@ -1,6 +1,9 @@
 <h1>Sol4j 👾</h1>
 Pure java lib for interacting with Solana RPC API
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue)](https://github.com/maxmmin/sol4j/blob/dev/LICENSE)
+![Java required version: 11](https://img.shields.io/badge/Java-11+-yellow)
+[![Solana Badge](https://img.shields.io/badge/Solana-%23000000?logo=solana&logoColor=white)](https://solana.com/docs/rpc)
 
 <h2>Requirements</h2>
 - Java 11+
