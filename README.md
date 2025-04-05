@@ -7,67 +7,67 @@ Pure java lib for interacting with Solana RPC API
 
 <h2>Dependencies</h2>
 
-    - OkHttp
-    - Jackson
-    - Project Lombok
+- OkHttp
+- Jackson
+- Project Lombok
 
 <h2>OutOfBox supported methods</h2>
 <details>
 <summary><b>HTTP</b></summary>
 Under active development
 
-	- getAccountInfo ✅
-	- getBalance ✅
-	- getBlock ❌
-	- getBlockCommitment ✅
-	- getBlockHeight ✅
-	- getBlockProduction ✅
-	- getBlocks ❌
-	- getBlocksWithLimit ❌
-	- getBlockTime ✅
-	- getClusterNodes ✅
-	- getEpochInfo ✅
-	- getEpochSchedule ✅
-	- getFeeForMessage ✅
-	- getFirstAvailableBlock ✅
-	- getGenesisHash ✅
-	- getHealth ✅
-	- getHighestSnapshotSlot ✅
-	- getIdentity ✅
-	- getInflationGovernor ✅
-	- getInflationRate ✅
-	- getInflationReward ❌
-	- getLargestAccounts ❌
-	- getLatestBlockhash ✅
-	- getLeaderSchedule ❌
-	- getMaxRetransmitSlot ✅
-	- getMaxShredInsertSlot ✅
-	- getMinimumBalanceForRentExemption ❌
-	- getMultipleAccounts ✅
-	- getProgramAccounts ✅
-	- getRecentPerformanceSamples ❌
-	- getRecentPrioritizationFees ❌
-	- getSignaturesForAddress ✅
-	- getSignatureStatuses ❌
-	- getSlot ❌
-	- getSlotLeader ❌
-	- getSlotLeaders ❌
-	- getStakeMinimumDelegation ✅
-	- getSupply ❌
-	- getTokenAccountBalance ✅
-	- getTokenAccountsByDelegate ✅
-	- getTokenAccountsByOwner ✅
-	- getTokenLargestAccounts ✅
-	- getTokenSupply ❌
-	- getTransaction ✅
-	- getTransactionCount ✅
-	- getVersion ✅
-	- getVoteAccounts ❌
-	- isBlockhashValid ✅
-	- minimumLedgerSlot ✅
-	- requestAirdrop ❌
-	- sendTransaction ❌
-	- simulateTransaction ❌
+- getAccountInfo ✅
+- getBalance ✅
+- getBlock ❌
+- getBlockCommitment ✅
+- getBlockHeight ✅
+- getBlockProduction ✅
+- getBlocks ❌
+- getBlocksWithLimit ❌
+- getBlockTime ✅
+- getClusterNodes ✅
+- getEpochInfo ✅
+- getEpochSchedule ✅
+- getFeeForMessage ✅
+- getFirstAvailableBlock ✅
+- getGenesisHash ✅
+- getHealth ✅
+- getHighestSnapshotSlot ✅
+- getIdentity ✅
+- getInflationGovernor ✅
+- getInflationRate ✅
+- getInflationReward ❌
+- getLargestAccounts ❌
+- getLatestBlockhash ✅
+- getLeaderSchedule ❌
+- getMaxRetransmitSlot ✅
+- getMaxShredInsertSlot ✅
+- getMinimumBalanceForRentExemption ❌
+- getMultipleAccounts ✅
+- getProgramAccounts ✅
+- getRecentPerformanceSamples ❌
+- getRecentPrioritizationFees ❌
+- getSignaturesForAddress ✅
+- getSignatureStatuses ❌
+- getSlot ❌
+- getSlotLeader ❌
+- getSlotLeaders ❌
+- getStakeMinimumDelegation ✅
+- getSupply ❌
+- getTokenAccountBalance ✅
+- getTokenAccountsByDelegate ✅
+- getTokenAccountsByOwner ✅
+- getTokenLargestAccounts ✅
+- getTokenSupply ❌
+- getTransaction ✅
+- getTransactionCount ✅
+- getVersion ✅
+- getVoteAccounts ❌
+- isBlockhashValid ✅
+- minimumLedgerSlot ✅
+- requestAirdrop ❌
+- sendTransaction ❌
+- simulateTransaction ❌
 </details>
 <details>
 <summary><b>WebSocket</b></summary>
@@ -78,12 +78,12 @@ Not implemented yet
 <h2>Getting started</h2>
 
 <b>Installation</b>
-  
+
 ```xml
 <dependency>
-	<groupId>com.github.maxmmin</groupId>
-	<artifactId>sol4j</artifactId>
-	<version>1.0-SNAPSHOT</version>
+    <groupId>com.github.maxmmin</groupId>
+    <artifactId>sol4j</artifactId>
+    <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
 
