@@ -71,6 +71,9 @@ public interface RpcClient {
     GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params);
     GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @NotNull GetTokenAccountsByOwnerConfig config);
 
+    GetTokenLargestAccountsRequest getTokenLargestAccounts(String publicKey);
+    GetTokenLargestAccountsRequest getTokenLargestAccounts(String publicKey, @NotNull GetTokenLargestAccountsConfig config);
+
     GetStakeMinimumDelegationRequest getStakeMinimumDelegation();
     GetStakeMinimumDelegationRequest getStakeMinimumDelegation(@NotNull GetStakeMinimumDelegationConfig config);
 

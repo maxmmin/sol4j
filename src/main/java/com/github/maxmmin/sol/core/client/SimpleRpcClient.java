@@ -89,6 +89,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetTokenLargestAccountsRequest getTokenLargestAccounts(String publicKey) {
+        return getTokenLargestAccounts(publicKey, GetTokenLargestAccountsConfig.empty());
+    }
+
+    @Override
+    public GetTokenLargestAccountsRequest getTokenLargestAccounts(String publicKey, @NotNull GetTokenLargestAccountsConfig config) {
+        return new GetTokenLargestAccountsRequest(rpcGateway, publicKey, config);
+    }
+
+    @Override
     public GetStakeMinimumDelegationRequest getStakeMinimumDelegation() {
         return getStakeMinimumDelegation(GetStakeMinimumDelegationConfig.empty());
     }

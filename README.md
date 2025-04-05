@@ -52,7 +52,7 @@ Under active development
 	- getTokenAccountBalance ✅
 	- getTokenAccountsByDelegate ✅
 	- getTokenAccountsByOwner ✅
-	- getTokenLargestAccounts ❌
+	- getTokenLargestAccounts ✅
 	- getTokenSupply ❌
 	- getTransaction ✅
 	- getTransactionCount ✅
