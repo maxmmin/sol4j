@@ -99,7 +99,7 @@ RpcGateway rpcGateway = HttpRpcGateway.create("https://api.mainnet-beta.solana.c
 <b>Creating RPC Client</b>
 
 ```
-RpcClient client = new SimpleRpcClient(rateLimitedRpcGateway);
+RpcClient client = new SimpleRpcClient(rpcGateway);
 ```
 
 <b>Making requests</b>
