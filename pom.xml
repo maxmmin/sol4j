@@ -8,6 +8,14 @@
     <artifactId>sol4j</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
