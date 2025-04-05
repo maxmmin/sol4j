@@ -14,7 +14,9 @@ Pure java lib for interacting with Solana RPC API
 <h2>OutOfBox supported methods</h2>
 <details>
 <summary><b>HTTP</b></summary>
+<br>
 Under active development
+<br><br>
 
 - getAccountInfo ✅
 - getBalance ✅
@@ -71,6 +73,7 @@ Under active development
 </details>
 <details>
 <summary><b>WebSocket</b></summary>
+<br>
 Not implemented yet
 </details>
 
