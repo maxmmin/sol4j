@@ -92,25 +92,25 @@ Not implemented yet
 
 <b>Creating gateway</b>
 
-```
+```java
 RpcGateway rpcGateway = HttpRpcGateway.create("https://api.mainnet-beta.solana.com");
 ```
 
 <b>Creating RPC Client</b>
 
-```
+```java
 RpcClient client = new SimpleRpcClient(rpcGateway);
 ```
 
 <b>Making requests</b>
 
-```
+```java
 List<SolanaNodeInfo> nodes = client.getClusterNodes().send();
 ```
 
 <b>Multiple encodings support for specific methods</b>
 
-```
+```java
 GetTransactionRequest txRequest = client.getTransaction(txSignature);
 
 var defaultEncodedTx = txRequest.send();
