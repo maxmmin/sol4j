@@ -64,7 +64,7 @@
                                 </goals>
                                 <configuration>
                                     <homedir>~/.gnupg</homedir>
-                                    <keyname>0x03CF9536</keyname>
+                                    <keyname>0x3E277627</keyname>
                                 </configuration>
                             </execution>
                         </executions>
