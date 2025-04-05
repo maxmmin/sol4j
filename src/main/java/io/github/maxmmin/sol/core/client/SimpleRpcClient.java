@@ -5,12 +5,10 @@ import io.github.maxmmin.sol.core.client.request.BatchedRequest;
 import io.github.maxmmin.sol.core.client.request.Request;
 import io.github.maxmmin.sol.core.client.request.SimpleBatchedRequest;
 import io.github.maxmmin.sol.core.client.request.SimpleRequest;
-import com.github.maxmmin.sol.core.client.request.registry.*;
 import io.github.maxmmin.sol.core.client.request.registry.*;
 import io.github.maxmmin.sol.core.type.request.*;
-import lombok.RequiredArgsConstructor;
-import com.github.maxmmin.sol.core.type.request.*;
 import io.github.maxmmin.sol.core.type.response.RpcResponse;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;

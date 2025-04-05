@@ -6,15 +6,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import io.github.maxmmin.sol.util.Collector;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import io.github.maxmmin.sol.core.exception.RpcBatchedResponseException;
 import io.github.maxmmin.sol.core.exception.RpcException;
 import io.github.maxmmin.sol.core.exception.RpcResponseException;
 import io.github.maxmmin.sol.core.type.request.Param;
 import io.github.maxmmin.sol.core.type.request.RpcRequest;
 import io.github.maxmmin.sol.core.type.response.RpcResponse;
+import io.github.maxmmin.sol.util.Collector;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -90,39 +90,12 @@ public abstract class AbstractRpcGateway implements RpcGateway {
         return Collector.collectResultsOrdered(requests, resultMap);
     }
 
-    protected Map<String, Integer> countMethods(Collection<RpcRequest>requests) {
-        return new HashMap<String, Integer>() {{
-            requests.forEach(r -> {
-                String method = r.getMethod();
-                int counter = getOrDefault(method, 0);
-                put(method, counter + 1);
-            });
-        }};
-    }
-
     protected <V> V sendRaw(RpcRequestDefinition requestDefinition, Type responseType) throws RpcException {
-        String requestDescription = requestDefinition.isBatched() ?
-                getDescription(countMethods(requestDefinition.getRequests()), getEndpoint()) :
-                getDescription(requestDefinition.getRequests().get(0).getMethod(), getEndpoint());
-        log.trace(requestDescription);
         byte[] responseBytes = doRequest(requestDefinition);
         return fromJson(responseBytes, responseType);
     }
 
     protected abstract byte[] doRequest (RpcRequestDefinition requestDefinition) throws RpcException;
-
-    protected String getDescription(String method, String endpoint) {
-        return String.format("%s -> [%s]", method, endpoint);
-    }
-
-    protected String getDescription(Map<String, Integer> methods, String endpoint) {
-        StringBuilder description = new StringBuilder();
-        methods.forEach((method, value) -> {
-            if (description.length() == 0) description.append(", ");
-            description.append(String.format("%sx%s", method, value));
-        });
-        return String.format("[%s] -> [%s]", description, endpoint);
-    }
 
     protected ParameterizedType constructBatchingResponseType(ParameterizedType responseType) {
         return new ParameterizedType() {
