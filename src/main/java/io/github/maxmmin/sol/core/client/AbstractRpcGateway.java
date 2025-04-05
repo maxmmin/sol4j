@@ -14,7 +14,6 @@ import io.github.maxmmin.sol.core.type.request.RpcRequest;
 import io.github.maxmmin.sol.core.type.response.RpcResponse;
 import io.github.maxmmin.sol.util.Collector;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -32,7 +31,6 @@ class ParamSerializer extends JsonSerializer<Param> {
     }
 }
 
-@Slf4j
 public abstract class AbstractRpcGateway implements RpcGateway {
     @Getter
     private final String endpoint;
