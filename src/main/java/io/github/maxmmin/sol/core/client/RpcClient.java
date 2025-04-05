@@ -3,8 +3,6 @@ package io.github.maxmmin.sol.core.client;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.maxmmin.sol.core.client.request.BatchedRequest;
 import io.github.maxmmin.sol.core.client.request.Request;
-import com.github.maxmmin.sol.core.client.request.registry.*;
-import com.github.maxmmin.sol.core.type.request.*;
 import io.github.maxmmin.sol.core.client.request.registry.*;
 import io.github.maxmmin.sol.core.type.request.*;
 import org.jetbrains.annotations.NotNull;

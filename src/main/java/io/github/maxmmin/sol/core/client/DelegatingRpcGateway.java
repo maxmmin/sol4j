@@ -1,11 +1,11 @@
 package io.github.maxmmin.sol.core.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import io.github.maxmmin.sol.core.exception.RpcException;
 import io.github.maxmmin.sol.core.type.request.RpcRequest;
 import io.github.maxmmin.sol.core.type.response.RpcResponse;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Map;

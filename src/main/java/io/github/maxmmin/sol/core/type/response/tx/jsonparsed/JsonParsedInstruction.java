@@ -1,9 +1,9 @@
 package io.github.maxmmin.sol.core.type.response.tx.jsonparsed;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 import io.github.maxmmin.sol.core.type.response.JsonParsedContent;
 import io.github.maxmmin.sol.core.type.response.JsonParsedData;
+import lombok.Data;
 
 import java.util.Map;
 

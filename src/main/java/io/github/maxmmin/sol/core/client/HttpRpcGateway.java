@@ -1,8 +1,8 @@
 package io.github.maxmmin.sol.core.client;
 
+import io.github.maxmmin.sol.core.exception.RpcException;
 import io.github.maxmmin.sol.core.exception.RpcUnavailableException;
 import okhttp3.*;
-import io.github.maxmmin.sol.core.exception.RpcException;
 
 import javax.net.ssl.SSLHandshakeException;
 import java.io.IOException;
