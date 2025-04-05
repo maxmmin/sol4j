@@ -5,6 +5,12 @@ Pure java lib for interacting with Solana RPC API
 <h2>Requirements</h2>
 - Java 11+
 
+<h2>Dependencies</h2>
+
+##
+    - OkHttp
+    - Jackson
+    - Project Lombok
 
 <h2>OutOfBox supported methods</h2>
 <details>
@@ -86,35 +92,6 @@ Not implemented yet
 
 ```
 RpcGateway rpcGateway = HttpRpcGateway.create("https://api.mainnet-beta.solana.com");
-```
-
-<b>Applying rate limits</b>
-
-```
-Bandwidth bandwidth = Bandwidth.builder()
-                .capacity(15)
-                .refillGreedy(15, Duration.ofSeconds(1))
-                .build();
-
-Bucket bucket = Bucket.builder().addLimit(bandwidth).build();
-
-RpcGateway rateLimitedRpcGateway = new RateLimitedRpcGateway(rpcGateway, bucket);
-```
-
-<b>Working with multiple RPC endpoints</b>
-
-```
-RpcGatewayContext rateLimitedRpcGatewayContext = new RpcGatewayContext(
-	rateLimitedRpcGateway, Set.of(Feature.GET_TRANSACTION_SUPPORT), Prioritized.DEFAULT_PRIORITY
-);
-
-RpcGatewayContext anotherRpcGatewayContext = new RpcGatewayContext(
-	anotherRpcGateway, Set.of(), Prioritized.MAX_PRIORITY
-);
-
-List<RpcGatewayContext> rpcList = List.of(rateLimitedRpcGatewayContext, anotherRpcGatewayContext);
-// or pass false to make RPC cluster non-balanced
-RotatingRpcGateway rotatingRpcGateway = RotatingRpcGateway.create(rpcList, true);
 ```
 
 <b>Creating RPC Client</b>
