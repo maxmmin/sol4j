@@ -3,12 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>io.github.maxmmin</groupId>
     <artifactId>sol4j</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
+    <version>1.0</version>
     <description>Library for interacting with Solana RPC API</description>
+
+    <developers>
+        <developer>
+            <name>Maksym</name>
+            <email>devmaxmin@gmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/maxmmin/sol4j</url>
+        <connection>scm:git:git://github.com/maxmmin/sol4j.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:maxmmin/sol4j.git</developerConnection>
+    </scm>
 
     <licenses>
         <license>
