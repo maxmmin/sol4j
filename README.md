@@ -88,7 +88,7 @@ Not implemented yet
 
 ```xml
 <dependency>
-    <groupId>com.github.maxmmin</groupId>
+    <groupId>io.github.maxmmin</groupId>
     <artifactId>sol4j</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
