@@ -42,7 +42,7 @@ Under active development
 - getIdentity ✅
 - getInflationGovernor ✅
 - getInflationRate ✅
-- getInflationReward ❌
+- getInflationReward ✅
 - getLargestAccounts ❌
 - getLatestBlockhash ✅
 - getLeaderSchedule ❌

@@ -45,6 +45,9 @@ public interface RpcClient {
 
     GetInflationRateRequest getInflationRate();
 
+    GetInflationRewardRequest getInflationReward(List<String> addresses);
+    GetInflationRewardRequest getInflationReward(List<String> addresses, @NotNull GetInflationRewardConfig config);
+
     GetLatestBlockhashRequest getLatestBlockhash();
     GetLatestBlockhashRequest getLatestBlockhash(@NotNull GetLatestBlockhashConfig config);
 

@@ -239,6 +239,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetInflationRewardRequest getInflationReward(List<String> addresses) {
+        return getInflationReward(addresses, GetInflationRewardConfig.empty());
+    }
+
+    @Override
+    public GetInflationRewardRequest getInflationReward(List<String> addresses, @NotNull GetInflationRewardConfig config) {
+        return new GetInflationRewardRequest(rpcGateway, addresses, config);
+    }
+
+    @Override
     public GetLatestBlockhashRequest getLatestBlockhash() {
         return getLatestBlockhash(GetLatestBlockhashConfig.empty());
     }
