@@ -74,9 +74,8 @@ public abstract class AbstractRpcGateway implements RpcGateway {
     @Override
     public <V> void sendBatched(List<RpcRequest>requests, TypeReference<V> typeRef, Map<String, RpcResponse<V>> target) throws RpcException {
         RpcRequestDefinition requestDefinition = new RpcRequestDefinition(requests, this::toJson);
-        ParameterizedType responseType = constructSingleResponseType(typeRef);
-        ParameterizedType arrayResponseType = constructBatchingResponseType(responseType);
-        List<RpcResponse<V>> results = sendRaw(requestDefinition, arrayResponseType);
+        ParameterizedType responseType = constructBatchingResponseType(constructSingleResponseType(typeRef));
+        List<RpcResponse<V>> results = sendRaw(requestDefinition, responseType);
         checkIfSuccessful(results);
         results.forEach(r -> target.put(r.getId(), r));
     }
