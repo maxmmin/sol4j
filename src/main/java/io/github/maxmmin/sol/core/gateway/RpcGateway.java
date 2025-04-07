@@ -1,4 +1,4 @@
-package io.github.maxmmin.sol.core.client;
+package io.github.maxmmin.sol.core.gateway;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.maxmmin.sol.core.exception.RpcException;

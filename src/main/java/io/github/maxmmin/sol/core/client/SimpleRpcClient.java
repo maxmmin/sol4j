@@ -6,6 +6,7 @@ import io.github.maxmmin.sol.core.client.request.Request;
 import io.github.maxmmin.sol.core.client.request.SimpleBatchedRequest;
 import io.github.maxmmin.sol.core.client.request.SimpleRequest;
 import io.github.maxmmin.sol.core.client.request.registry.*;
+import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.type.request.*;
 import io.github.maxmmin.sol.core.type.response.RpcResponse;
 import lombok.RequiredArgsConstructor;

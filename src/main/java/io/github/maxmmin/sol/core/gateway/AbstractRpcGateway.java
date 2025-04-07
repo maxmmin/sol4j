@@ -1,4 +1,4 @@
-package io.github.maxmmin.sol.core.client;
+package io.github.maxmmin.sol.core.gateway;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
