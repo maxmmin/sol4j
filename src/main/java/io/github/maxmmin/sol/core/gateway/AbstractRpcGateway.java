@@ -64,7 +64,7 @@ public abstract class AbstractRpcGateway implements RpcGateway {
     @Override
     public <V> RpcResponse<V> send(RpcRequest rpcRequest, TypeReference<V> typeRef) throws RpcException {
         RpcRequestDefinition request = new RpcRequestDefinition(rpcRequest, this::toJson);
-        Type type = constructSingleResponseType(typeRef);
+        Type type = constructRpcResponseType(typeRef);
         RpcResponse<V> response = sendRaw(request, type);
         checkIfSuccessful(response);
         return response;
@@ -73,7 +73,7 @@ public abstract class AbstractRpcGateway implements RpcGateway {
     @Override
     public <V> void sendBatched(List<RpcRequest>requests, TypeReference<V> typeRef, Map<String, RpcResponse<V>> target) throws RpcException {
         RpcRequestDefinition requestDefinition = new RpcRequestDefinition(requests, this::toJson);
-        Type responseType = constructBatchingResponseType(typeRef);
+        Type responseType = constructBatchedRpcResponseType(typeRef);
         List<RpcResponse<V>> results = sendRaw(requestDefinition, responseType);
         checkIfSuccessful(results);
         results.forEach(r -> target.put(r.getId(), r));
@@ -93,12 +93,8 @@ public abstract class AbstractRpcGateway implements RpcGateway {
 
     protected abstract byte[] doRequest (RpcRequestDefinition requestDefinition) throws RpcException;
 
-    protected <V> Type constructBatchingResponseType(TypeReference<V> singleResponseTypeRef) {
+    protected <V> Type constructBatchedRpcResponseType(TypeReference<V> singleResponseTypeRef) {
         return Types.toParametrizedList(constructRpcResponseType(singleResponseTypeRef));
-    }
-
-    protected <V> Type constructSingleResponseType(TypeReference<V> responseTypeRef) {
-        return constructRpcResponseType(responseTypeRef);
     }
     
     protected JavaType constructRpcResponseType(TypeReference<?> typeRef) {
