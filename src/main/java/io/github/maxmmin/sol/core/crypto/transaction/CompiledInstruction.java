@@ -7,7 +7,8 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-public class Transaction {
-    private final List<String> signatures;
-    private final Message message;
+public class CompiledInstruction {
+    private final Integer programIdIndex;
+    private final List<Integer> accounts;
+    private final List<Integer> data;
 }
