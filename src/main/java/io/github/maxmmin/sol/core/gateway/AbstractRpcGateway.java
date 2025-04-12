@@ -22,14 +22,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-class ParamSerializer extends JsonSerializer<Param> {
-    @Override
-    public void serialize(Param param, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        if (param.getValue() != null) serializerProvider.defaultSerializeValue(param.getValue(), jsonGenerator);
-        else jsonGenerator.writeNull();
-    }
-}
-
 public abstract class AbstractRpcGateway implements RpcGateway {
     @Getter
     private final String endpoint;
@@ -41,11 +33,8 @@ public abstract class AbstractRpcGateway implements RpcGateway {
     }
 
     private static ObjectMapper createMapper() {
-        SimpleModule simpleModule = new SimpleModule().addSerializer(Param.class, new ParamSerializer());
-
         return new ObjectMapper()
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .registerModule(simpleModule)
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
