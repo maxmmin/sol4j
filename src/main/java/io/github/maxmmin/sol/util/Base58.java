@@ -26,7 +26,7 @@ public class Base58 {
 
     private static final byte ENCODED_NULL_BYTE = (byte) ALPHABET[0];
 
-    public byte[] encode(byte[] input) {
+    public static byte[] encode(byte[] input) {
         if (input.length == 0) return new byte[0];
 
         BigInteger base = new BigInteger(input);
@@ -50,6 +50,10 @@ public class Base58 {
         return result;
     }
 
+    public static String encodeToString(byte[] input) {
+        return new String(encode(input));
+    }
+
     private static int getRawLeadingZerosCount(byte[] rawInput) {
         int i;
         for (i = 0; i < rawInput.length; i++) {
@@ -58,7 +62,7 @@ public class Base58 {
         return i;
     }
 
-    public byte[] decode(byte[] input) throws IllegalArgumentException {
+    public static byte[] decode(byte[] input) throws IllegalArgumentException {
         if (input.length == 0) return new byte[0];
 
         int leadingZeros = getEncLeadingZerosCount(input);
@@ -79,6 +83,10 @@ public class Base58 {
         Arrays.fill(result, 0, leadingZeros, (byte) 0);
         System.arraycopy(valueBytes, 0, result, leadingZeros, valueBytes.length);
         return result;
+    }
+
+    public static String decodeToString(byte[] input) throws IllegalArgumentException {
+        return new String(decode(input));
     }
 
     private static int getEncLeadingZerosCount(byte[] encodedInput) {
