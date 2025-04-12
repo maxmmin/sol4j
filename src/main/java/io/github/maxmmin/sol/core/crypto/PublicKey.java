@@ -41,6 +41,11 @@ public class PublicKey {
         return Arrays.hashCode(bytes);
     }
 
+    @Override
+    public String toString() {
+        return toBase58();
+    }
+
     public static PublicKey create(byte[] publicKey) {
         if (publicKey.length != 32) throw new IllegalArgumentException("Public key must be 32 bytes");
         return new PublicKey(publicKey);
