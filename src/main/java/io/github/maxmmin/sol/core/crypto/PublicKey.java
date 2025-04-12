@@ -38,6 +38,10 @@ public class PublicKey {
         return new PublicKey(publicKey);
     }
 
+    public static PublicKey createWithSeed(PublicKey publicKey, String seed, String platformId) {
+        // @todo
+    }
+
     public static PublicKey fromBase58(String base58PublicKey) {
         byte[] base58Bytes = base58PublicKey.getBytes();
         return create(Base58.decode(base58Bytes));
