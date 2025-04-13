@@ -44,35 +44,41 @@ public class MessageBuilder {
     }
 
     protected List<CompiledInstruction> compileInstructions(List<TransactionInstruction> instructions, List<AccountMeta> accounts) {
-        Map<PublicKey, Integer> accountsIndexes = buildAccountsIndexes(accounts);
+        Map<PublicKey, Byte> accountsIndexes = buildAccountsIndexesMap(accounts);
         return instructions.stream()
                 .map(txInstruction -> {
-                    List<Integer> instructionAccountIndexes = txInstruction.getAccounts().stream()
-                            .map(account -> {
-                                var idx = accountsIndexes.get(account.getPubkey());
-                                if (idx == null) throw new IllegalArgumentException("Account " + account + "index not found");
-                                return idx;
-                            })
-                            .collect(Collectors.toList());
-
-                    Integer programIdIndex = accountsIndexes.get(txInstruction.getProgramId());
+                    Byte programIdIndex = accountsIndexes.get(txInstruction.getProgramId());
                     if (programIdIndex == null) throw new IllegalArgumentException("Program id " + txInstruction.getProgramId() + "index not found");
+                    byte[] instructionAccountIndexes = getInstructionAccountIndexes(txInstruction, accountsIndexes);
 
                     return new CompiledInstruction(programIdIndex, instructionAccountIndexes, txInstruction.getData());
                 })
                 .collect(Collectors.toList());
     }
 
-    protected Map<PublicKey, Integer> buildAccountsIndexes(List<AccountMeta> accounts) {
-        Map<PublicKey, Integer> accountsIndexes = new HashMap<>(accounts.size());
-        for (int i = 0; i < accounts.size(); i++) {
+    private byte[] getInstructionAccountIndexes(TransactionInstruction instruction, Map<PublicKey, Byte> indexMap) {
+        List<AccountMeta> instructionAccounts = instruction.getAccounts();
+        byte[] indexes = new byte[instructionAccounts.size()];
+        for (int i = 0; i < instructionAccounts.size(); i++) {
+            AccountMeta account = instructionAccounts.get(i);
+            var idx = indexMap.get(account.getPubkey());
+            if (idx == null) throw new IllegalArgumentException("Account " + account + "index not found");
+            indexes[i] = idx;
+        }
+        return indexes;
+    }
+
+    private Map<PublicKey, Byte> buildAccountsIndexesMap(List<AccountMeta> accounts) {
+        Map<PublicKey, Byte> accountsIndexes = new HashMap<>(accounts.size());
+        for (byte i = 0; i < accounts.size(); i++) {
+            if (i < 0) throw new RuntimeException("Counter overflow");
             PublicKey publicKey = accounts.get(i).getPubkey();
             accountsIndexes.put(publicKey, i);
         }
         return accountsIndexes;
     }
 
-    protected MessageHeader buildMessageHeader(List<AccountMeta> accounts) {
+    private MessageHeader buildMessageHeader(List<AccountMeta> accounts) {
         int signers = 0;
         int roSigners = 0;
         int ro = 0;
@@ -88,7 +94,7 @@ public class MessageBuilder {
         return new MessageHeader(signers, roSigners, ro);
     }
 
-    protected List<AccountMeta> getOrderedAccounts() {
+    private List<AccountMeta> getOrderedAccounts() {
         Map<PublicKey, List<AccountMeta>> accountMap = new HashMap<>();
         transactionInstructions.forEach(transactionInstruction -> {
             List<AccountMeta> instructionAccounts = transactionInstruction.getAccounts();
