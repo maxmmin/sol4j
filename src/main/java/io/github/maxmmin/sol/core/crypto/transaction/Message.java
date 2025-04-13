@@ -12,4 +12,5 @@ public class Message {
     private final MessageHeader messageHeader;
     private final List<PublicKey> accountKeys;
     private final String resentBlockhash;
+    private final List<CompiledInstruction> instructions;
 }
