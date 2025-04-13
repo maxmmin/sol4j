@@ -1,5 +1,6 @@
 package io.github.maxmmin.sol.core.crypto.transaction;
 
+import io.github.maxmmin.sol.core.crypto.Account;
 import io.github.maxmmin.sol.core.crypto.AccountMeta;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.util.ShortU16Util;
@@ -10,17 +11,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MessageBuilder {
-    @Getter
-    @Setter
-    private String recentBlockHash;
+    private final String recentBlockHash;
+    private final Account feePayer;
+
     private final List<TransactionInstruction> transactionInstructions;
 
-    public MessageBuilder(TransactionInstruction... transactionInstructions) {
-        this.transactionInstructions = Arrays.asList(transactionInstructions);
-    }
-
-    public MessageBuilder(String recentBlockHash, TransactionInstruction... transactionInstructions) {
-        this.recentBlockHash = recentBlockHash;
+    public MessageBuilder(String recentBlockHash, Account feePayer, TransactionInstruction... transactionInstructions) {
+        this.recentBlockHash = Objects.requireNonNull(recentBlockHash, "Block hash cannot be null");
+        this.feePayer = Objects.requireNonNull(feePayer, "Fee payer cannot be null");
         this.transactionInstructions = Arrays.asList(transactionInstructions);
     }
 
@@ -35,13 +33,11 @@ public class MessageBuilder {
     }
 
     public Message build() {
-        String blockHash = recentBlockHash;
-        if (blockHash == null) throw new IllegalArgumentException("Recent block hash should be specified");
         List<AccountMeta> accounts = getOrderedAccounts();
         MessageHeader messageHeader = buildMessageHeader(accounts);
         List<CompiledInstruction> compiledInstructions = compileInstructions(transactionInstructions, accounts);
         List<PublicKey> accountKeys = accounts.stream().map(AccountMeta::getPubkey).collect(Collectors.toList());
-        return new Message(messageHeader, accountKeys, blockHash, compiledInstructions);
+        return new Message(messageHeader, accountKeys, recentBlockHash, compiledInstructions, feePayer);
     }
 
     protected List<CompiledInstruction> compileInstructions(List<TransactionInstruction> instructions, List<AccountMeta> accounts) {
@@ -101,6 +97,10 @@ public class MessageBuilder {
 
     private List<AccountMeta> getOrderedAccounts() {
         Map<PublicKey, List<AccountMeta>> accountMap = new HashMap<>();
+        List<AccountMeta> feePayerKeys = new ArrayList<>() {{
+            add(new AccountMeta(feePayer.getPublicKey(), true, true));
+        }};
+        accountMap.put(feePayer.getPublicKey(), feePayerKeys);
         transactionInstructions.forEach(transactionInstruction -> {
             List<AccountMeta> instructionAccounts = transactionInstruction.getAccounts();
             instructionAccounts.add(new AccountMeta(transactionInstruction.getProgramId(), false, false));

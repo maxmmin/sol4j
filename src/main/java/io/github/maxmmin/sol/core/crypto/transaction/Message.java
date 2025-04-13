@@ -1,5 +1,6 @@
 package io.github.maxmmin.sol.core.crypto.transaction;
 
+import io.github.maxmmin.sol.core.crypto.Account;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,4 +14,5 @@ public class Message {
     private final List<PublicKey> accountKeys;
     private final String recentBlockhash;
     private final List<CompiledInstruction> instructions;
+    private final Account feePayer;
 }
