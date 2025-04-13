@@ -6,25 +6,21 @@ import io.github.maxmmin.sol.core.crypto.PublicKey;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class TransactionBuilder {
+public class MessageBuilder {
     private final List<TransactionInstruction> transactionInstructions;
 
-    public TransactionBuilder(TransactionInstruction... transactionInstructions) {
+    public MessageBuilder(TransactionInstruction... transactionInstructions) {
         this.transactionInstructions = Arrays.asList(transactionInstructions);
     }
 
-    public TransactionBuilder addInstruction(TransactionInstruction transactionInstruction) {
+    public MessageBuilder addInstruction(TransactionInstruction transactionInstruction) {
         transactionInstructions.add(transactionInstruction);
         return this;
     }
 
-    public TransactionBuilder addInstructions(TransactionInstruction... transactionInstructions) {
+    public MessageBuilder addInstructions(TransactionInstruction... transactionInstructions) {
         this.transactionInstructions.addAll(Arrays.asList(transactionInstructions));
         return this;
-    }
-
-    public Transaction compile() {
-
     }
 
     protected List<AccountMeta> getOrderedAccounts() {
