@@ -6,19 +6,19 @@ import io.github.maxmmin.sol.core.crypto.PublicKey;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class TransactionCompiler {
+public class TransactionBuilder {
     private final List<TransactionInstruction> transactionInstructions;
 
-    public TransactionCompiler(TransactionInstruction... transactionInstructions) {
+    public TransactionBuilder(TransactionInstruction... transactionInstructions) {
         this.transactionInstructions = Arrays.asList(transactionInstructions);
     }
 
-    public TransactionCompiler addInstruction(TransactionInstruction transactionInstruction) {
+    public TransactionBuilder addInstruction(TransactionInstruction transactionInstruction) {
         transactionInstructions.add(transactionInstruction);
         return this;
     }
 
-    public TransactionCompiler addInstructions(TransactionInstruction... transactionInstructions) {
+    public TransactionBuilder addInstructions(TransactionInstruction... transactionInstructions) {
         this.transactionInstructions.addAll(Arrays.asList(transactionInstructions));
         return this;
     }
