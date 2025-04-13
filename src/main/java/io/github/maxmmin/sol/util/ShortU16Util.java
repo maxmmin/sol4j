@@ -1,11 +1,13 @@
 package io.github.maxmmin.sol.util;
 
+import io.github.maxmmin.sol.core.crypto.ShortU16;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 
-public class ShortU16 {
-    public static byte[] serialize(int uint16) {
+public class ShortU16Util {
+    public static ShortU16 serialize(int uint16) {
         if (uint16 > Short.MAX_VALUE) throw new IllegalArgumentException("Value is too large");
         else if (uint16 < 0) throw new IllegalArgumentException("Value can not be negative");
 
@@ -25,6 +27,7 @@ public class ShortU16 {
             }
         }
 
-        return Arrays.copyOf(buffer.array(), cursor + 1);
+        byte[] data = Arrays.copyOf(buffer.array(), cursor + 1);
+        return new ShortU16(data);
     }
 }
