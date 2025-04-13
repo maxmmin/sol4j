@@ -73,19 +73,19 @@ public class MessageBuilder {
     }
 
     protected MessageHeader buildMessageHeader(List<AccountMeta> accounts) {
-        int signersRw = 0;
-        int signerRo = 0;
+        int signers = 0;
+        int roSigner = 0;
         int ro = 0;
 
         for (AccountMeta accountMeta : accounts) {
             if (accountMeta.isSigner()) {
-                if (accountMeta.isWritable()) signersRw++;
-                else signerRo++;
+                signers++;
+                if (!accountMeta.isWritable()) roSigner++;
             }
             else ro++;
         }
 
-        return new MessageHeader(signersRw, signerRo, ro);
+        return new MessageHeader(signers, roSigner, ro);
     }
 
     protected List<AccountMeta> getOrderedAccounts() {
