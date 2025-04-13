@@ -3,6 +3,7 @@ package io.github.maxmmin.sol.program;
 import io.github.maxmmin.sol.core.crypto.AccountMeta;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.transaction.CompiledInstruction;
+import io.github.maxmmin.sol.core.crypto.transaction.TransactionInstruction;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class SystemProgram {
     public static final PublicKey PROGRAM_ID = PublicKey.fromBase58("11111111111111111111111111111111");
 
-    public static CompiledInstruction transfer(TransferParams transferParams) {
+    public static TransactionInstruction transfer(TransferParams transferParams) {
         if (transferParams.getLamports().compareTo(BigInteger.ZERO) < 0)
             throw new IllegalArgumentException("Lamports cannot be negative");
 
@@ -29,7 +30,7 @@ public class SystemProgram {
         buffer.putLong(4, transferParams.getLamports().longValue());
         byte[] data = buffer.array();
 
-        return new CompiledInstruction(PROGRAM_ID, accounts, data);
+        return new TransactionInstruction(PROGRAM_ID, accounts, data);
     }
 
 
