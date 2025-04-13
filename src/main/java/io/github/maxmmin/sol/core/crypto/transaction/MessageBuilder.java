@@ -11,15 +11,15 @@ import java.util.stream.Collectors;
 public class MessageBuilder {
     @Getter
     @Setter
-    private String blockHash;
+    private String recentBlockHash;
     private final List<TransactionInstruction> transactionInstructions;
 
     public MessageBuilder(TransactionInstruction... transactionInstructions) {
         this.transactionInstructions = Arrays.asList(transactionInstructions);
     }
 
-    public MessageBuilder(String blockHash, TransactionInstruction... transactionInstructions) {
-        this.blockHash = blockHash;
+    public MessageBuilder(String recentBlockHash, TransactionInstruction... transactionInstructions) {
+        this.recentBlockHash = recentBlockHash;
         this.transactionInstructions = Arrays.asList(transactionInstructions);
     }
 
@@ -34,11 +34,13 @@ public class MessageBuilder {
     }
 
     public Message build() {
-        if (blockHash == null) throw new IllegalArgumentException("Block hash should be specified");
+        String blockHash = recentBlockHash;
+        if (blockHash == null) throw new IllegalArgumentException("Recent block hash should be specified");
         List<AccountMeta> accounts = getOrderedAccounts();
         MessageHeader messageHeader = buildMessageHeader(accounts);
-        Map<PublicKey, Integer> accountsIndexes = buildAccountsIndexes(accounts);
-
+        List<CompiledInstruction> compiledInstructions = compileInstructions(transactionInstructions, accounts);
+        List<PublicKey> accountKeys = accounts.stream().map(AccountMeta::getPubkey).collect(Collectors.toList());
+        return new Message(messageHeader, accountKeys, blockHash, compiledInstructions);
     }
 
     protected List<CompiledInstruction> compileInstructions(List<TransactionInstruction> instructions, List<AccountMeta> accounts) {
