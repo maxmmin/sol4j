@@ -37,7 +37,37 @@ public class MessageBuilder {
         if (blockHash == null) throw new IllegalArgumentException("Block hash should be specified");
         List<AccountMeta> accounts = getOrderedAccounts();
         MessageHeader messageHeader = buildMessageHeader(accounts);
+        Map<PublicKey, Integer> accountsIndexes = buildAccountsIndexes(accounts);
 
+    }
+
+    protected List<CompiledInstruction> compileInstructions(List<TransactionInstruction> instructions, List<AccountMeta> accounts) {
+        Map<PublicKey, Integer> accountsIndexes = buildAccountsIndexes(accounts);
+        return instructions.stream()
+                .map(txInstruction -> {
+                    List<Integer> instructionAccountIndexes = txInstruction.getAccounts().stream()
+                            .map(account -> {
+                                var idx = accountsIndexes.get(account.getPubkey());
+                                if (idx == null) throw new IllegalArgumentException("Account " + account + "index not found");
+                                return idx;
+                            })
+                            .collect(Collectors.toList());
+
+                    Integer programIdIndex = accountsIndexes.get(txInstruction.getProgramId());
+                    if (programIdIndex == null) throw new IllegalArgumentException("Program id " + txInstruction.getProgramId() + "index not found");
+
+                    return new CompiledInstruction(programIdIndex, instructionAccountIndexes, txInstruction.getData());
+                })
+                .collect(Collectors.toList());
+    }
+
+    protected Map<PublicKey, Integer> buildAccountsIndexes(List<AccountMeta> accounts) {
+        Map<PublicKey, Integer> accountsIndexes = new HashMap<>(accounts.size());
+        for (int i = 0; i < accounts.size(); i++) {
+            PublicKey publicKey = accounts.get(i).getPubkey();
+            accountsIndexes.put(publicKey, i);
+        }
+        return accountsIndexes;
     }
 
     protected MessageHeader buildMessageHeader(List<AccountMeta> accounts) {
@@ -60,6 +90,7 @@ public class MessageBuilder {
         Map<PublicKey, List<AccountMeta>> accountMap = new HashMap<>();
         transactionInstructions.forEach(transactionInstruction -> {
             List<AccountMeta> instructionAccounts = transactionInstruction.getAccounts();
+            instructionAccounts.add(new AccountMeta(transactionInstruction.getProgramId(), false, false));
             for (AccountMeta account : instructionAccounts) {
                 var pubkey = account.getPubkey();
                 accountMap.putIfAbsent(pubkey, new ArrayList<>(1));
