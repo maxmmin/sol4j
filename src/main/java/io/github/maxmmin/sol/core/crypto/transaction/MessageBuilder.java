@@ -2,14 +2,24 @@ package io.github.maxmmin.sol.core.crypto.transaction;
 
 import io.github.maxmmin.sol.core.crypto.AccountMeta;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class MessageBuilder {
+    @Getter
+    @Setter
+    private String blockHash;
     private final List<TransactionInstruction> transactionInstructions;
 
     public MessageBuilder(TransactionInstruction... transactionInstructions) {
+        this.transactionInstructions = Arrays.asList(transactionInstructions);
+    }
+
+    public MessageBuilder(String blockHash, TransactionInstruction... transactionInstructions) {
+        this.blockHash = blockHash;
         this.transactionInstructions = Arrays.asList(transactionInstructions);
     }
 
@@ -21,6 +31,29 @@ public class MessageBuilder {
     public MessageBuilder addInstructions(TransactionInstruction... transactionInstructions) {
         this.transactionInstructions.addAll(Arrays.asList(transactionInstructions));
         return this;
+    }
+
+    public Message build() {
+        if (blockHash == null) throw new IllegalArgumentException("Block hash should be specified");
+        List<AccountMeta> accounts = getOrderedAccounts();
+        MessageHeader messageHeader = buildMessageHeader(accounts);
+
+    }
+
+    protected MessageHeader buildMessageHeader(List<AccountMeta> accounts) {
+        int signersRw = 0;
+        int signerRo = 0;
+        int ro = 0;
+
+        for (AccountMeta accountMeta : accounts) {
+            if (accountMeta.isSigner()) {
+                if (accountMeta.isWritable()) signersRw++;
+                else signerRo++;
+            }
+            else ro++;
+        }
+
+        return new MessageHeader(signersRw, signerRo, ro);
     }
 
     protected List<AccountMeta> getOrderedAccounts() {
@@ -51,5 +84,5 @@ public class MessageBuilder {
         }
 
         return 0;
-    }
+    };
 }
