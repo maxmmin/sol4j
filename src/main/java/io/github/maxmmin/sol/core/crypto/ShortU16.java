@@ -12,7 +12,7 @@ public class ShortU16 {
         this.value = value;
     }
 
-    public int getSize() {
+    public int getBytesCount() {
         return value.length;
     }
 

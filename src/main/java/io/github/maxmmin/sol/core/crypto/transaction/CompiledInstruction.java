@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CompiledInstruction {
     private final byte programIdIndex;
-    private final ShortU16 accountsSize;
+    private final ShortU16 accountsSizeU16;
     private final byte[] accounts;
-    private final ShortU16 dataSize;
+    private final ShortU16 dataSizeU16;
     private final byte[] data;
 }
