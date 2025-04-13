@@ -11,6 +11,6 @@ import java.util.List;
 public class Message {
     private final MessageHeader messageHeader;
     private final List<PublicKey> accountKeys;
-    private final String resentBlockhash;
+    private final String recentBlockhash;
     private final List<CompiledInstruction> instructions;
 }
