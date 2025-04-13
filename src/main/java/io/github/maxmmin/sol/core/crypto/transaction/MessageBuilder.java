@@ -2,6 +2,7 @@ package io.github.maxmmin.sol.core.crypto.transaction;
 
 import io.github.maxmmin.sol.core.crypto.AccountMeta;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
+import io.github.maxmmin.sol.util.ShortU16Util;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -49,9 +50,13 @@ public class MessageBuilder {
                 .map(txInstruction -> {
                     Byte programIdIndex = accountsIndexes.get(txInstruction.getProgramId());
                     if (programIdIndex == null) throw new IllegalArgumentException("Program id " + txInstruction.getProgramId() + "index not found");
+
                     byte[] instructionAccountIndexes = getInstructionAccountIndexes(txInstruction, accountsIndexes);
 
-                    return new CompiledInstruction(programIdIndex, instructionAccountIndexes, txInstruction.getData());
+                    byte[] data = txInstruction.getData();
+
+                    return new CompiledInstruction(programIdIndex, ShortU16Util.serialize(instructionAccountIndexes.length),
+                            instructionAccountIndexes, ShortU16Util.serialize(data.length), txInstruction.getData());
                 })
                 .collect(Collectors.toList());
     }
