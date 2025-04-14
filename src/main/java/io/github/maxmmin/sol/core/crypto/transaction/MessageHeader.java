@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class MessageHeader {
-    private final Integer numRequiredSignatures;
-    private final Integer numReadonlySignedAccounts;
-    private final Integer numReadonlyUnsignedAccounts;
+    private final byte numRequiredSignatures;
+    private final byte numReadonlySignedAccounts;
+    private final byte numReadonlyUnsignedAccounts;
 }
