@@ -4,22 +4,23 @@ import io.github.maxmmin.sol.core.crypto.Account;
 import io.github.maxmmin.sol.core.crypto.AccountMeta;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.util.ShortU16Util;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class MessageBuilder {
-    private final String recentBlockHash;
-    private final Account feePayer;
+    private String recentBlockHash;
+    private Account feePayer;
+    private final List<TransactionInstruction> transactionInstructions = new ArrayList<>();
 
-    private final List<TransactionInstruction> transactionInstructions;
+    public MessageBuilder setBlockHash(String blockHash) {
+        recentBlockHash = Objects.requireNonNull(blockHash, "Block hash cannot be null");
+        return this;
+    }
 
-    public MessageBuilder(String recentBlockHash, Account feePayer, TransactionInstruction... transactionInstructions) {
-        this.recentBlockHash = Objects.requireNonNull(recentBlockHash, "Block hash cannot be null");
+    public MessageBuilder setFeePayer(Account feePayer) {
         this.feePayer = Objects.requireNonNull(feePayer, "Fee payer cannot be null");
-        this.transactionInstructions = Arrays.asList(transactionInstructions);
+        return this;
     }
 
     public MessageBuilder addInstruction(TransactionInstruction transactionInstruction) {
@@ -33,6 +34,8 @@ public class MessageBuilder {
     }
 
     public Message build() {
+        if (feePayer == null) throw new IllegalArgumentException("Fee payer cannot be null");
+        if (recentBlockHash == null) throw new IllegalArgumentException("Block hash cannot be null");
         List<AccountMeta> accounts = getOrderedAccounts();
         MessageHeader messageHeader = buildMessageHeader(accounts);
         List<CompiledInstruction> compiledInstructions = compileInstructions(transactionInstructions, accounts);
