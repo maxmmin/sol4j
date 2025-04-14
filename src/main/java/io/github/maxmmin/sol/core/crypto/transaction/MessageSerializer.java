@@ -21,6 +21,7 @@ public class MessageSerializer {
         byte[] serializedHeader = serializeMessageHeader(message.getMessageHeader());
         byte[] serializedKeys = serializeAccountKeys(message.getAccountKeys());
         byte[] serializedBlockHash = serializeBlockHash(message.getRecentBlockhash());
+        byte[] serializedInstructions = serializeInstructions(message.getInstructions());
     }
 
     private byte[] serializeMessageHeader(MessageHeader messageHeader) {
@@ -42,6 +43,28 @@ public class MessageSerializer {
         byte[] hashBytes = Base58.decode(blockHash.getBytes());
         if (hashBytes.length != 32) throw new IllegalArgumentException("Invalid block hash");
         return hashBytes;
+    }
+
+    private byte[] serializeInstructions(List<CompiledInstruction> compiledInstructions) {
+        int instructionsSpace = 0;
+
+        ShortU16 instructionsCount = ShortU16Util.serialize(compiledInstructions.size());
+        instructionsSpace += instructionsCount.getBytesCount();
+
+        for (CompiledInstruction compiledInstruction : compiledInstructions) {
+            instructionsSpace += calculateInstructionSize(compiledInstruction);
+        }
+
+        ByteBuffer buffer = ByteBuffer.allocate(instructionsSpace);
+        buffer.put(instructionsCount.getValue());
+        for (CompiledInstruction compiledInstruction : compiledInstructions) {
+            buffer.put(compiledInstruction.getProgramIdIndex());
+            buffer.put(compiledInstruction.getAccountsSizeU16().getValue());
+            buffer.put(compiledInstruction.getAccounts());
+            buffer.put(compiledInstruction.getDataSizeU16().getValue());
+            buffer.put(compiledInstruction.getData());
+        }
+        return buffer.array();
     }
 
     protected int calculateInstructionSize(CompiledInstruction instruction) {
