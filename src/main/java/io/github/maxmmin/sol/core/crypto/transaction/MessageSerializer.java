@@ -17,20 +17,16 @@ public class MessageSerializer {
     }
 
     public byte[] serialize() {
-        int txSize = 0;
-
-        List<PublicKey> accounts = message.getAccountKeys();
-        ShortU16 accountsLength = ShortU16Util.serialize(accounts.size());
-        txSize += accountsLength.getBytesCount();
-        txSize += (accounts.size() * PUBLIC_KEY_BYTES);
-
-        for (CompiledInstruction instruction : message.getInstructions()) {
-            txSize += calculateInstructionSize(instruction);
-        }
+        byte[] serializedHeader = serializeMessageHeader(message.getMessageHeader());
+        byte[] serializedKeys = serializeAccountKeys(message.getAccountKeys());
 
     }
 
-    protected byte[] serializeAccountKeys(List<PublicKey> accountKeys) {
+    private byte[] serializeMessageHeader(MessageHeader messageHeader) {
+        return new byte[] {messageHeader.getNumRequiredSignatures(),messageHeader.getNumReadonlySignedAccounts(), messageHeader.getNumReadonlyUnsignedAccounts()}
+    }
+
+    private byte[] serializeAccountKeys(List<PublicKey> accountKeys) {
         ShortU16 accountsLength = ShortU16Util.serialize(accountKeys.size());
         int outputSize = accountsLength.getBytesCount() + accountKeys.size() * PUBLIC_KEY_BYTES;
         ByteBuffer buffer = ByteBuffer.allocate(outputSize);

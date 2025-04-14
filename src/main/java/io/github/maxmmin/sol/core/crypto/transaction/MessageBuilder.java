@@ -84,7 +84,7 @@ public class MessageBuilder {
 
     private MessageHeader buildMessageHeader(List<AccountMeta> accounts) {
         int signers = 0;
-        int roSigners = 0;
+        byte roSigners = 0;
         int ro = 0;
 
         for (AccountMeta accountMeta : accounts) {
@@ -94,8 +94,9 @@ public class MessageBuilder {
             }
             else ro++;
         }
-
-        return new MessageHeader(signers, roSigners, ro);
+        int maxValue = Byte.toUnsignedInt((byte) 0xff);
+        if (signers > maxValue || ro > maxValue) throw new IllegalArgumentException("Participants overflow. Accounts list is too large");
+        return new MessageHeader((byte) signers, roSigners, (byte) ro);
     }
 
     private List<AccountMeta> getOrderedAccounts() {
