@@ -20,7 +20,7 @@ public class MessageSerializer {
     public byte[] serialize() {
         byte[] serializedHeader = serializeMessageHeader(message.getMessageHeader());
         byte[] serializedKeys = serializeAccountKeys(message.getAccountKeys());
-        byte[] blockHash = serializeBlockHash(message.getRecentBlockhash());
+        byte[] serializedBlockHash = serializeBlockHash(message.getRecentBlockhash());
     }
 
     private byte[] serializeMessageHeader(MessageHeader messageHeader) {
