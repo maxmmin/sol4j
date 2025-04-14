@@ -2,6 +2,7 @@ package io.github.maxmmin.sol.core.crypto.transaction;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.ShortU16;
+import io.github.maxmmin.sol.util.Base58;
 import io.github.maxmmin.sol.util.ShortU16Util;
 
 import java.io.ByteArrayOutputStream;
@@ -19,7 +20,7 @@ public class MessageSerializer {
     public byte[] serialize() {
         byte[] serializedHeader = serializeMessageHeader(message.getMessageHeader());
         byte[] serializedKeys = serializeAccountKeys(message.getAccountKeys());
-
+        byte[] blockHash = serializeBlockHash(message.getRecentBlockhash());
     }
 
     private byte[] serializeMessageHeader(MessageHeader messageHeader) {
@@ -35,6 +36,12 @@ public class MessageSerializer {
             buffer.put(accountKey.getBytes());
         }
         return buffer.array();
+    }
+
+    private byte[] serializeBlockHash(String blockHash) {
+        byte[] hashBytes = Base58.decode(blockHash.getBytes());
+        if (hashBytes.length != 32) throw new IllegalArgumentException("Invalid block hash");
+        return hashBytes;
     }
 
     protected int calculateInstructionSize(CompiledInstruction instruction) {
