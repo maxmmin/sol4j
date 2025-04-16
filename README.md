@@ -6,7 +6,7 @@
 
 Pure java lib for interacting with Solana RPC API
 
-The library is under active development. I'm currently working on building and sending transactions.
+⚠️ The library is under active development. I'm currently working on building and sending transactions.
 
 <h2>Requirements</h2>
 - Java 11+
