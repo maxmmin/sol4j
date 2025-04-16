@@ -46,7 +46,7 @@ public class SimpleRpcClient implements RpcClient {
 
     @Override
     public GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config) {
-        return new GetSignaturesForAddressRequest(rpcGateway, address, GetSignaturesForAddressConfig.empty());
+        return new GetSignaturesForAddressRequest(rpcGateway, address, config);
     }
 
     @Override
