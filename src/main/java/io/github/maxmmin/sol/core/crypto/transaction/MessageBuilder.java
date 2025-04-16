@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class MessageBuilder {
     private String recentBlockHash;
-    private Account feePayer;
+    private PublicKey feePayer;
     private final List<TransactionInstruction> transactionInstructions = new ArrayList<>();
 
     public MessageBuilder setBlockHash(String blockHash) {
@@ -18,7 +18,7 @@ public class MessageBuilder {
         return this;
     }
 
-    public MessageBuilder setFeePayer(Account feePayer) {
+    public MessageBuilder setFeePayer(PublicKey feePayer) {
         this.feePayer = Objects.requireNonNull(feePayer, "Fee payer cannot be null");
         return this;
     }
@@ -40,7 +40,7 @@ public class MessageBuilder {
         MessageHeader messageHeader = buildMessageHeader(accounts);
         List<CompiledInstruction> compiledInstructions = compileInstructions(transactionInstructions, accounts);
         List<PublicKey> accountKeys = accounts.stream().map(AccountMeta::getPubkey).collect(Collectors.toList());
-        return new Message(messageHeader, accountKeys, recentBlockHash, compiledInstructions, feePayer);
+        return new Message(messageHeader, accountKeys, recentBlockHash, compiledInstructions);
     }
 
     protected List<CompiledInstruction> compileInstructions(List<TransactionInstruction> instructions, List<AccountMeta> accounts) {
@@ -102,9 +102,9 @@ public class MessageBuilder {
     private List<AccountMeta> getOrderedAccounts() {
         Map<PublicKey, List<AccountMeta>> accountMap = new HashMap<>();
         List<AccountMeta> feePayerKeys = new ArrayList<>() {{
-            add(new AccountMeta(feePayer.getPublicKey(), true, true));
+            add(new AccountMeta(feePayer, true, true));
         }};
-        accountMap.put(feePayer.getPublicKey(), feePayerKeys);
+        accountMap.put(feePayer, feePayerKeys);
         transactionInstructions.forEach(transactionInstruction -> {
             List<AccountMeta> instructionAccounts = transactionInstruction.getAccounts();
             instructionAccounts.add(new AccountMeta(transactionInstruction.getProgramId(), false, false));
