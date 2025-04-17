@@ -85,8 +85,8 @@ public class Base58 {
         return result;
     }
 
-    public static String decodeToString(byte[] input) throws IllegalArgumentException {
-        return new String(decode(input));
+    public static byte[] decodeFromString(String input) throws IllegalArgumentException {
+        return decode(input.getBytes());
     }
 
     private static int getEncLeadingZerosCount(byte[] encodedInput) {
