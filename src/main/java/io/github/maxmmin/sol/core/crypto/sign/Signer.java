@@ -1,4 +1,4 @@
-package io.github.maxmmin.sol.core.crypto.transaction.sign;
+package io.github.maxmmin.sol.core.crypto.sign;
 
 import java.security.InvalidKeyException;
 

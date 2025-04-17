@@ -1,10 +1,8 @@
-package io.github.maxmmin.sol.core.crypto.transaction.sign;
+package io.github.maxmmin.sol.core.crypto.sign;
 
 import io.github.maxmmin.sol.core.crypto.EdDSANamedCurveSpecs;
 import net.i2p.crypto.eddsa.EdDSAEngine;
 import net.i2p.crypto.eddsa.EdDSAPrivateKey;
-import net.i2p.crypto.eddsa.spec.EdDSANamedCurveSpec;
-import net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable;
 import net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec;
 
 import java.security.InvalidKeyException;
