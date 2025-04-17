@@ -2,7 +2,7 @@ package io.github.maxmmin.sol.core.crypto.transaction;
 
 import io.github.maxmmin.sol.core.crypto.AccountMeta;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
-import io.github.maxmmin.sol.util.ShortU16Util;
+import io.github.maxmmin.sol.core.crypto.ShortU16;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -53,8 +53,8 @@ public class MessageBuilder {
 
                     byte[] data = txInstruction.getData();
 
-                    return new CompiledInstruction(programIdIndex, ShortU16Util.serialize(instructionAccountIndexes.length),
-                            instructionAccountIndexes, ShortU16Util.serialize(data.length), txInstruction.getData());
+                    return new CompiledInstruction(programIdIndex, ShortU16.valueOf(instructionAccountIndexes.length),
+                            instructionAccountIndexes, ShortU16.valueOf(data.length), txInstruction.getData());
                 })
                 .collect(Collectors.toList());
     }
