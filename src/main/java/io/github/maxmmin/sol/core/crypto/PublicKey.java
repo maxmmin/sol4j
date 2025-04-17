@@ -16,7 +16,8 @@ import java.util.Objects;
 public class PublicKey {
     private final byte[] bytes;
 
-    protected PublicKey(byte[] publicKey) {
+    public PublicKey(byte[] publicKey) {
+        if (publicKey.length != 32) throw new IllegalArgumentException("Public key must be 32 bytes");
         this.bytes = publicKey;
     }
 
@@ -49,11 +50,6 @@ public class PublicKey {
         return toBase58();
     }
 
-    public static PublicKey create(byte[] publicKey) {
-        if (publicKey.length != 32) throw new IllegalArgumentException("Public key must be 32 bytes");
-        return new PublicKey(publicKey);
-    }
-
     public static PublicKey createWithSeed(PublicKey publicKey, String seed, PublicKey platformId) {
         try (ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
             bytes.write(publicKey.getBytes());
@@ -65,7 +61,7 @@ public class PublicKey {
 
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(bytes.toByteArray());
-            return create(hash);
+            return new PublicKey(hash);
         } catch (IOException | NoSuchAlgorithmException e) {
             throw new RuntimeException("An error occurred while creating public key", e);
         }
@@ -73,11 +69,11 @@ public class PublicKey {
 
     public static PublicKey fromBase58(String base58PublicKey) {
         byte[] base58Bytes = base58PublicKey.getBytes();
-        return create(Base58.decode(base58Bytes));
+        return new PublicKey(Base58.decode(base58Bytes));
     }
 
     public static PublicKey fromBase64(String base64PublicKey) {
         byte[] base64Bytes = base64PublicKey.getBytes();
-        return create(Base64.getDecoder().decode(base64Bytes));
+        return new PublicKey(Base64.getDecoder().decode(base64Bytes));
     }
 }

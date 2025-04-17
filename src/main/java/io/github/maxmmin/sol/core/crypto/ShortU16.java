@@ -1,7 +1,5 @@
 package io.github.maxmmin.sol.core.crypto;
 
-import lombok.Getter;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
@@ -10,6 +8,7 @@ public class ShortU16 {
     private final byte[] value;
 
     public ShortU16(byte[] value) {
+        if (value.length > 3) throw new IllegalArgumentException("Value too large for ShortU16");
         this.value = value;
     }
 
