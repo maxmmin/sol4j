@@ -7,7 +7,7 @@ import io.github.maxmmin.sol.core.type.request.Param;
 
 import java.io.IOException;
 
-public class ParamSerializer extends JsonSerializer<Param> {
+public class ParamJsonSerializer extends JsonSerializer<Param> {
     @Override
     public void serialize(Param param, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         if (param.getValue() != null) serializerProvider.defaultSerializeValue(param.getValue(), jsonGenerator);

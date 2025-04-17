@@ -1,7 +1,7 @@
 package io.github.maxmmin.sol.core.crypto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.github.maxmmin.sol.core.serialization.PublicKeySerializer;
+import io.github.maxmmin.sol.core.serialization.PublicKeyJsonSerializer;
 import io.github.maxmmin.sol.util.Base58;
 
 import java.io.ByteArrayOutputStream;
@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
 
-@JsonSerialize(using = PublicKeySerializer.class)
+@JsonSerialize(using = PublicKeyJsonSerializer.class)
 public class PublicKey {
     private final byte[] bytes;
 
