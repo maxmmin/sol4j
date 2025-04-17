@@ -31,7 +31,7 @@ public class MessageSerializer {
     }
 
     private static byte[] serializeAccountKeys(List<PublicKey> accountKeys) {
-        ShortU16 accountsLength = ShortU16Util.serialize(accountKeys.size());
+        ShortU16 accountsLength = ShortU16.valueOf(accountKeys.size());
         int outputSize = accountsLength.getBytesCount() + accountKeys.size() * PUBLIC_KEY_BYTES;
         ByteBuffer buffer = ByteBuffer.allocate(outputSize);
         buffer.put(accountsLength.getValue());
@@ -50,7 +50,7 @@ public class MessageSerializer {
     private static byte[] serializeInstructions(List<CompiledInstruction> compiledInstructions) {
         int instructionsSpace = 0;
 
-        ShortU16 instructionsCount = ShortU16Util.serialize(compiledInstructions.size());
+        ShortU16 instructionsCount = ShortU16.valueOf(compiledInstructions.size());
         instructionsSpace += instructionsCount.getBytesCount();
 
         for (CompiledInstruction compiledInstruction : compiledInstructions) {
