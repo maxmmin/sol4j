@@ -12,7 +12,7 @@ public class Account {
     private final byte[] publicKey;
     private final byte[] secretKey;
 
-    public Account(byte[] privateKey) {
+    protected Account(byte[] privateKey) {
         if (privateKey.length != 64) throw new IllegalArgumentException("Secret key must be 64 bytes");
         ByteBuffer buffer = ByteBuffer.allocate(privateKey.length);
 
@@ -31,5 +31,17 @@ public class Account {
 
     public byte[] getSecretKey() {
         return Arrays.copyOfRange(secretKey, 0, 32);
+    }
+
+    public static Account fromPrivateKey(byte[] privateKey) {
+        return new Account(privateKey);
+    }
+
+    public static Account fromSecretKey (byte[] secretKey) {
+        byte[] publicKey = Key.fromSecretKey(secretKey);
+        byte[] privateKey = new byte[64];
+        System.arraycopy(secretKey, 0, privateKey, 0, secretKey.length);
+        System.arraycopy(publicKey, 0, publicKey, 0, publicKey.length);
+        return new Account(privateKey);
     }
 }
