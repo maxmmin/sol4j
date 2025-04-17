@@ -7,7 +7,7 @@ import io.github.maxmmin.sol.core.crypto.PublicKey;
 
 import java.io.IOException;
 
-public class PublicKeySerializer extends JsonSerializer<PublicKey> {
+public class PublicKeyJsonSerializer extends JsonSerializer<PublicKey> {
     @Override
     public void serialize(PublicKey publicKey, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeString(publicKey.toBase58());
