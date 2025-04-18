@@ -32,8 +32,22 @@ public class SystemProgram {
         return new TransactionInstruction(PROGRAM_ID, accounts, data);
     }
 
+    public static TransactionInstruction assign(AssignParams assignParams) {
+        PublicKey accountPubkey = assignParams.getAccountPubkey();
+        List<AccountMeta> accounts = List.of(new AccountMeta(accountPubkey, true, true));
+        ByteBuffer buffer = ByteBuffer.allocate(36);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.putInt(Index.ASSIGN);
+        for (byte b : accountPubkey.getBytes()) {
+            buffer.put(b);
+        }
+        byte[] data = buffer.array();
+        return new TransactionInstruction(PROGRAM_ID, accounts, data);
+    }
+
 
     private static class Index {
+        public static final int ASSIGN = 1;
         public static final int TRANSFER = 2;
     }
 
@@ -43,5 +57,12 @@ public class SystemProgram {
         private final PublicKey from;
         private final PublicKey to;
         private final BigInteger lamports;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class AssignParams {
+        private final PublicKey accountPubkey;
+        private final PublicKey programId;
     }
 }
