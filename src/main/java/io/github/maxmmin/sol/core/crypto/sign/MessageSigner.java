@@ -17,9 +17,18 @@ public class MessageSigner {
         this.signer = signer;
     }
 
-    public String sign(Message message, byte[] secretKey) throws InvalidKeyException {
+    public String sign(Message message, byte[] secretKey) throws MessageSignException {
         byte[] messageBytes = MessageSerializer.serialize(message);
-        byte[] signedBytes = signer.sign(messageBytes, secretKey);
+        return sign(messageBytes, secretKey);
+    }
+
+    public String sign(byte[] messageBytes, byte[] secretKey) throws MessageSignException {
+        byte[] signedBytes = null;
+        try {
+            signedBytes = signer.sign(messageBytes, secretKey);
+        } catch (InvalidKeyException e) {
+            throw new MessageSignException("Message signing was failed", e);
+        }
         return Base58.encodeToString(signedBytes);
     }
 }
