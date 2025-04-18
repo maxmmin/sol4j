@@ -51,6 +51,12 @@ public class TransactionBuilder {
         return new Transaction(signaturesList, message);
     }
 
+    public static Transaction build(Message message, List<Account> signers) {
+        TransactionBuilder builder = new TransactionBuilder(message);
+        signers.forEach(builder::sign);
+        return builder.build();
+    }
+
     protected int getSignersCount() {
         return getSignersCount(message);
     }
