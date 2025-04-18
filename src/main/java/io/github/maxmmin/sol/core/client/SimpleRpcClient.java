@@ -6,6 +6,8 @@ import io.github.maxmmin.sol.core.client.request.Request;
 import io.github.maxmmin.sol.core.client.request.SimpleBatchedRequest;
 import io.github.maxmmin.sol.core.client.request.SimpleRequest;
 import io.github.maxmmin.sol.core.client.request.registry.*;
+import io.github.maxmmin.sol.core.crypto.transaction.Transaction;
+import io.github.maxmmin.sol.core.crypto.transaction.TransactionSerializer;
 import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.type.request.*;
 import io.github.maxmmin.sol.core.type.response.RpcResponse;
@@ -302,6 +304,16 @@ public class SimpleRpcClient implements RpcClient {
     @Override
     public IsBlockhashValidRequest isBlockhashValid(String blockHash, @NotNull IsBlockhashValidConfig config) {
         return new IsBlockhashValidRequest(rpcGateway, blockHash, config);
+    }
+
+    @Override
+    public SendTransactionRequest sendTransaction(Transaction transaction) {
+        return sendTransaction(transaction, SendTransactionConfig.empty());
+    }
+
+    @Override
+    public SendTransactionRequest sendTransaction(Transaction transaction, @NotNull SendTransactionConfig config) {
+        return new SendTransactionRequest(rpcGateway, TransactionSerializer.toBase58(transaction), config);
     }
 
     @Override

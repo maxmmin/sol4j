@@ -9,7 +9,7 @@ import java.util.List;
 public class TransactionSerializer {
     public static final int SIGNATURE_BYTES = 64;
 
-    public static byte[] serialize(Transaction transaction) {
+    public static byte[] toBytes(Transaction transaction) {
         List<String>signatures = transaction.getSignatures();
         int signaturesLength = signatures.size();
         ShortU16 signaturesLengthU16 = ShortU16.valueOf(signaturesLength);
@@ -23,5 +23,9 @@ public class TransactionSerializer {
         });
         buffer.put(message);
         return buffer.array();
+    }
+
+    public static String toBase58(Transaction transaction) {
+        return Base58.encodeToString(toBytes(transaction));
     }
 }
