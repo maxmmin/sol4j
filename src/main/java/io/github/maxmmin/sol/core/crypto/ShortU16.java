@@ -1,7 +1,6 @@
 package io.github.maxmmin.sol.core.crypto;
 
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.Arrays;
 
 public class ShortU16 {
@@ -25,7 +24,6 @@ public class ShortU16 {
         else if (uint16 < 0) throw new IllegalArgumentException("Value can not be negative");
 
         ByteBuffer buffer = ByteBuffer.allocate(3);
-        buffer.order(ByteOrder.LITTLE_ENDIAN);
         int remVal = uint16;
         int cursor;
         for (cursor = 0; ; cursor++) {
