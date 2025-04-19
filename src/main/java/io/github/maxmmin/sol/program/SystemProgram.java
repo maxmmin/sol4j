@@ -14,11 +14,11 @@ import java.util.List;
 public class SystemProgram {
     public static final PublicKey PROGRAM_ID = PublicKey.fromBase58("11111111111111111111111111111111");
 
-    public static final int CREATE_METHOD_INDEX = 0;
+    public static final int CREATE_ACCOUNT_METHOD_INDEX = 0;
     public static final int ASSIGN_METHOD_INDEX = 1;
     public static final int TRANSFER_METHOD_INDEX = 2;
 
-    public static TransactionInstruction create(CreateAccountParams createAccountParams) {
+    public static TransactionInstruction createAccount(CreateAccountParams createAccountParams) {
         BigInteger lamports = createAccountParams.getLamports();
         if (lamports.compareTo(BigInteger.ZERO) < 0)
             throw new IllegalArgumentException("Lamports must not be negative");
@@ -28,7 +28,7 @@ public class SystemProgram {
             throw new IllegalArgumentException("Space must not be negative");
 
         ByteBuffer buffer = ByteBuffer.allocate(4 + 8 + 8 + 32);
-        buffer.putInt(0, CREATE_METHOD_INDEX);
+        buffer.putInt(0, CREATE_ACCOUNT_METHOD_INDEX);
         buffer.putLong(4, createAccountParams.getLamports().longValue());
         buffer.putLong(12, createAccountParams.getSpace().longValue());
         BufferUtil.putPubkey(buffer, 20, createAccountParams.getProgramId());
