@@ -36,7 +36,7 @@ public class PublicKey {
     public boolean equals(Object o) {
         if (!(o instanceof PublicKey)) return false;
         PublicKey publicKey = (PublicKey) o;
-        return Objects.deepEquals(bytes, publicKey.bytes);
+        return Arrays.equals(getBytes(), publicKey.getBytes());
     }
 
     @Override
