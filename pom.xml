@@ -82,6 +82,13 @@
             <version>${jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.bitcoinj</groupId>
+            <artifactId>bitcoinj-core</artifactId>
+            <version>0.16.4</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
