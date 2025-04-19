@@ -17,6 +17,7 @@ public class SystemProgram {
     public static final int CREATE_ACCOUNT_METHOD_INDEX = 0;
     public static final int ASSIGN_METHOD_INDEX = 1;
     public static final int TRANSFER_METHOD_INDEX = 2;
+    public static final int INITIALIZE_NONCE_ACCOUNT_METHOD_INDEX = 6;
 
     public static TransactionInstruction createAccount(CreateAccountParams createAccountParams) {
         BigInteger lamports = createAccountParams.getLamports();
@@ -57,15 +58,30 @@ public class SystemProgram {
         if (transferParams.getLamports().compareTo(BigInteger.ZERO) < 0)
             throw new IllegalArgumentException("Lamports cannot be negative");
 
+        ByteBuffer buffer = BufferUtil.allocateLE(4 + 8);
+        buffer.putInt(0, TRANSFER_METHOD_INDEX);
+        buffer.putLong(4, transferParams.getLamports().longValue());
+        byte[] data = buffer.array();
+
         List<AccountMeta> accounts = List.of(
                 new AccountMeta(transferParams.getFrom(), true, true),
                 new AccountMeta(transferParams.getTo(), false, true)
         );
 
-        ByteBuffer buffer = BufferUtil.allocateLE(4 + 8);
-        buffer.putInt(0, TRANSFER_METHOD_INDEX);
-        buffer.putLong(4, transferParams.getLamports().longValue());
+        return new TransactionInstruction(PROGRAM_ID, accounts, data);
+    }
+
+    public static TransactionInstruction nonceInitialize(InitializeNonceParams nonceAccountParams) {
+        ByteBuffer buffer = BufferUtil.allocateLE(4 + 32);
+        buffer.putInt(0, INITIALIZE_NONCE_ACCOUNT_METHOD_INDEX);
+        BufferUtil.putPubkey(buffer, 4, nonceAccountParams.getAuthorizedPubkey());
         byte[] data = buffer.array();
+
+        List<AccountMeta> accounts = List.of(
+                new AccountMeta(nonceAccountParams.getNoncePubkey(), false, true),
+                new AccountMeta(SysVar.RECENT_BLOCKHASHES_PUBKEY, false, false),
+                new AccountMeta(SysVar.RENT_PUBKEY, false, false)
+        );
 
         return new TransactionInstruction(PROGRAM_ID, accounts, data);
     }
@@ -93,5 +109,12 @@ public class SystemProgram {
         private final PublicKey from;
         private final PublicKey to;
         private final BigInteger lamports;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class InitializeNonceParams {
+        private final PublicKey noncePubkey;
+        private final PublicKey authorizedPubkey;
     }
 }
