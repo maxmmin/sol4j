@@ -17,9 +17,10 @@ public class SystemProgram {
     public static final int CREATE_ACCOUNT_INDEX = 0;
     public static final int ASSIGN_INDEX = 1;
     public static final int TRANSFER_INDEX = 2;
-    public static final int ADVANCE_NONCE_ACCOUNT_INDEX = 4;
-    public static final int WITHDRAW_NONCE_ACCOUNT_INDEX = 5;
-    public static final int INITIALIZE_NONCE_ACCOUNT_INDEX = 6;
+    public static final int NONCE_ADVANCE_ACCOUNT_INDEX = 4;
+    public static final int NONCE_WITHDRAW_ACCOUNT_INDEX = 5;
+    public static final int NONCE_INITIALIZE_ACCOUNT_INDEX = 6;
+    public static final int NONCE_AUTHORIZE_ACCOUNT_INDEX = 7;
     public static final int ALLOCATE_INDEX = 8;
 
     public static TransactionInstruction createAccount(CreateAccountParams createAccountParams) {
@@ -74,14 +75,45 @@ public class SystemProgram {
         return new TransactionInstruction(PROGRAM_ID, accounts, data);
     }
 
-    public static TransactionInstruction nonceInitialize(InitializeNonceParams nonceAccountParams) {
-        ByteBuffer buffer = BufferUtil.allocateLE(4 + 32);
-        buffer.putInt(0, INITIALIZE_NONCE_ACCOUNT_INDEX);
-        BufferUtil.putPubkey(buffer, 4, nonceAccountParams.getAuthorizedPubkey());
+    public static TransactionInstruction nonceAdvance(NonceAdvanceParams nonceAdvanceParams) {
+        ByteBuffer buffer = BufferUtil.allocateLE(4);
+        buffer.putInt(0, NONCE_ADVANCE_ACCOUNT_INDEX);
         byte[] data = buffer.array();
 
         List<AccountMeta> accounts = List.of(
-                new AccountMeta(nonceAccountParams.getNoncePubkey(), false, true),
+                new AccountMeta(nonceAdvanceParams.getNoncePubkey(), false, true),
+                new AccountMeta(SysVar.RECENT_BLOCKHASHES_PUBKEY, false, false),
+                new AccountMeta(nonceAdvanceParams.getAuthorizedPubkey(), true, false)
+        );
+
+        return new TransactionInstruction(PROGRAM_ID, accounts, data);
+    }
+
+    public static TransactionInstruction nonceWithdraw(NonceWithdrawParams nonceWithdrawParams) {
+        ByteBuffer buffer = BufferUtil.allocateLE(4 + 8);
+        buffer.putInt(0, NONCE_WITHDRAW_ACCOUNT_INDEX);
+        buffer.putLong(4, nonceWithdrawParams.getLamports().longValue());
+        byte[] data = buffer.array();
+
+        List<AccountMeta> accounts = List.of(
+                new AccountMeta(nonceWithdrawParams.getNoncePubkey(), false, true),
+                new AccountMeta(nonceWithdrawParams.getToPubkey(), false, true),
+                new AccountMeta(SysVar.RECENT_BLOCKHASHES_PUBKEY, false, false),
+                new AccountMeta(SysVar.RENT_PUBKEY, false, false),
+                new AccountMeta(nonceWithdrawParams.getAuthorizedPubkey(), true, false)
+        );
+
+        return new TransactionInstruction(PROGRAM_ID, accounts, data);
+    }
+
+    public static TransactionInstruction nonceInitialize(NonceInitializeParams nonceInitializeParams) {
+        ByteBuffer buffer = BufferUtil.allocateLE(4 + 32);
+        buffer.putInt(0, NONCE_INITIALIZE_ACCOUNT_INDEX);
+        BufferUtil.putPubkey(buffer, 4, nonceInitializeParams.getAuthorizedPubkey());
+        byte[] data = buffer.array();
+
+        List<AccountMeta> accounts = List.of(
+                new AccountMeta(nonceInitializeParams.getNoncePubkey(), false, true),
                 new AccountMeta(SysVar.RECENT_BLOCKHASHES_PUBKEY, false, false),
                 new AccountMeta(SysVar.RENT_PUBKEY, false, false)
         );
@@ -89,32 +121,15 @@ public class SystemProgram {
         return new TransactionInstruction(PROGRAM_ID, accounts, data);
     }
 
-    public static TransactionInstruction nonceAdvance(AdvanceNonceParams advanceNonceParams) {
-        ByteBuffer buffer = BufferUtil.allocateLE(4);
-        buffer.putInt(0, ADVANCE_NONCE_ACCOUNT_INDEX);
+    public static TransactionInstruction nonceAuthorize(NonceAuthorizeParams nonceAuthorizeParams) {
+        ByteBuffer buffer = BufferUtil.allocateLE(4 + 32);
+        buffer.putInt(0, NONCE_AUTHORIZE_ACCOUNT_INDEX);
+        BufferUtil.putPubkey(buffer, 4, nonceAuthorizeParams.getNewAuthorizedPubkey());
         byte[] data = buffer.array();
 
         List<AccountMeta> accounts = List.of(
-                new AccountMeta(advanceNonceParams.getNoncePubkey(), false, true),
-                new AccountMeta(SysVar.RECENT_BLOCKHASHES_PUBKEY, false, false),
-                new AccountMeta(advanceNonceParams.getAuthorizedPubkey(), true, false)
-        );
-
-        return new TransactionInstruction(PROGRAM_ID, accounts, data);
-    }
-
-    public static TransactionInstruction withdrawNonce(WithdrawNonceParams withdrawNonceParams) {
-        ByteBuffer buffer = BufferUtil.allocateLE(4 + 8);
-        buffer.putInt(0, WITHDRAW_NONCE_ACCOUNT_INDEX);
-        buffer.putLong(4, withdrawNonceParams.getLamports().longValue());
-        byte[] data = buffer.array();
-
-        List<AccountMeta> accounts = List.of(
-                new AccountMeta(withdrawNonceParams.getNoncePubkey(), false, true),
-                new AccountMeta(withdrawNonceParams.getToPubkey(), false, true),
-                new AccountMeta(SysVar.RECENT_BLOCKHASHES_PUBKEY, false, false),
-                new AccountMeta(SysVar.RENT_PUBKEY, false, false),
-                new AccountMeta(withdrawNonceParams.getAuthorizedPubkey(), true, false)
+                new AccountMeta(nonceAuthorizeParams.getNoncePubkey(), false, true),
+                new AccountMeta(nonceAuthorizeParams.getAuthorizedPubkey(), true, false)
         );
 
         return new TransactionInstruction(PROGRAM_ID, accounts, data);
@@ -160,25 +175,33 @@ public class SystemProgram {
 
     @Getter
     @RequiredArgsConstructor
-    public static class InitializeNonceParams {
+    public static class NonceAdvanceParams {
         private final PublicKey noncePubkey;
         private final PublicKey authorizedPubkey;
     }
 
     @Getter
     @RequiredArgsConstructor
-    public static class AdvanceNonceParams {
-        private final PublicKey noncePubkey;
-        private final PublicKey authorizedPubkey;
-    }
-
-    @Getter
-    @RequiredArgsConstructor
-    public static class WithdrawNonceParams {
+    public static class NonceWithdrawParams {
         private final PublicKey noncePubkey;
         private final PublicKey authorizedPubkey;
         private final PublicKey toPubkey;
         private final BigInteger lamports;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class NonceInitializeParams {
+        private final PublicKey noncePubkey;
+        private final PublicKey authorizedPubkey;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class NonceAuthorizeParams {
+        private final PublicKey noncePubkey;
+        private final PublicKey authorizedPubkey;
+        private final PublicKey newAuthorizedPubkey;
     }
 
     @Getter
