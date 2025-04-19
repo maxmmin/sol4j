@@ -66,9 +66,8 @@ public class Base58 {
         public byte[] encode(byte[] input) {
             if (input.length == 0) return new byte[0];
 
-            BigInteger base = new BigInteger(1, input);
-
             int counter = 0;
+            BigInteger base = new BigInteger(1, input);
             List<Byte> remainders = new ArrayList<>();
             while (base.compareTo(BigInteger.ZERO) > 0) {
                 byte remainder = base.mod(k).byteValue();
