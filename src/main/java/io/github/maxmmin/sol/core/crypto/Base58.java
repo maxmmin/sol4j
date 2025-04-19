@@ -6,6 +6,11 @@ import java.util.*;
 public class Base58 {
     private static Engine engine = new DefaultEngine();
 
+    /**
+     *
+     * This method gives the user an opportunity to replace Base58 engine if he isn't satisfied with default one
+     * @param engine - new engine to use
+     */
     public static void setEngine(Engine engine) {
         Base58.engine = Objects.requireNonNull(engine, "Engine must not be null");
     }
