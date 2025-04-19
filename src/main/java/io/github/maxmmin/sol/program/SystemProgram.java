@@ -18,6 +18,7 @@ public class SystemProgram {
     public static final int ASSIGN_INDEX = 1;
     public static final int TRANSFER_INDEX = 2;
     public static final int ADVANCE_NONCE_ACCOUNT_INDEX = 4;
+    public static final int WITHDRAW_NONCE_ACCOUNT_INDEX = 5;
     public static final int INITIALIZE_NONCE_ACCOUNT_INDEX = 6;
 
     public static TransactionInstruction createAccount(CreateAccountParams createAccountParams) {
@@ -101,6 +102,23 @@ public class SystemProgram {
         return new TransactionInstruction(PROGRAM_ID, accounts, data);
     }
 
+    public static TransactionInstruction withdrawNonce(WithdrawNonceParams withdrawNonceParams) {
+        ByteBuffer buffer = BufferUtil.allocateLE(4 + 8);
+        buffer.putInt(0, WITHDRAW_NONCE_ACCOUNT_INDEX);
+        buffer.putLong(4, withdrawNonceParams.getLamports().longValue());
+        byte[] data = buffer.array();
+
+        List<AccountMeta> accounts = List.of(
+                new AccountMeta(withdrawNonceParams.getNoncePubkey(), false, true),
+                new AccountMeta(withdrawNonceParams.getToPubkey(), false, true),
+                new AccountMeta(SysVar.RECENT_BLOCKHASHES_PUBKEY, false, false),
+                new AccountMeta(SysVar.RENT_PUBKEY, false, false),
+                new AccountMeta(withdrawNonceParams.getAuthorizedPubkey(), true, false)
+        );
+
+        return new TransactionInstruction(PROGRAM_ID, accounts, data);
+    }
+
     @Getter
     @RequiredArgsConstructor
     public static class CreateAccountParams {
@@ -138,6 +156,15 @@ public class SystemProgram {
     public static class AdvanceNonceParams {
         private final PublicKey noncePubkey;
         private final PublicKey authorizedPubkey;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class WithdrawNonceParams {
+        private final PublicKey noncePubkey;
+        private final PublicKey authorizedPubkey;
+        private final PublicKey toPubkey;
+        private final BigInteger lamports;
     }
 
 }
