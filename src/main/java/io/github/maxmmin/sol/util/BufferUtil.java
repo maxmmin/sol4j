@@ -3,6 +3,7 @@ package io.github.maxmmin.sol.util;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 public class BufferUtil {
     public static ByteBuffer putBytes(ByteBuffer buffer, int offset, byte[] bytes) {
@@ -18,6 +19,6 @@ public class BufferUtil {
     }
 
     public static ByteBuffer allocateLE(int capacity) {
-        return ByteBuffer.allocate(capacity);
+        return ByteBuffer.allocate(capacity).order(ByteOrder.LITTLE_ENDIAN);
     }
 }
