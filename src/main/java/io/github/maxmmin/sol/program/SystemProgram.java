@@ -20,6 +20,7 @@ public class SystemProgram {
     public static final int ADVANCE_NONCE_ACCOUNT_INDEX = 4;
     public static final int WITHDRAW_NONCE_ACCOUNT_INDEX = 5;
     public static final int INITIALIZE_NONCE_ACCOUNT_INDEX = 6;
+    public static final int ALLOCATE_INDEX = 8;
 
     public static TransactionInstruction createAccount(CreateAccountParams createAccountParams) {
         BigInteger lamports = createAccountParams.getLamports();
@@ -119,6 +120,19 @@ public class SystemProgram {
         return new TransactionInstruction(PROGRAM_ID, accounts, data);
     }
 
+    public static TransactionInstruction allocate(AllocateParams allocateParams) {
+        ByteBuffer buffer = BufferUtil.allocateLE(4 + 8);
+        buffer.putInt(ALLOCATE_INDEX);
+        buffer.putLong(4, allocateParams.getSpace().longValue());
+        byte[] data = buffer.array();
+
+        List<AccountMeta> accounts = List.of(
+                new AccountMeta(allocateParams.getAccountPubkey(), true, true)
+        );
+
+        return new TransactionInstruction(PROGRAM_ID, accounts, data);
+    }
+
     @Getter
     @RequiredArgsConstructor
     public static class CreateAccountParams {
@@ -165,6 +179,13 @@ public class SystemProgram {
         private final PublicKey authorizedPubkey;
         private final PublicKey toPubkey;
         private final BigInteger lamports;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class AllocateParams {
+        private final PublicKey accountPubkey;
+        private final BigInteger space;
     }
 
 }
