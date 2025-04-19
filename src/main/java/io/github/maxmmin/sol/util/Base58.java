@@ -1,10 +1,10 @@
-package io.github.maxmmin.sol.util;
+package m;
 
 import java.math.BigInteger;
 import java.util.*;
 
 public class Base58 {
-    private static final int MULTIPLIER = 58;
+    private static final BigInteger k = BigInteger.valueOf(58);
 
     private static final char[] ALPHABET = {
             '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
@@ -30,12 +30,11 @@ public class Base58 {
         if (input.length == 0) return new byte[0];
 
         BigInteger base = new BigInteger(input);
-        BigInteger k = BigInteger.valueOf(MULTIPLIER);
 
         int counter = 0;
         List<Byte> remainders = new ArrayList<>();
         while (base.compareTo(BigInteger.ZERO) > 0) {
-            byte remainder = base.mod(k).byteValueExact();
+            byte remainder = base.mod(k).byteValue();
             remainders.add(counter++, remainder);
             base = base.divide(k);
         }
@@ -68,15 +67,12 @@ public class Base58 {
         int leadingZeros = getEncLeadingZerosCount(input);
         BigInteger value = BigInteger.ZERO;
         byte charByte;
-        for (int i = input.length - 1; i >= leadingZeros; i--) {
-            if (i == ENCODED_NULL_BYTE) continue;
-
+        for (int i = leadingZeros; i < input.length; i++) {
             char c = (char) Byte.toUnsignedInt(input[i]);
             if (REVERSE_ALPHABET.containsKey(c)) charByte = REVERSE_ALPHABET.get(c);
             else throw new IllegalArgumentException("Invalid character: " + c);
 
-            long sum = charByte * (long) Math.pow(MULTIPLIER, input.length - 1 - i);
-            value = value.add(BigInteger.valueOf(sum));
+            value = value.multiply(k).add(BigInteger.valueOf(charByte));
         }
         byte[] valueBytes = value.toByteArray();
         byte[] result = new byte[valueBytes.length + leadingZeros];
