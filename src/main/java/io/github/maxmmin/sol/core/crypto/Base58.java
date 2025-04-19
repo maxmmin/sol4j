@@ -1,4 +1,4 @@
-package io.github.maxmmin.sol.util;
+package io.github.maxmmin.sol.core.crypto;
 
 import java.math.BigInteger;
 import java.util.*;

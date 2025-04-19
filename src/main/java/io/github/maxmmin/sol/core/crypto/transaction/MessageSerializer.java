@@ -2,7 +2,7 @@ package io.github.maxmmin.sol.core.crypto.transaction;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.ShortU16;
-import io.github.maxmmin.sol.util.Base58;
+import io.github.maxmmin.sol.core.crypto.Base58;
 
 import java.nio.ByteBuffer;
 import java.util.List;

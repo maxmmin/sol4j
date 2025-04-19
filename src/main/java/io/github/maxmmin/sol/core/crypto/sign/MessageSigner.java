@@ -2,7 +2,7 @@ package io.github.maxmmin.sol.core.crypto.sign;
 
 import io.github.maxmmin.sol.core.crypto.transaction.Message;
 import io.github.maxmmin.sol.core.crypto.transaction.MessageSerializer;
-import io.github.maxmmin.sol.util.Base58;
+import io.github.maxmmin.sol.core.crypto.Base58;
 
 import java.security.InvalidKeyException;
 
