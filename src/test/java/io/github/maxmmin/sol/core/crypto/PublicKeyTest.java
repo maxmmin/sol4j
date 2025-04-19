@@ -3,6 +3,8 @@ package io.github.maxmmin.sol.core.crypto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Base64;
+
 public class PublicKeyTest {
     @Test
     public void testValidKeys() {
@@ -22,10 +24,20 @@ public class PublicKeyTest {
                 "9gSt4Q5jTtZKqPKoDUfRpdsyCzFSjBaepgU98EgcWj3b"
         };
 
+        String[] base64Keys = {
+                "Mhz6Yu9E6I9TrHC6RPSM8iEZzOmCQUud1Oa8c/smKP8=",
+                "UyNbSLAkCFjXFQkTlA2Kda0iFVRDt+hmfEp/oCuZZl4=",
+                "taP78MKzat9eLX/7cb1yQuUU60Bh8tTY4LcXU2tfaIE=",
+                "X0vEVhl18vBsQ9kGm6uSjV0oUwlYOd0hJhy7EYOv4eM=",
+                "gPho8ZbUzwOSFaeNOvJ7qRvK4ZXBpX9pzUBwPkixmFY="
+        };
+
         for (int i = 0; i < keys.length; i++) {
             PublicKey fromRawBytes = new PublicKey(keys[i]);
-            PublicKey fromBase = PublicKey.fromBase58(base58Keys[i]);
-            Assertions.assertEquals(fromRawBytes, fromBase);
+            PublicKey fromBase58 = PublicKey.fromBase58(base58Keys[i]);
+            PublicKey fromBase64 = PublicKey.fromBase64(base64Keys[i]);
+            Assertions.assertEquals(fromRawBytes, fromBase58);
+            Assertions.assertEquals(fromBase58, fromBase64);
         }
     }
 }
