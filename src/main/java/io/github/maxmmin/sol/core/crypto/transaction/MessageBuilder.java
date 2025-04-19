@@ -91,7 +91,7 @@ public class MessageBuilder {
                 signers++;
                 if (!accountMeta.isWritable()) roSigners++;
             }
-            else ro++;
+            else if (!accountMeta.isWritable()) ro++;
         }
         int maxValue = Byte.toUnsignedInt((byte) 0xff);
         if (signers > maxValue || ro > maxValue) throw new IllegalArgumentException("Participants overflow. Accounts list is too large");
@@ -118,8 +118,19 @@ public class MessageBuilder {
                     accounts.sort(accountMetaComparator);
                     return accounts.get(0);
                 })
-                .sorted(accountMetaComparator)
+                .sorted(getComparator())
                 .collect(Collectors.toList());
+    }
+
+    private Comparator<AccountMeta> getComparator() {
+        return (new Comparator<AccountMeta>() {
+            @Override
+            public int compare(AccountMeta account1, AccountMeta account2) {
+                if (account1.getPubkey().equals(feePayer)) return -1;
+                else if (account2.getPubkey().equals(feePayer)) return 1;
+                else return 0;
+            }
+        }).thenComparing(accountMetaComparator);
     }
 
     private static final Comparator<AccountMeta> accountMetaComparator = (AccountMeta o1, AccountMeta o2) -> {

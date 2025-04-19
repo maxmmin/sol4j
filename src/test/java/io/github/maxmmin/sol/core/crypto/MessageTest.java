@@ -7,16 +7,17 @@ import io.github.maxmmin.sol.program.SystemProgram;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class MessageTest {
     @Test
     public void serializeMessage() {
         PublicKey signer = PublicKey.fromBase58("11111111111111111111111111111111");
 
-        PublicKey from = PublicKey.fromBase58("QqCCvshxtqMAL2CVALqiJB7uEeE5mjSPsseQdDzsRUo");
-        PublicKey to = PublicKey.fromBase58("GrDMoeqMLFjeXQ24H56S1RLgT4R76jsuWCd6SvXyGPQ5");
-        BigInteger lamports = BigInteger.valueOf(3000);
+        PublicKey from = PublicKey.fromBase58("BNzpkiBcpXNbH5ubrRBGVJex62df1kc1DWwu2kkxaUMX");
+        PublicKey to = PublicKey.fromBase58("6tcxA4dVKGJecuXRHsa9NmW1JKXAJBtuPNAVoh2knm7j");
+        BigInteger lamports = BigInteger.valueOf(500);
         SystemProgram.TransferParams transferParams = new SystemProgram.TransferParams(from, to, lamports);
 
         Message message = new MessageBuilder()
@@ -25,13 +26,16 @@ public class MessageTest {
                 .addInstruction(SystemProgram.transfer(transferParams))
                 .build();
 
-        assertArrayEquals(new int[] { 1, 0, 1, 3, 6, 26, 217, 208, 83, 135, 21, 72, 83, 126, 222, 62, 38, 24, 73, 163,
-                223, 183, 253, 2, 250, 188, 117, 178, 35, 200, 228, 106, 219, 133, 61, 12, 235, 122, 188, 208, 216, 117,
-                235, 194, 109, 161, 177, 129, 163, 51, 155, 62, 242, 163, 22, 149, 187, 122, 189, 188, 103, 130, 115,
-                188, 173, 205, 229, 170, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 203, 226, 136, 193, 153, 148, 240, 50, 230, 98, 9, 79, 221, 179, 243, 174, 90, 67,
-                104, 169, 6, 187, 165, 72, 36, 156, 19, 57, 132, 38, 69, 245, 1, 2, 2, 0, 1, 12, 2, 0, 0, 0, 184, 11, 0,
-                0, 0, 0, 0, 0 }, toUintArray(MessageSerializer.serialize(message)));
+        int [] expected = {
+                2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 154, 55, 114, 130, 251, 232, 203, 4, 208, 61, 153, 42, 179, 56, 141, 170, 245, 129, 51, 180,
+                244, 214, 112, 162, 189, 217, 74, 240, 231, 141, 114, 42, 87, 131, 180, 174, 96, 169, 112, 113, 104,
+                95, 143, 143, 181, 149, 200, 213, 105, 20, 58, 104, 77, 239, 166, 88, 233, 97, 143, 185, 243, 93, 11,
+                14, 203, 226, 136, 193, 153, 148, 240, 50, 230, 98, 9, 79, 221, 179, 243, 174, 90, 67, 104, 169, 6, 187,
+                165, 72, 36, 156, 19, 57, 132, 38, 69, 245, 1, 0, 2, 1, 2, 12, 2, 0, 0, 0, 244, 1, 0, 0, 0, 0, 0, 0
+        };
+
+        assertArrayEquals(expected, toUintArray(MessageSerializer.serialize(message)));
     }
 
     protected int[] toUintArray(byte[] source) {
