@@ -34,7 +34,7 @@ public class Account {
     }
 
     public static Account fromSecretKey (byte[] secretKey) {
-        byte[] publicKey = PrivateKey.fromSecretKey(secretKey);
+        byte[] publicKey = PrivateKeyGen.fromSecretKey(secretKey);
         byte[] privateKey = new byte[64];
         System.arraycopy(secretKey, 0, privateKey, 0, secretKey.length);
         System.arraycopy(publicKey, 0, publicKey, 0, publicKey.length);
