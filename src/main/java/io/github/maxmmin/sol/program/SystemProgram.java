@@ -9,11 +9,14 @@ import lombok.RequiredArgsConstructor;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.List;
 
 public class SystemProgram {
     public static final PublicKey PROGRAM_ID = PublicKey.fromBase58("11111111111111111111111111111111");
+
+    public static final int CREATE_METHOD_INDEX = 0;
+    public static final int ASSIGN_METHOD_INDEX = 1;
+    public static final int TRANSFER_METHOD_INDEX = 2;
 
     public static TransactionInstruction create(CreateAccountParams createAccountParams) {
         BigInteger lamports = createAccountParams.getLamports();
@@ -25,7 +28,7 @@ public class SystemProgram {
             throw new IllegalArgumentException("Space must not be negative");
 
         ByteBuffer buffer = ByteBuffer.allocate(4 + 8 + 8 + 32);
-        buffer.putInt(0, Index.CREATE);
+        buffer.putInt(0, CREATE_METHOD_INDEX);
         buffer.putLong(4, createAccountParams.getLamports().longValue());
         buffer.putLong(12, createAccountParams.getSpace().longValue());
         BufferUtil.putPubkey(buffer, 20, createAccountParams.getProgramId());
@@ -41,7 +44,7 @@ public class SystemProgram {
 
     public static TransactionInstruction assign(AssignParams assignParams) {
         ByteBuffer buffer = BufferUtil.allocateLE(4 + 32);
-        buffer.putInt(0, Index.ASSIGN);
+        buffer.putInt(0, ASSIGN_METHOD_INDEX);
         BufferUtil.putPubkey(buffer, 4, assignParams.getProgramId());
         byte[] data = buffer.array();
 
@@ -60,17 +63,11 @@ public class SystemProgram {
         );
 
         ByteBuffer buffer = BufferUtil.allocateLE(4 + 8);
-        buffer.putInt(0, Index.TRANSFER);
+        buffer.putInt(0, TRANSFER_METHOD_INDEX);
         buffer.putLong(4, transferParams.getLamports().longValue());
         byte[] data = buffer.array();
 
         return new TransactionInstruction(PROGRAM_ID, accounts, data);
-    }
-
-    private static class Index {
-        public static final int CREATE = 0;
-        public static final int ASSIGN = 1;
-        public static final int TRANSFER = 2;
     }
 
     @Getter
