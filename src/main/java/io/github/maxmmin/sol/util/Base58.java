@@ -1,4 +1,4 @@
-package m;
+package io.github.maxmmin.sol.util;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -41,7 +41,7 @@ public class Base58 {
 
         int leadingZeros = getRawLeadingZerosCount(input);
         byte[] result = new byte[leadingZeros + counter];
-        Arrays.fill(result, 0, leadingZeros, ENCODED_NULL_BYTE);
+        if (leadingZeros > 0) Arrays.fill(result, 0, leadingZeros, ENCODED_NULL_BYTE);
         for (int offset = leadingZeros; offset < result.length; offset++) {
             byte b = remainders.get(remainders.size() - (1 + offset - leadingZeros));
             result[offset] = (byte) ALPHABET[b];
@@ -75,9 +75,10 @@ public class Base58 {
             value = value.multiply(k).add(BigInteger.valueOf(charByte));
         }
         byte[] valueBytes = value.toByteArray();
-        byte[] result = new byte[valueBytes.length + leadingZeros];
-        Arrays.fill(result, 0, leadingZeros, (byte) 0);
-        System.arraycopy(valueBytes, 0, result, leadingZeros, valueBytes.length);
+        int valueSize = valueBytes[0] == 0 && valueBytes.length > 1 ? valueBytes.length - 1 : valueBytes.length;
+        byte[] result = new byte[valueSize + leadingZeros];
+        if (leadingZeros > 0) Arrays.fill(result, 0, leadingZeros, (byte) 0);
+        System.arraycopy(valueBytes, valueBytes.length - valueSize, result, leadingZeros, valueSize);
         return result;
     }
 

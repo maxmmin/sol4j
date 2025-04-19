@@ -68,12 +68,10 @@ public class PublicKey {
     }
 
     public static PublicKey fromBase58(String base58PublicKey) {
-        byte[] base58Bytes = base58PublicKey.getBytes();
-        return new PublicKey(Base58.decode(base58Bytes));
+        return new PublicKey(Base58.decodeFromString(base58PublicKey));
     }
 
     public static PublicKey fromBase64(String base64PublicKey) {
-        byte[] base64Bytes = base64PublicKey.getBytes();
-        return new PublicKey(Base64.getDecoder().decode(base64Bytes));
+        return new PublicKey(Base64.getDecoder().decode(base64PublicKey));
     }
 }
