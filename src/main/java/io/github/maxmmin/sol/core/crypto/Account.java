@@ -21,7 +21,7 @@ public class Account {
         this.publicKey = pubKey;
 
         byte[] secretKey = new byte[32];
-        buffer.get(secretKey, 32, 32);
+        buffer.get(secretKey, 0, 32);
         this.secretKey = secretKey;
     }
 
