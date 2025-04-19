@@ -105,7 +105,7 @@ public class MessageBuilder {
         }};
         accountMap.put(feePayer, feePayerKeys);
         transactionInstructions.forEach(transactionInstruction -> {
-            List<AccountMeta> instructionAccounts = transactionInstruction.getAccounts();
+            List<AccountMeta> instructionAccounts = new ArrayList<>(transactionInstruction.getAccounts());
             instructionAccounts.add(new AccountMeta(transactionInstruction.getProgramId(), false, false));
             for (AccountMeta account : instructionAccounts) {
                 var pubkey = account.getPubkey();
