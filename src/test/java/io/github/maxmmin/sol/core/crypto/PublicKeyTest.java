@@ -3,7 +3,7 @@ package io.github.maxmmin.sol.core.crypto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Base64;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PublicKeyTest {
     @Test
@@ -39,5 +39,14 @@ public class PublicKeyTest {
             Assertions.assertEquals(fromRawBytes, fromBase58);
             Assertions.assertEquals(fromBase58, fromBase64);
         }
+    }
+
+    @Test
+    public void testInvalidKeys() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new PublicKey(new byte[] { 4, 1, 2, 3, 6, -1 });
+            PublicKey.fromBase58("kBt4Pa5j1XgtKHy2wpxcFn8U8mj64U82PpsYek");
+            PublicKey.fromBase64("V2h5IGFyZSB5b3Ugc28gY3VyaW91cz8=");
+        });
     }
 }
