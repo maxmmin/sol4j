@@ -1,8 +1,6 @@
-package io.github.maxmmin.sol.core.crypto;
+package io.github.maxmmin.sol.core.crypto.transaction;
 
-import io.github.maxmmin.sol.core.crypto.transaction.Message;
-import io.github.maxmmin.sol.core.crypto.transaction.MessageBuilder;
-import io.github.maxmmin.sol.core.crypto.transaction.MessageSerializer;
+import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.program.SystemProgram;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +8,7 @@ import java.math.BigInteger;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class MessageTest {
+public class MessageSerializerTest {
     @Test
     public void serializeMessage() {
         PublicKey signer = PublicKey.fromBase58("11111111111111111111111111111111");
