@@ -15,7 +15,6 @@ Pure java lib for interacting with Solana RPC API
 
 - OkHttp
 - Jackson
-- Project Lombok
 
 <h2>OutOfBox supported methods</h2>
 <details>
