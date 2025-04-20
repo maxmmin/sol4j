@@ -1,6 +1,6 @@
 package io.github.maxmmin.sol.program;
 
-import io.github.maxmmin.sol.core.crypto.AccountMeta;
+import io.github.maxmmin.sol.core.crypto.transaction.AccountMeta;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionInstruction;
 import io.github.maxmmin.sol.util.BufferUtil;
