@@ -32,7 +32,7 @@ public class SystemProgram {
         if (space.compareTo(BigInteger.ZERO) < 0)
             throw new IllegalArgumentException("Space must not be negative");
 
-        ByteBuffer buffer = ByteBuffer.allocate(4 + 8 + 8 + 32);
+        ByteBuffer buffer = BufferUtil.allocateLE(4 + 8 + 8 + 32);
         buffer.putInt(0, CREATE_ACCOUNT_INDEX);
         buffer.putLong(4, createAccountParams.getLamports().longValue());
         buffer.putLong(12, createAccountParams.getSpace().longValue());

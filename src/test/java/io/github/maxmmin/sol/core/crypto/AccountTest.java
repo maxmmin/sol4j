@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class AccountTest {
     @Test
     public void testConstructors() {
-        Account generated = KeyGen.generate();
+        Account generated = Account.generate();
 
         Account fromPrivate = new Account(KeyGen.extractPrivateKey(generated));
         Account fromPair = new Account(generated.getSecretKey(), generated.getPublicKey().getBytes());

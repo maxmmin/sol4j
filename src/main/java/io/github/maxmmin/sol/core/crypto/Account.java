@@ -35,6 +35,17 @@ public class Account {
         );
     }
 
+    public static Account fromSecretKey(byte[] secretKey) {
+        return KeyGen.fromSecretKey(secretKey);
+    }
+
+    public static Account fromPrivateKey(byte[] privateKey) {
+        return new Account(privateKey);
+    }
+
+    public static Account generate() {
+        return KeyGen.generate();
+    }
 
     /**
      *
