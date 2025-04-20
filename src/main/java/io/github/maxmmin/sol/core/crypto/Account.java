@@ -36,10 +36,18 @@ public class Account {
     }
 
 
+    /**
+     *
+     * @return public key
+     */
     public PublicKey getPublicKey() {
         return new PublicKey(publicKey);
     }
 
+    /**
+     *
+     * @return secret 32-bytes secret key
+     */
     public byte[] getSecretKey() {
         return Arrays.copyOfRange(secretKey, 0, 32);
     }
