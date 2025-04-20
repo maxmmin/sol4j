@@ -14,15 +14,14 @@ public class Account {
 
     public Account(byte[] privateKey) {
         if (privateKey.length != 64) throw new IllegalArgumentException("Private key must be 64 bytes");
-        ByteBuffer buffer = ByteBuffer.allocate(privateKey.length);
-
-        byte[] pubKey = new byte[32];
-        buffer.get(pubKey, 0, 32);
-        this.publicKey = pubKey;
 
         byte[] secretKey = new byte[32];
-        buffer.get(secretKey, 0, 32);
+        System.arraycopy(privateKey, 0, secretKey, 0, 32);
         this.secretKey = secretKey;
+
+        byte[] pubKey = new byte[32];
+        System.arraycopy(privateKey, 32, pubKey, 0, 32);
+        this.publicKey = pubKey;
     }
 
     public PublicKey getPublicKey() {
