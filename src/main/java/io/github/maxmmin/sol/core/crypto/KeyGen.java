@@ -6,6 +6,7 @@ import net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec;
 
 import java.security.KeyPair;
 import java.security.KeyPairGeneratorSpi;
+import java.util.Arrays;
 
 public class KeyGen {
     private final static KeyPairGeneratorSpi keyPairGenerator = new KeyPairGenerator();
@@ -25,6 +26,18 @@ public class KeyGen {
         EdDSAPrivateKey privateKey = new EdDSAPrivateKey(privateKeySpec);
 
         return construct(privateKey);
+    }
+
+    /**
+     *
+     * @param account - keys to be extracted
+     * @return - 64-byte private key that consists of secret and public parts
+     */
+    public static byte[] extractPrivateKey(Account account) {
+        byte[] privateKey = new byte[64];
+        System.arraycopy(account.getSecretKey(), 0, privateKey, 0, 32);
+        System.arraycopy(account.getPublicKey().getBytes(), 0, privateKey, 32, 32);
+        return privateKey;
     }
 
     public static Account generate() {
