@@ -9,9 +9,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -25,24 +27,24 @@ import java.util.Set;
 public abstract class IntrospectedRpcVariety<D, B, J, P> {
     private final RpcTypes<D, B, J, P> rpcTypes;
     private final TypesMetadata typesMetadata;
-    private final Set<Encoding> supportedEncodings;
+    private final EncodingSupport encodingSupport;
 
-    protected RpcTypes<D, B, J, P> getRpcTypes() {
-        return rpcTypes;
+    public IntrospectedRpcVariety(RpcTypes<D, B, J, P> rpcTypes, EncodingSupport encodingSupport) {
+        this.rpcTypes = rpcTypes;
+        this.typesMetadata = introspectTypes(rpcTypes);
+        this.encodingSupport = encodingSupport;
     }
 
     protected TypesMetadata getTypesMetadata() {
         return typesMetadata;
     }
 
-    protected Set<Encoding> getSupportedEncodings() {
-        return supportedEncodings;
+    public Set<Encoding> getSupportedEncodings() {
+        return encodingSupport.getSupportedEncodings();
     }
 
-    public IntrospectedRpcVariety(RpcTypes<D, B, J, P> rpcTypes) {
-        this.rpcTypes = rpcTypes;
-        this.typesMetadata = introspectTypes(rpcTypes);
-        this.supportedEncodings = introspectSupportedEncodings(typesMetadata);
+    public boolean supportsEncoding(Encoding encoding) {
+        return encodingSupport.getSupportedEncodings().contains(encoding);
     }
 
     private TypesMetadata introspectTypes(RpcTypes<D, B, J, P> types) {
@@ -56,26 +58,22 @@ public abstract class IntrospectedRpcVariety<D, B, J, P> {
         Type defaultType = typeArguments[0];
 
         Type baseEncType = typeArguments[1];
-        if (baseEncType.equals(Void.class)) baseEncType = null;
+        if (baseEncType.equals(Void.class) && (supportsEncoding(Encoding.BASE58) ||
+                supportsEncoding(Encoding.BASE64) || supportsEncoding(Encoding.BASE64_ZSTD))) {
+            throw new IllegalArgumentException("Base encoding return type must be specified due to specification");
+        }
 
         Type jsonType = typeArguments[2];
-        if (jsonType.equals(Void.class)) jsonType = null;
+        if (jsonType.equals(Void.class) && supportsEncoding(Encoding.JSON)) {
+            throw new IllegalArgumentException("Json encoding return type must be specified due to specification");
+        }
 
         Type jsonParsedType = typeArguments[3];
-        if (jsonParsedType.equals(Void.class)) jsonParsedType = null;
+        if (jsonParsedType.equals(Void.class) && supportsEncoding(Encoding.JSON_PARSED)) {
+            throw new IllegalArgumentException("Json parsed encoding return type must be specified due to specification");
+        }
 
         return new TypesMetadata(Types.asRef(defaultType), getRef(baseEncType), getRef(jsonType), getRef(jsonParsedType));
-    }
-
-    private Set<Encoding> introspectSupportedEncodings(TypesMetadata typeMetadata) {
-        Set<Encoding> supportedEncodings = new HashSet<>();
-        supportedEncodings.add(Encoding.NIL);
-
-        if (typeMetadata.getBaseEncType() != null) supportedEncodings.addAll(List.of(Encoding.BASE58, Encoding.BASE64));
-        if (typeMetadata.getJsonType() != null) supportedEncodings.add(Encoding.JSON);
-        if (typeMetadata.getJsonParsedType() != null) supportedEncodings.add(Encoding.JSON_PARSED);
-
-        return supportedEncodings;
     }
 
     protected <V> TypeReference<V> getRef(@Nullable Type type) {
@@ -92,4 +90,33 @@ public abstract class IntrospectedRpcVariety<D, B, J, P> {
     }
 
     public static abstract class RpcTypes<D, B, J, P> { }
+
+    @Getter
+    public static class EncodingSupport {
+        private final Set<Encoding> supportedEncodings;
+
+        public EncodingSupport(Encoding... encodings) {
+            this.supportedEncodings = Arrays.stream(encodings).collect(Collectors.toSet());
+        }
+
+        public static EncodingSupport baseOnly() {
+            return new EncodingSupport(Encoding.BASE58, Encoding.BASE64);
+        }
+
+        public static EncodingSupport baseWithCompressing() {
+            return new EncodingSupport(Encoding.BASE58, Encoding.BASE64, Encoding.BASE64);
+        }
+
+        public static EncodingSupport full() {
+            var encodings = Arrays.stream(Encoding.values())
+                    .filter(e -> e != Encoding.BASE64_ZSTD)
+                    .toArray(Encoding[]::new);
+
+            return new EncodingSupport(encodings);
+        }
+
+        public static EncodingSupport fullWithCompressing() {
+            return new EncodingSupport(Encoding.values());
+        }
+    }
 }
