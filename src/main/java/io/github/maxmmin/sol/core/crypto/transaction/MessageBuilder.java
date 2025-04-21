@@ -31,6 +31,10 @@ public class MessageBuilder {
         return this;
     }
 
+    public static MessageBuilder getBuilder() {
+        return new MessageBuilder();
+    }
+
     public Message build() {
         if (feePayer == null) throw new IllegalArgumentException("Fee payer cannot be null");
         if (recentBlockHash == null) throw new IllegalArgumentException("Block hash cannot be null");
@@ -41,7 +45,7 @@ public class MessageBuilder {
         return new Message(messageHeader, accountKeys, recentBlockHash, compiledInstructions);
     }
 
-    protected List<CompiledInstruction> compileInstructions(List<TransactionInstruction> instructions, List<AccountMeta> accounts) {
+    private List<CompiledInstruction> compileInstructions(List<TransactionInstruction> instructions, List<AccountMeta> accounts) {
         Map<PublicKey, Byte> accountsIndexes = buildAccountsIndexesMap(accounts);
         return instructions.stream()
                 .map(txInstruction -> {

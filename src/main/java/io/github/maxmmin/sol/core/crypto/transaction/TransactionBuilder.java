@@ -47,14 +47,23 @@ public class TransactionBuilder {
             if (signature == null) throw new IllegalStateException(
                     String.format("No signature found for signer %s (index %d)", signer.toString(), i)
             );
+            signaturesList.add(signature);
         }
         return new Transaction(signaturesList, message);
+    }
+
+    public static TransactionBuilder getBuilder(Message message) {
+        return new TransactionBuilder(message);
     }
 
     public static Transaction build(Message message, List<Account> signers) {
         TransactionBuilder builder = new TransactionBuilder(message);
         signers.forEach(builder::sign);
         return builder.build();
+    }
+
+    public static Transaction build(Message message, Account signer) {
+        return new TransactionBuilder(message).sign(signer).build();
     }
 
     protected int getSignersCount() {
