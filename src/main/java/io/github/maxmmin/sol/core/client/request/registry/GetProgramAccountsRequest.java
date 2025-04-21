@@ -21,7 +21,10 @@ public class GetProgramAccountsRequest extends MultiEncRequest<List<JsonProgramA
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GetProgramAccountsRequest(RpcGateway gateway, String programId, GetProgramAccountsConfig config) {
-        super(new RpcTypes<List<JsonProgramAccount>, List<BaseEncProgramAccount>, List<JsonProgramAccount>, List<JsonParsedProgramAccount>>() {}, gateway);
+        super(
+                new RpcTypes<List<JsonProgramAccount>, List<BaseEncProgramAccount>, List<JsonProgramAccount>, List<JsonParsedProgramAccount>>() {},
+                EncodingSupport.fullWithCompressing(),
+                gateway);
         this.programId = programId;
         this.config = config;
     }

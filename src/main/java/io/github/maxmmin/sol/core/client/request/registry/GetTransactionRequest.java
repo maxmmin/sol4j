@@ -22,7 +22,11 @@ public class GetTransactionRequest extends MultiEncRequest<JsonTransaction, Base
     private final ObjectMapper mapper = new ObjectMapper();
 
     public GetTransactionRequest(RpcGateway gateway, String signature, GetTransactionConfig config) {
-        super(new RpcTypes<JsonTransaction, BaseEncTransaction, JsonTransaction, JsonParsedTransaction>() {}, gateway);
+        super(
+                new RpcTypes<JsonTransaction, BaseEncTransaction, JsonTransaction, JsonParsedTransaction>() {},
+                EncodingSupport.fullWithCompressing(),
+                gateway
+        );
         this.signature = signature;
         this.config = config;
     }

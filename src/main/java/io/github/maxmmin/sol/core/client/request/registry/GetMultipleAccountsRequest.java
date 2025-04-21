@@ -21,7 +21,10 @@ public class GetMultipleAccountsRequest extends MultiEncRequest<ContextWrapper<L
     private final ObjectMapper mapper = new ObjectMapper();
 
     public GetMultipleAccountsRequest(RpcGateway gateway, List<String> accounts, GetMultipleAccountsConfig config) {
-        super(new RpcTypes<ContextWrapper<List<BaseEncAccount>>, ContextWrapper<List<BaseEncAccount>>, Void, ContextWrapper<List<JsonParsedAccount>>>() {}, gateway);
+        super(
+                new RpcTypes<ContextWrapper<List<BaseEncAccount>>, ContextWrapper<List<BaseEncAccount>>, Void, ContextWrapper<List<JsonParsedAccount>>>() {},
+                EncodingSupport.fullWithCompressing(),
+                gateway);
         this.accounts = accounts;
         this.config = config;
     }

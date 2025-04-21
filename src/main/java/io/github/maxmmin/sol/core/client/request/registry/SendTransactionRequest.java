@@ -17,7 +17,11 @@ public class SendTransactionRequest extends MultiEncRequest<String, String, Void
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public SendTransactionRequest(RpcGateway gateway, String encodedTransaction, SendTransactionConfig config) {
-        super(new RpcTypes<String, String, Void, Void>() {}, gateway);
+        super(
+                new RpcTypes<String, String, Void, Void>() {},
+                new EncodingSupport(Encoding.BASE58, Encoding.BASE64),
+                gateway
+        );
         this.encodedTransaction = encodedTransaction;
         this.config = config;
     }

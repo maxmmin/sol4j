@@ -20,7 +20,11 @@ public class GetAccountInfoRequest extends MultiEncRequest<BaseEncAccount, BaseE
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GetAccountInfoRequest(RpcGateway gateway, String pubKey, GetAccountInfoConfig config) {
-        super(new RpcTypes<BaseEncAccount, BaseEncAccount, Void, JsonParsedAccount>() {}, gateway);
+        super(
+                new RpcTypes<BaseEncAccount, BaseEncAccount, Void, JsonParsedAccount>() {},
+                new EncodingSupport(Encoding.BASE58, Encoding.BASE64, Encoding.BASE64_ZSTD, Encoding.JSON_PARSED),
+                gateway
+        );
         this.pubKey = pubKey;
         this.cfg = config;
     }

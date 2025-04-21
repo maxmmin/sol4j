@@ -25,7 +25,11 @@ public class GetTokenAccountsByDelegateRequest extends MultiEncRequest<ContextWr
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GetTokenAccountsByDelegateRequest(RpcGateway gateway, String delegate, GetTokenAccountsByDelegateConfig config, GetTokenAccountsByDelegateParams params) {
-        super(new RpcTypes<ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<BaseEncProgramAccount>>, ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<JsonParsedProgramAccount>>>() {}, gateway);
+        super(
+                new RpcTypes<ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<BaseEncProgramAccount>>, ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<JsonParsedProgramAccount>>>() {},
+                new EncodingSupport(Encoding.BASE58, Encoding.BASE64, Encoding.BASE64_ZSTD, Encoding.JSON_PARSED),
+                gateway
+        );
         this.delegate = delegate;
         this.config = config;
         this.params = params;
