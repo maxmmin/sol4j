@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  *  Class for types introspection
  */
 public abstract class IntrospectedRpcVariety<D, B, J, P> {
-    private final RpcTypes<D, B, J, P> rpcTypes;
+    private final RpcTypes<D, B, J , P> rpcTypes;
     private final TypesMetadata typesMetadata;
     private final EncodingSupport encodingSupport;
 
@@ -33,6 +33,10 @@ public abstract class IntrospectedRpcVariety<D, B, J, P> {
         this.rpcTypes = rpcTypes;
         this.typesMetadata = introspectTypes(rpcTypes);
         this.encodingSupport = encodingSupport;
+    }
+
+    protected RpcTypes<D, B, J , P> getRpcTypes() {
+        return rpcTypes;
     }
 
     protected TypesMetadata getTypesMetadata() {
