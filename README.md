@@ -128,8 +128,6 @@ JsonParsedTransaction jsonParsedEncTx = txRequest.jsonParsed();
 <b>Transferring lamports via SystemProgram</b>
 
 ```java
-RpcClient rpcClient = new SimpleRpcClient(HttpRpcGateway.create("https://api.devnet.solana.com"));
-
 Account sender = Account.fromSecretKey(secretKey);
 PublicKey receiverPubkey = PublicKey.fromBase58("2ZqPxLUgUFLCyQdqokCNJqnhb4kLY7Bn8T28ABQAjfq4");
 BigInteger lamports = BigInteger.valueOf(3000);
