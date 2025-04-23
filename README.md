@@ -6,7 +6,7 @@
 
 Pure java lib for interacting with Solana RPC API
 
-⚠️ The library is under active development. I'm currently working on building and sending transactions.
+⚠️ The library is under active development. I'm currently working on implementing common solana programs and versioned transactions.
 
 <h2>Requirements</h2>
 - Java 11+
@@ -91,7 +91,7 @@ Not implemented yet
 <dependency>
     <groupId>io.github.maxmmin</groupId>
     <artifactId>sol4j</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 </dependency>
 ```
 
