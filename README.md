@@ -125,7 +125,7 @@ JsonTransaction jsonEncodedTx = txRequest.json();
 JsonParsedTransaction jsonParsedEncTx = txRequest.jsonParsed();
 ```
 
-<b>Lamports transferring via SystemProgram</b>
+<b>Transferring lamports via SystemProgram</b>
 
 ```java
 RpcClient rpcClient = new SimpleRpcClient(HttpRpcGateway.create("https://api.devnet.solana.com"));
