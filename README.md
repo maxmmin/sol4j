@@ -13,7 +13,6 @@ Pure java lib for interacting with Solana RPC API
 
 - OkHttp
 - Jackson
-- Project Lombok
 
 <h2>OutOfBox supported methods</h2>
 <details>
@@ -72,7 +71,7 @@ Under active development
 - isBlockhashValid ✅
 - minimumLedgerSlot ✅
 - requestAirdrop ❌
-- sendTransaction ❌
+- sendTransaction ✅
 - simulateTransaction ❌
 </details>
 <details>

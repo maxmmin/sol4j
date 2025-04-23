@@ -2,9 +2,9 @@ package io.github.maxmmin.sol.core.client.request.registry;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
 import io.github.maxmmin.sol.core.exception.RpcException;
+import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.type.request.Encoding;
 import io.github.maxmmin.sol.core.type.request.GetTransactionConfig;
 import io.github.maxmmin.sol.core.type.request.RpcRequest;
@@ -22,7 +22,11 @@ public class GetTransactionRequest extends MultiEncRequest<JsonTransaction, Base
     private final ObjectMapper mapper = new ObjectMapper();
 
     public GetTransactionRequest(RpcGateway gateway, String signature, GetTransactionConfig config) {
-        super(new RpcTypes<JsonTransaction, BaseEncTransaction, JsonTransaction, JsonParsedTransaction>() {}, gateway);
+        super(
+                new RpcTypes<JsonTransaction, BaseEncTransaction, JsonTransaction, JsonParsedTransaction>() {},
+                EncodingSupport.fullWithCompressing(),
+                gateway
+        );
         this.signature = signature;
         this.config = config;
     }

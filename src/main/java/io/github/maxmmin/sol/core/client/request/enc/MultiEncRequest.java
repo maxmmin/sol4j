@@ -1,9 +1,9 @@
 package io.github.maxmmin.sol.core.client.request.enc;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.client.request.Request;
 import io.github.maxmmin.sol.core.exception.RpcException;
+import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.type.request.Encoding;
 import io.github.maxmmin.sol.core.type.request.RpcRequest;
 
@@ -19,8 +19,8 @@ import io.github.maxmmin.sol.core.type.request.RpcRequest;
 public abstract class MultiEncRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B, J, P> implements Request<D> {
     private final RpcGateway gateway;
 
-    public MultiEncRequest(RpcTypes<D, B, J, P> types, RpcGateway gateway) {
-        super(types);
+    public MultiEncRequest(RpcTypes<D, B, J, P> types, EncodingSupport encodingSupport, RpcGateway gateway) {
+        super(types, encodingSupport);
         this.gateway = gateway;
     }
 
@@ -57,5 +57,9 @@ public abstract class MultiEncRequest<D, B, J, P> extends IntrospectedRpcVariety
             throw new UnsupportedOperationException("Unsupported encoding: " + encoding);
         }
         return gateway.send(construct(encoding), typeReference).getResult();
+    }
+
+    public boolean supportsEncoding(Encoding encoding) {
+        return getSupportedEncodings().contains(encoding);
     }
 }

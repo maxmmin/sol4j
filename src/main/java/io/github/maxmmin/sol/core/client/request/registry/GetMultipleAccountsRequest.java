@@ -2,9 +2,9 @@ package io.github.maxmmin.sol.core.client.request.registry;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
 import io.github.maxmmin.sol.core.exception.RpcException;
+import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.type.request.Encoding;
 import io.github.maxmmin.sol.core.type.request.GetMultipleAccountsConfig;
 import io.github.maxmmin.sol.core.type.request.RpcRequest;
@@ -21,7 +21,10 @@ public class GetMultipleAccountsRequest extends MultiEncRequest<ContextWrapper<L
     private final ObjectMapper mapper = new ObjectMapper();
 
     public GetMultipleAccountsRequest(RpcGateway gateway, List<String> accounts, GetMultipleAccountsConfig config) {
-        super(new RpcTypes<ContextWrapper<List<BaseEncAccount>>, ContextWrapper<List<BaseEncAccount>>, Void, ContextWrapper<List<JsonParsedAccount>>>() {}, gateway);
+        super(
+                new RpcTypes<ContextWrapper<List<BaseEncAccount>>, ContextWrapper<List<BaseEncAccount>>, Void, ContextWrapper<List<JsonParsedAccount>>>() {},
+                EncodingSupport.fullWithCompressing(),
+                gateway);
         this.accounts = accounts;
         this.config = config;
     }

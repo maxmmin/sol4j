@@ -1,15 +1,14 @@
 package io.github.maxmmin.sol.core.gateway;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.maxmmin.sol.core.exception.RpcBatchedResponseException;
 import io.github.maxmmin.sol.core.exception.RpcException;
 import io.github.maxmmin.sol.core.exception.RpcResponseException;
-import io.github.maxmmin.sol.core.type.request.Param;
 import io.github.maxmmin.sol.core.type.request.RpcRequest;
 import io.github.maxmmin.sol.core.type.response.RpcResponse;
 import io.github.maxmmin.sol.util.Collector;
@@ -22,14 +21,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-class ParamSerializer extends JsonSerializer<Param> {
-    @Override
-    public void serialize(Param param, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        if (param.getValue() != null) serializerProvider.defaultSerializeValue(param.getValue(), jsonGenerator);
-        else jsonGenerator.writeNull();
-    }
-}
-
 public abstract class AbstractRpcGateway implements RpcGateway {
     @Getter
     private final String endpoint;
@@ -41,11 +32,8 @@ public abstract class AbstractRpcGateway implements RpcGateway {
     }
 
     private static ObjectMapper createMapper() {
-        SimpleModule simpleModule = new SimpleModule().addSerializer(Param.class, new ParamSerializer());
-
         return new ObjectMapper()
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .registerModule(simpleModule)
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 

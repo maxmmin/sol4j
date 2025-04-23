@@ -2,9 +2,9 @@ package io.github.maxmmin.sol.core.client.request.registry;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
 import io.github.maxmmin.sol.core.exception.RpcException;
+import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.type.request.Encoding;
 import io.github.maxmmin.sol.core.type.request.GetProgramAccountsConfig;
 import io.github.maxmmin.sol.core.type.request.RpcRequest;
@@ -21,7 +21,10 @@ public class GetProgramAccountsRequest extends MultiEncRequest<List<JsonProgramA
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GetProgramAccountsRequest(RpcGateway gateway, String programId, GetProgramAccountsConfig config) {
-        super(new RpcTypes<List<JsonProgramAccount>, List<BaseEncProgramAccount>, List<JsonProgramAccount>, List<JsonParsedProgramAccount>>() {}, gateway);
+        super(
+                new RpcTypes<List<JsonProgramAccount>, List<BaseEncProgramAccount>, List<JsonProgramAccount>, List<JsonParsedProgramAccount>>() {},
+                EncodingSupport.fullWithCompressing(),
+                gateway);
         this.programId = programId;
         this.config = config;
     }

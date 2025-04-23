@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.maxmmin.sol.core.client.request.BatchedRequest;
 import io.github.maxmmin.sol.core.client.request.Request;
 import io.github.maxmmin.sol.core.client.request.registry.*;
+import io.github.maxmmin.sol.core.crypto.transaction.Transaction;
 import io.github.maxmmin.sol.core.type.request.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -98,6 +99,9 @@ public interface RpcClient {
 
     IsBlockhashValidRequest isBlockhashValid(String blockHash);
     IsBlockhashValidRequest isBlockhashValid(String blockHash, @NotNull IsBlockhashValidConfig config);
+
+    SendTransactionRequest sendTransaction(Transaction transaction);
+    SendTransactionRequest sendTransaction(Transaction transaction, @NotNull SendTransactionConfig config);
 
     MinimumLedgerSlotRequest minimumLedgerSlot();
 }

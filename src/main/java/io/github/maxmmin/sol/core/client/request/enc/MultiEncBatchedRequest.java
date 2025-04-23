@@ -1,16 +1,14 @@
 package io.github.maxmmin.sol.core.client.request.enc;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.client.request.BatchedRequest;
 import io.github.maxmmin.sol.core.exception.RpcException;
+import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.type.request.Encoding;
 import io.github.maxmmin.sol.core.type.request.RpcRequest;
 import io.github.maxmmin.sol.core.type.response.RpcResponse;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MultiEncBatchedRequest<D, B, J, P> extends IntrospectedRpcVariety<D, B, J, P> implements BatchedRequest<D> {
@@ -18,7 +16,7 @@ public class MultiEncBatchedRequest<D, B, J, P> extends IntrospectedRpcVariety<D
     private final List<? extends MultiEncRequest<D, B, J, P>> requests;
 
     public MultiEncBatchedRequest(RpcTypes<D, B, J, P> types, RpcGateway gateway, Collection<? extends MultiEncRequest<D, B, J, P>> requests) {
-        super(types);
+        super(types, getEncodingSupport(requests));
         this.gateway = gateway;
         this.requests = List.copyOf(requests);
     }
@@ -59,5 +57,17 @@ public class MultiEncBatchedRequest<D, B, J, P> extends IntrospectedRpcVariety<D
         List<MultiEncRequest<D, B, J, P>> newRequests = new ArrayList<>(requests);
         newRequests.add(request);
         return new MultiEncBatchedRequest<>(getRpcTypes(), gateway, newRequests);
+    }
+
+    private static EncodingSupport getEncodingSupport(Collection<? extends MultiEncRequest<?, ?, ?, ?>> requests) {
+        List<Set<Encoding>> encodings = new ArrayList<>(requests.size());
+        requests.forEach(request -> encodings.add(request.getSupportedEncodings()));
+        Set<Encoding> commonEncodings = new HashSet<>();
+        Iterator<Set<Encoding>> iterator = encodings.iterator();
+        commonEncodings.addAll(iterator.next());
+        while (iterator.hasNext()) {
+            commonEncodings.retainAll(iterator.next());
+        }
+        return new EncodingSupport(commonEncodings.toArray(Encoding[]::new));
     }
 }
