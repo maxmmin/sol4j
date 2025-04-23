@@ -127,8 +127,6 @@ JsonParsedTransaction jsonParsedEncTx = txRequest.jsonParsed();
 
 <b>Lamports transferring via SystemProgram</b>
 
-<small>Tx-building API will be updated in the future to make sending transactions easier</small>
-
 ```java
 RpcClient rpcClient = new SimpleRpcClient(HttpRpcGateway.create("https://api.devnet.solana.com"));
 
@@ -145,3 +143,6 @@ Message txMessage = MessageBuilder.getBuilder()
 Transaction transaction = TransactionBuilder.build(txMessage, sender);
 String txId = rpcClient.sendTransaction(transaction).base64();
 ```
+
+<small>(Tx-building API will be updated in the future to make sending transactions easier)</small>
+
