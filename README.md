@@ -124,3 +124,24 @@ BaseEncTransaction base64EncodedTx = txRequest.base64();
 JsonTransaction jsonEncodedTx = txRequest.json();
 JsonParsedTransaction jsonParsedEncTx = txRequest.jsonParsed();
 ```
+
+<b>Lamports transferring via SystemProgram</b>
+
+<small>Tx-building API will be updated in the future to make sending transactions easier</small>
+
+```java
+RpcClient rpcClient = new SimpleRpcClient(HttpRpcGateway.create("https://api.devnet.solana.com"));
+
+Account sender = Account.fromSecretKey(secretKey);
+PublicKey receiverPubkey = PublicKey.fromBase58("2ZqPxLUgUFLCyQdqokCNJqnhb4kLY7Bn8T28ABQAjfq4");
+BigInteger lamports = BigInteger.valueOf(3000);
+
+Message txMessage = MessageBuilder.getBuilder()
+        .addInstruction(SystemProgram.transfer(new SystemProgram.TransferParams(sender.getPublicKey(), receiverPubkey, lamports)))
+        .setBlockHash(rpcClient.getLatestBlockhash().send().getBlockhash())
+        .setFeePayer(sender.getPublicKey())
+        .build();
+
+Transaction transaction = TransactionBuilder.build(txMessage, sender);
+String txId = rpcClient.sendTransaction(transaction).base64();
+```
