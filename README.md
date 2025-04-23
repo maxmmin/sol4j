@@ -73,7 +73,7 @@ Under active development
 - isBlockhashValid ✅
 - minimumLedgerSlot ✅
 - requestAirdrop ❌
-- sendTransaction ❌
+- sendTransaction ✅
 - simulateTransaction ❌
 </details>
 <details>
