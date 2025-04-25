@@ -51,7 +51,7 @@ public abstract class MessageBuilder<M> {
     public M build() {
         if (feePayer == null) throw new IllegalArgumentException("Fee payer cannot be null");
         if (recentBlockHash == null) throw new IllegalArgumentException("Block hash cannot be null");
-        List<AccountMeta> accounts = getOrderedAccounts();
+        List<AccountMeta> accounts = getInstructionsOrderedAccounts();
         MessageHeader messageHeader = buildMessageHeader(accounts);
         List<CompiledInstruction> compiledInstructions = compileInstructions(transactionInstructions, accounts);
         List<PublicKey> accountKeys = accounts.stream().map(AccountMeta::getPubkey).collect(Collectors.toList());
@@ -77,13 +77,13 @@ public abstract class MessageBuilder<M> {
         return new MessageHeader((byte) signers, roSigners, (byte) ro);
     }
 
-    protected List<AccountMeta> getOrderedAccounts() {
+    protected List<AccountMeta> getInstructionsOrderedAccounts() {
         Map<PublicKey, AccountMeta> accountMap = new HashMap<>();
 
         transactionInstructions.forEach(transactionInstruction -> {
             List<AccountMeta> instructionAccounts = new ArrayList<>(transactionInstruction.getAccounts());
             instructionAccounts.add(new AccountMeta(transactionInstruction.getProgramId(), false, false));
-            for (AccountMeta account : instructionAccounts) {
+            for (AccountMeta account: instructionAccounts) {
                 var pubkey = account.getPubkey();
                 if (accountMap.containsKey(pubkey) && accountMetaComparator.compare(accountMap.get(pubkey), account) <= 0) {
                     continue;
@@ -128,7 +128,7 @@ public abstract class MessageBuilder<M> {
                 .collect(Collectors.toList());
     }
 
-    private byte[] getInstructionAccountIndexes(TransactionInstruction instruction, Map<PublicKey, Byte> indexMap) {
+    protected byte[] getInstructionAccountIndexes(TransactionInstruction instruction, Map<PublicKey, Byte> indexMap) {
         List<AccountMeta> instructionAccounts = instruction.getAccounts();
         byte[] indexes = new byte[instructionAccounts.size()];
         for (int i = 0; i < instructionAccounts.size(); i++) {
