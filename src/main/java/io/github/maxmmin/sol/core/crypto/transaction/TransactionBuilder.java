@@ -4,6 +4,8 @@ import io.github.maxmmin.sol.core.crypto.Account;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.sign.MessageSignException;
 import io.github.maxmmin.sol.core.crypto.sign.MessageSigner;
+import io.github.maxmmin.sol.core.crypto.transaction.message.Message;
+import io.github.maxmmin.sol.core.crypto.transaction.message.MessageSerializer;
 
 import java.util.*;
 

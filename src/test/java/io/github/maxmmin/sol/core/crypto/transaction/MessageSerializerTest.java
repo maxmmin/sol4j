@@ -1,6 +1,9 @@
 package io.github.maxmmin.sol.core.crypto.transaction;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
+import io.github.maxmmin.sol.core.crypto.transaction.message.LegacyMessageBuilder;
+import io.github.maxmmin.sol.core.crypto.transaction.message.Message;
+import io.github.maxmmin.sol.core.crypto.transaction.message.MessageSerializer;
 import io.github.maxmmin.sol.program.SystemProgram;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +21,7 @@ public class MessageSerializerTest {
         BigInteger lamports = BigInteger.valueOf(500);
         SystemProgram.TransferParams transferParams = new SystemProgram.TransferParams(from, to, lamports);
 
-        Message message = new MessageBuilder()
+        Message message = new LegacyMessageBuilder()
                 .setFeePayer(signer)
                 .setBlockHash("Eit7RCyhUixAe2hGBS8oqnw59QK3kgMMjfLME5bm9wRn")
                 .addInstruction(SystemProgram.transfer(transferParams))

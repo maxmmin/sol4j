@@ -2,6 +2,8 @@ package io.github.maxmmin.sol.core.crypto.transaction;
 
 import io.github.maxmmin.sol.core.crypto.Account;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
+import io.github.maxmmin.sol.core.crypto.transaction.message.LegacyMessageBuilder;
+import io.github.maxmmin.sol.core.crypto.transaction.message.Message;
 import io.github.maxmmin.sol.program.SystemProgram;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,7 @@ public class TransactionBuilderTest {
         PublicKey recipient = PublicKey.fromBase58("GrDMoeqMLFjeXQ24H56S1RLgT4R76jsuWCd6SvXyGPQ5");
         BigInteger lamports = BigInteger.valueOf(100);
 
-        Message message = MessageBuilder.getBuilder()
+        Message message = LegacyMessageBuilder.getBuilder()
                 .setBlockHash("EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N")
                 .setFeePayer(sender.getPublicKey())
                 .addInstruction(SystemProgram.transfer(new SystemProgram.TransferParams(sender.getPublicKey(), recipient, lamports)))

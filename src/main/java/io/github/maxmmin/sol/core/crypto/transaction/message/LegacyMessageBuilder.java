@@ -1,38 +1,40 @@
-package io.github.maxmmin.sol.core.crypto.transaction;
+package io.github.maxmmin.sol.core.crypto.transaction.message;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.ShortU16;
+import io.github.maxmmin.sol.core.crypto.transaction.CompiledInstruction;
+import io.github.maxmmin.sol.core.crypto.transaction.TransactionInstruction;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MessageBuilder {
+public class LegacyMessageBuilder {
     private String recentBlockHash;
     private PublicKey feePayer;
     private final List<TransactionInstruction> transactionInstructions = new ArrayList<>();
 
-    public MessageBuilder setBlockHash(String blockHash) {
+    public LegacyMessageBuilder setBlockHash(String blockHash) {
         recentBlockHash = Objects.requireNonNull(blockHash, "Block hash cannot be null");
         return this;
     }
 
-    public MessageBuilder setFeePayer(PublicKey feePayer) {
+    public LegacyMessageBuilder setFeePayer(PublicKey feePayer) {
         this.feePayer = Objects.requireNonNull(feePayer, "Fee payer cannot be null");
         return this;
     }
 
-    public MessageBuilder addInstruction(TransactionInstruction transactionInstruction) {
+    public LegacyMessageBuilder addInstruction(TransactionInstruction transactionInstruction) {
         transactionInstructions.add(transactionInstruction);
         return this;
     }
 
-    public MessageBuilder addInstructions(TransactionInstruction... transactionInstructions) {
+    public LegacyMessageBuilder addInstructions(TransactionInstruction... transactionInstructions) {
         this.transactionInstructions.addAll(Arrays.asList(transactionInstructions));
         return this;
     }
 
-    public static MessageBuilder getBuilder() {
-        return new MessageBuilder();
+    public static LegacyMessageBuilder getBuilder() {
+        return new LegacyMessageBuilder();
     }
 
     public Message build() {
@@ -101,7 +103,7 @@ public class MessageBuilder {
         return new MessageHeader((byte) signers, roSigners, (byte) ro);
     }
 
-    private List<AccountMeta> getOrderedAccounts() {
+    protected List<AccountMeta> getOrderedAccounts() {
         Map<PublicKey, List<AccountMeta>> accountMap = new HashMap<>();
         List<AccountMeta> feePayerKeys = new ArrayList<>() {{
             add(new AccountMeta(feePayer, true, true));

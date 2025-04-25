@@ -1,4 +1,4 @@
-package io.github.maxmmin.sol.core.crypto.transaction;
+package io.github.maxmmin.sol.core.crypto.transaction.message;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
