@@ -16,20 +16,24 @@ public abstract class MessageBuilder<M> {
     private PublicKey feePayer;
     private final List<TransactionInstruction> transactionInstructions = new ArrayList<>();
 
-    protected void setStateBlockHash(String blockHash) {
+    public MessageBuilder<M> setBlockHash(String blockHash) {
         recentBlockHash = Objects.requireNonNull(blockHash, "Block hash cannot be null");
+        return this;
     }
 
-    protected void setStateFeePayer(PublicKey feePayer) {
+    public MessageBuilder<M> setFeePayer(PublicKey feePayer) {
         this.feePayer = Objects.requireNonNull(feePayer, "Fee payer cannot be null");
+        return this;
     }
 
-    protected void addInstructionToState(TransactionInstruction transactionInstruction) {
+    public MessageBuilder<M> addInstruction(TransactionInstruction transactionInstruction) {
         transactionInstructions.add(transactionInstruction);
+        return this;
     }
 
-    protected void addInstructionsToState(TransactionInstruction... transactionInstructions) {
+    public MessageBuilder<M> addInstructions(TransactionInstruction... transactionInstructions) {
         this.transactionInstructions.addAll(Arrays.asList(transactionInstructions));
+        return this;
     }
 
     protected Map<PublicKey, Byte> buildAccountsIndexesMap(List<AccountMeta> accounts) {
@@ -144,5 +148,9 @@ public abstract class MessageBuilder<M> {
         private final String recentBlockhash;
         private final PublicKey feePayer;
         private final List<CompiledInstruction> compiledInstructions;
+    }
+
+    public static LegacyMessageBuilder getBuilder() {
+        return new LegacyMessageBuilder();
     }
 }
