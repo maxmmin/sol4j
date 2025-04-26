@@ -56,7 +56,7 @@ public abstract class MessageBuilder<M> {
         List<CompiledInstruction> compiledInstructions = compileInstructions(transactionInstructions, accounts);
         List<PublicKey> accountKeys = accounts.stream().map(AccountMeta::getPubkey).collect(Collectors.toList());
 
-        MessageComponents messageComponents = new MessageComponents(messageHeader, accountKeys, recentBlockHash, feePayer, compiledInstructions);
+        MessageComponents messageComponents = new MessageComponents(messageHeader, accountKeys, accounts, recentBlockHash, feePayer, compiledInstructions);
         return build(messageComponents);
     }
 
@@ -145,6 +145,7 @@ public abstract class MessageBuilder<M> {
     protected static class MessageComponents {
         private final MessageHeader messageHeader;
         private final List<PublicKey> accountKeys;
+        private final List<AccountMeta> accountMetas;
         private final String recentBlockhash;
         private final PublicKey feePayer;
         private final List<CompiledInstruction> compiledInstructions;

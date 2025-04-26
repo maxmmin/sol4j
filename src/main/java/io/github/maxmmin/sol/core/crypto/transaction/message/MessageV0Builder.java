@@ -69,10 +69,13 @@ public class MessageV0Builder extends MessageBuilder<MessageV0> {
 
     @Override
     protected MessageV0 build(MessageComponents messageComponents) {
-        messageComponents.getAccountKeys().subList(messageComponents.getAccountKeys().size() - lookupTableAccounts.size() - 1, lookupTableAccounts.size());
+        List<MessageAddressTableLookup> tableLookups = getLookupAccounts(messageComponents.getAccountMetas());
+        List<PublicKey> finalKeys = messageComponents.getAccountKeys().subList(0, messageComponents.getAccountKeys().size() - messageComponents.getAccountMetas().size());
+        return new MessageV0(messageComponents.getMessageHeader(), finalKeys, messageComponents.getRecentBlockhash(),
+                messageComponents.getCompiledInstructions(), tableLookups);
     }
 
-    protected List<MessageAddressTableLookup> getLookupAccounts(List<AccountMeta> allAccounts) {
+    private List<MessageAddressTableLookup> getLookupAccounts(List<AccountMeta> allAccounts) {
         Map<PublicKey, AccountMeta> accountMetaMap = allAccounts.stream()
                 .filter(meta -> !meta.isSigner())
                 .collect(Collectors.toMap(AccountMeta::getPubkey, a -> a));
@@ -106,7 +109,7 @@ public class MessageV0Builder extends MessageBuilder<MessageV0> {
 
             messageAddressTableLookups.add(new MessageAddressTableLookup(lookupTable.getKey(), writableIndexesArray, readonlyIndexesArray));
         }
-        // @todo hmm maybe immutable?
+
         return messageAddressTableLookups;
     }
 }
