@@ -1,8 +1,6 @@
 package io.github.maxmmin.sol.core.crypto.transaction.message;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
-import io.github.maxmmin.sol.core.crypto.ShortU16;
-import io.github.maxmmin.sol.core.crypto.transaction.CompiledInstruction;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionInstruction;
 import io.github.maxmmin.sol.program.alt.AddressLookupTableAccount;
 
@@ -71,6 +69,44 @@ public class MessageV0Builder extends MessageBuilder<MessageV0> {
 
     @Override
     protected MessageV0 build(MessageComponents messageComponents) {
+        messageComponents.getAccountKeys().subList(messageComponents.getAccountKeys().size() - lookupTableAccounts.size() - 1, lookupTableAccounts.size());
+    }
 
+    protected List<MessageAddressTableLookup> getLookupAccounts(List<AccountMeta> allAccounts) {
+        Map<PublicKey, AccountMeta> accountMetaMap = allAccounts.stream()
+                .filter(meta -> !meta.isSigner())
+                .collect(Collectors.toMap(AccountMeta::getPubkey, a -> a));
+
+        List<MessageAddressTableLookup> messageAddressTableLookups = new ArrayList<>();
+        for (AddressLookupTableAccount lookupTable: lookupTableAccounts) {
+            List<Byte> writableIndexes = new ArrayList<>();
+            List<Byte> readonlyIndexes = new ArrayList<>();
+            List<PublicKey> tableAddresses = lookupTable.getState().getAddresses();
+
+            for (byte i = 0; i < tableAddresses.size(); i++) {
+                if (i < 0) throw new IllegalStateException("Counter overflow: lookup table accounts amount are too large");
+                PublicKey pubkey = tableAddresses.get(i);
+                if (accountMetaMap.containsKey(pubkey)) {
+                    AccountMeta meta = accountMetaMap.get(pubkey);
+                    if (meta.isWritable()) writableIndexes.add(i);
+                    else readonlyIndexes.add(i);
+                    accountMetaMap.remove(pubkey);
+                }
+            }
+
+            byte[] writableIndexesArray = new byte[writableIndexes.size()];
+            for (int i = 0; i < writableIndexes.size(); i++) {
+                writableIndexesArray[i] = writableIndexes.get(i);
+            }
+
+            byte[] readonlyIndexesArray = new byte[readonlyIndexes.size()];
+            for (int i = 0; i < readonlyIndexes.size(); i++) {
+                readonlyIndexesArray[i] = readonlyIndexes.get(i);
+            }
+
+            messageAddressTableLookups.add(new MessageAddressTableLookup(lookupTable.getKey(), writableIndexesArray, readonlyIndexesArray));
+        }
+        // @todo hmm maybe immutable?
+        return messageAddressTableLookups;
     }
 }
