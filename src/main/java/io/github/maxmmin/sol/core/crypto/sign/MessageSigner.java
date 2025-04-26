@@ -35,11 +35,11 @@ public class MessageSigner<V> {
         return Base58.encodeToString(signedBytes);
     }
 
-    public static MessageSigner<MessageV0> getV0Signer() {
-        return new MessageSigner<>(MessageSerializer.getV0Serializer());
+    public static MessageSigner<MessageV0> getSignerV0() {
+        return new MessageSigner<>(MessageSerializer.getSerializerV0());
     }
 
-    public static MessageSigner<Message> getLegacySigner() {
-        return new MessageSigner<>(MessageSerializer.getLegacySerializer());
+    public static MessageSigner<Message> getSigner() {
+        return new MessageSigner<>(MessageSerializer.getSerializer());
     }
 }
