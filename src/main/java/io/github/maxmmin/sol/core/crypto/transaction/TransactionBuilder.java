@@ -16,7 +16,7 @@ public class TransactionBuilder {
     private final byte[] messageBytes;
 
     public TransactionBuilder(Message message) {
-        this(message, new MessageSigner());
+        this(message, MessageSigner);
     }
 
     public TransactionBuilder(Message message, MessageSigner messageSigner) {

@@ -3,22 +3,25 @@ package io.github.maxmmin.sol.core.crypto.sign;
 import io.github.maxmmin.sol.core.crypto.transaction.message.Message;
 import io.github.maxmmin.sol.core.crypto.transaction.message.MessageSerializer;
 import io.github.maxmmin.sol.core.crypto.Base58;
+import io.github.maxmmin.sol.core.crypto.transaction.message.MessageV0;
 
 import java.security.InvalidKeyException;
 
-public class MessageSigner {
+public class MessageSigner<V> {
     private final Signer signer;
+    private final MessageSerializer<V> serializer;
 
-    public MessageSigner() {
-        this.signer = new JavaEd25519Signer();
+    public MessageSigner(MessageSerializer<V> serializer) {
+        this(new JavaEd25519Signer(), serializer);
     }
 
-    public MessageSigner(Signer signer) {
+    public MessageSigner(Signer signer, MessageSerializer<V> serializer) {
         this.signer = signer;
+        this.serializer = serializer;
     }
 
-    public String sign(Message message, byte[] secretKey) throws MessageSignException {
-        byte[] messageBytes = MessageSerializer.serialize(message);
+    public String sign(V message, byte[] secretKey) throws MessageSignException {
+        byte[] messageBytes = serializer.serialize(message);
         return sign(messageBytes, secretKey);
     }
 
@@ -30,5 +33,13 @@ public class MessageSigner {
             throw new MessageSignException("Message signing was failed", e);
         }
         return Base58.encodeToString(signedBytes);
+    }
+
+    public static MessageSigner<MessageV0> getV0Signer() {
+        return new MessageSigner<>(MessageSerializer.getV0Serializer());
+    }
+
+    public static MessageSigner<Message> getLegacySigner() {
+        return new MessageSigner<>(MessageSerializer.getLegacySerializer());
     }
 }
