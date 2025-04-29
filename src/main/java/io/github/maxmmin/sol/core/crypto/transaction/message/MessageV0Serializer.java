@@ -3,6 +3,8 @@ package io.github.maxmmin.sol.core.crypto.transaction.message;
 import java.nio.ByteBuffer;
 
 public class MessageV0Serializer implements MessageSerializer<MessageV0> {
+    private final static byte VERSION_PREFIX = (byte) (1 << 7);
+
     private final MessageV0ComponentsSerializer messageComponentsSerializer;
 
     public MessageV0Serializer() {
@@ -22,7 +24,8 @@ public class MessageV0Serializer implements MessageSerializer<MessageV0> {
         byte[] serializedLookupTables = messageComponentsSerializer.serializeAddressLookupTables(message.getAccountKeysLookups());
 
         int size = serializedHeader.length + serializedKeys.length + serializedBlockHash.length + serializedInstructions.length + serializedLookupTables.length;
-        ByteBuffer buffer = ByteBuffer.allocate(size);
+        ByteBuffer buffer = ByteBuffer.allocate(1 + size);
+        buffer.put(VERSION_PREFIX);
         buffer.put(serializedHeader);
         buffer.put(serializedKeys);
         buffer.put(serializedBlockHash);
