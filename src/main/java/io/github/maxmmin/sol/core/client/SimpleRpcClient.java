@@ -7,7 +7,7 @@ import io.github.maxmmin.sol.core.client.request.SimpleBatchedRequest;
 import io.github.maxmmin.sol.core.client.request.SimpleRequest;
 import io.github.maxmmin.sol.core.client.request.registry.*;
 import io.github.maxmmin.sol.core.crypto.transaction.Transaction;
-import io.github.maxmmin.sol.core.crypto.transaction.TransactionSerializer;
+import io.github.maxmmin.sol.core.crypto.transaction.AbstractTransactionSerializer;
 import io.github.maxmmin.sol.core.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.type.request.*;
 import io.github.maxmmin.sol.core.type.response.RpcResponse;
@@ -313,7 +313,7 @@ public class SimpleRpcClient implements RpcClient {
 
     @Override
     public SendTransactionRequest sendTransaction(Transaction transaction, @NotNull SendTransactionConfig config) {
-        return new SendTransactionRequest(rpcGateway, TransactionSerializer.toBase58(transaction), config);
+        return new SendTransactionRequest(rpcGateway, AbstractTransactionSerializer.toBase58(transaction), config);
     }
 
     @Override
