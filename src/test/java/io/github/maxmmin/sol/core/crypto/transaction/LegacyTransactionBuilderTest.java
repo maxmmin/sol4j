@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
-public class TransactionBuilderTest {
+public class LegacyTransactionBuilderTest {
     @Test
-    public void testLegacyTxBuild () {
+    public void testSimpleTxBuild() {
         Account sender = Account.generate();
         PublicKey recipient = PublicKey.fromBase58("GrDMoeqMLFjeXQ24H56S1RLgT4R76jsuWCd6SvXyGPQ5");
         BigInteger lamports = BigInteger.valueOf(100);
