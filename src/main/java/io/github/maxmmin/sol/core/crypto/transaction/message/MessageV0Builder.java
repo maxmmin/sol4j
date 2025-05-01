@@ -9,6 +9,12 @@ import java.util.stream.Collectors;
 
 public class MessageV0Builder extends MessageBuilder<MessageV0> {
     private final List<AddressLookupTableAccount> lookupTableAccounts = new ArrayList<>();
+    private boolean addEmptyLookups = false;
+
+    public MessageV0Builder setEmptyLookupsAddition(boolean addEmptyLookups) {
+        this.addEmptyLookups = addEmptyLookups;
+        return this;
+    }
 
     @Override
     public MessageV0Builder setBlockHash(String blockHash) {
@@ -116,7 +122,9 @@ public class MessageV0Builder extends MessageBuilder<MessageV0> {
                 readonlyIndexesArray[i] = readonlyIndexes.get(i);
             }
 
-            messageAddressTableLookups.add(new MessageAddressTableLookup(lookupTable.getKey(), writableIndexesArray, readonlyIndexesArray));
+            if (addEmptyLookups || (writableIndexesArray.length + readonlyIndexesArray.length > 0)) {
+                messageAddressTableLookups.add(new MessageAddressTableLookup(lookupTable.getKey(), writableIndexesArray, readonlyIndexesArray));
+            }
         }
 
         return messageAddressTableLookups;

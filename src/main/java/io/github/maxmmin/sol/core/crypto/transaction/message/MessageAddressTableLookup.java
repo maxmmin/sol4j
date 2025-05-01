@@ -10,4 +10,8 @@ public class MessageAddressTableLookup {
     private final PublicKey accountKey;
     private final byte[] writableIndexes;
     private final byte[] readonlyIndexes;
+
+    public boolean isEmpty() {
+        return writableIndexes.length + readonlyIndexes.length == 0;
+    }
 }

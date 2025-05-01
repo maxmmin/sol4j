@@ -30,6 +30,7 @@ public class MessageV0Serializer implements MessageSerializer<MessageV0> {
         buffer.put(serializedKeys);
         buffer.put(serializedBlockHash);
         buffer.put(serializedInstructions);
+        buffer.put(serializedLookupTables);
         return buffer.array();
     }
 }
