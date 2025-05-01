@@ -7,6 +7,7 @@ import io.github.maxmmin.sol.program.alt.AddressLookupTableAccount;
 import java.util.*;
 import java.util.stream.Collectors;
 
+// @TODO dont add invoked programs to lookup tables
 public class MessageV0Builder extends MessageBuilder<MessageV0> {
     private final List<AddressLookupTableAccount> lookupTableAccounts = new ArrayList<>();
     private boolean addEmptyLookups = false;
