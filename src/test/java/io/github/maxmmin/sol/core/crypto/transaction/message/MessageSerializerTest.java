@@ -72,7 +72,9 @@ public class MessageSerializerTest {
                 156, 19, 57, 132, 38, 69, 245, 1, 0, 2, 1, 2, 12, 2, 0, 0, 0, 244, 1, 0, 0, 0, 0, 0, 0, 0
         };
 
-        assertArrayEquals(expected, toUintArray(MessageSerializer.getSerializerV0().serialize(message)));
+        int[] messageBytes = toUintArray(MessageSerializer.getSerializerV0().serialize(message));
+
+        assertArrayEquals(expected, messageBytes);
     }
 
     protected int[] toUintArray(byte[] source) {
