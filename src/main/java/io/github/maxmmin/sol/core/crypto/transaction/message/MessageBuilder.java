@@ -85,7 +85,7 @@ public abstract class MessageBuilder<M> {
             instructionAccounts.add(new AccountMeta(transactionInstruction.getProgramId(), false, false));
             for (AccountMeta account: instructionAccounts) {
                 var pubkey = account.getPubkey();
-                if (accountMap.containsKey(pubkey) && accountMetaComparator.compare(accountMap.get(pubkey), account) <= 0) {
+                if (pubkey.equals(feePayer) || (accountMap.containsKey(pubkey) && accountMetaComparator.compare(accountMap.get(pubkey), account) <= 0)) {
                     continue;
                 }
                 accountMap.put(pubkey, account);
