@@ -48,7 +48,7 @@ public class MessageSerializerTest {
         SystemProgram.TransferParams transferParams = new SystemProgram.TransferParams(from, to, lamports);
 
         AddressLookupTableAccount.AddressLookupTableState state = new AddressLookupTableAccount.AddressLookupTableState(
-          new BigInteger("0xffffffffffffffff"),
+          new BigInteger("ffffffffffffffff", 16),
           BigInteger.ZERO,
           BigInteger.ZERO,
           null,

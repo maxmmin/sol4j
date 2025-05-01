@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @RequiredArgsConstructor
 public class AddressLookupTableAccount {
-    private final static BigInteger ACTIVE_FLAG = new BigInteger("0xffffffffffffffff");
+    private final static BigInteger ACTIVE_FLAG = new BigInteger("ffffffffffffffff", 16);
 
     private final PublicKey key;
     private final AddressLookupTableState state;
