@@ -42,11 +42,6 @@ public class MessageSerializerTest {
     public void testMessageV0Serializing() {
         PublicKey signer = PublicKey.fromBase58("11111111111111111111111111111111");
 
-        PublicKey from = PublicKey.fromBase58("BNzpkiBcpXNbH5ubrRBGVJex62df1kc1DWwu2kkxaUMX");
-        PublicKey to = PublicKey.fromBase58("6tcxA4dVKGJecuXRHsa9NmW1JKXAJBtuPNAVoh2knm7j");
-        BigInteger lamports = BigInteger.valueOf(500);
-        SystemProgram.TransferParams transferParams = new SystemProgram.TransferParams(from, to, lamports);
-
         AddressLookupTableAccount.AddressLookupTableState state = new AddressLookupTableAccount.AddressLookupTableState(
           new BigInteger("ffffffffffffffff", 16),
           BigInteger.ZERO,
@@ -56,6 +51,11 @@ public class MessageSerializerTest {
         );
         AddressLookupTableAccount tableAccount = new AddressLookupTableAccount(PublicKey.fromBase58("11111111111111111111111111111111"), state);
 
+        PublicKey from = PublicKey.fromBase58("BNzpkiBcpXNbH5ubrRBGVJex62df1kc1DWwu2kkxaUMX");
+        PublicKey to = PublicKey.fromBase58("6tcxA4dVKGJecuXRHsa9NmW1JKXAJBtuPNAVoh2knm7j");
+        BigInteger lamports = BigInteger.valueOf(500);
+
+        SystemProgram.TransferParams transferParams = new SystemProgram.TransferParams(from, to, lamports);
         MessageV0 message = new MessageV0Builder()
                 .setFeePayer(signer)
                 .setBlockHash("Eit7RCyhUixAe2hGBS8oqnw59QK3kgMMjfLME5bm9wRn")
@@ -64,12 +64,12 @@ public class MessageSerializerTest {
                 .build();
 
         int[] expected = {
-                128, 1, 0, 1, 3, 132, 145, 88, 164, 100, 107, 216, 93, 63, 65, 182, 88, 10, 174, 42, 20, 134, 170, 142,
-                55, 16, 236, 6, 48, 88, 135, 39, 201, 252, 185, 8, 181, 125, 29, 24, 78, 227, 70, 205, 34, 79, 110, 148,
-                4, 24, 164, 137, 232, 121, 90, 120, 206, 212, 82, 227, 64, 110, 81, 167, 215, 158, 165, 167, 219, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 203, 226, 136,
-                193, 153, 148, 240, 50, 230, 98, 9, 79, 221, 179, 243, 174, 90, 67, 104, 169, 6, 187, 165, 72, 36, 156,
-                19, 57, 132, 38, 69, 245, 1, 2, 2, 0, 1, 12, 2, 0, 0, 0, 64, 66, 15, 0, 0, 0, 0, 0, 0
+                128, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 154, 55, 114, 130, 251, 232, 203, 4, 208, 61, 153, 42, 179, 56, 141, 170, 245, 129, 51, 180, 244,
+                214, 112, 162, 189, 217, 74, 240, 231, 141, 114, 42, 87, 131, 180, 174, 96, 169, 112, 113, 104, 95, 143,
+                143, 181, 149, 200, 213, 105, 20, 58, 104, 77, 239, 166, 88, 233, 97, 143, 185, 243, 93, 11, 14, 203, 226,
+                136, 193, 153, 148, 240, 50, 230, 98, 9, 79, 221, 179, 243, 174, 90, 67, 104, 169, 6, 187, 165, 72, 36,
+                156, 19, 57, 132, 38, 69, 245, 1, 0, 2, 1, 2, 12, 2, 0, 0, 0, 244, 1, 0, 0, 0, 0, 0, 0, 0
         };
 
         assertArrayEquals(expected, toUintArray(MessageSerializer.getSerializerV0().serialize(message)));
