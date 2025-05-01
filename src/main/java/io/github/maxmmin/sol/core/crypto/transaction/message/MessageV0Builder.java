@@ -7,9 +7,9 @@ import io.github.maxmmin.sol.program.alt.AddressLookupTableAccount;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// @TODO dont add invoked programs to lookup tables
 public class MessageV0Builder extends MessageBuilder<MessageV0> {
     private final List<AddressLookupTableAccount> lookupTableAccounts = new ArrayList<>();
+    private final Set<PublicKey> programsIdList = new HashSet<>();
     private boolean addEmptyLookups = false;
 
     public MessageV0Builder setEmptyLookupsAddition(boolean addEmptyLookups) {
@@ -32,6 +32,7 @@ public class MessageV0Builder extends MessageBuilder<MessageV0> {
     @Override
     public MessageV0Builder addInstruction(TransactionInstruction transactionInstruction) {
         super.addInstruction(transactionInstruction);
+        this.programsIdList.add(transactionInstruction.getProgramId());
         return this;
     }
 
@@ -51,13 +52,24 @@ public class MessageV0Builder extends MessageBuilder<MessageV0> {
         return this;
     }
 
+    protected boolean isLookupAvailable(AccountMeta accountMeta) {
+        PublicKey publicKey = accountMeta.getPubkey();
+        return !accountMeta.isSigner() && !programsIdList.contains(publicKey);
+    }
+
+    protected Set<PublicKey> getLookupAvailableKeys(List<AccountMeta> staticAccounts) {
+        return staticAccounts.stream()
+                .filter(this::isLookupAvailable)
+                .map(AccountMeta::getPubkey)
+                .collect(Collectors.toSet());
+    }
+
     @Override
     protected List<AccountMeta> getInstructionsOrderedAccounts() {
         List<AccountMeta> staticAccounts = new ArrayList<>(super.getInstructionsOrderedAccounts());
-        Set<PublicKey> replaceableKeys = staticAccounts.stream()
-                .filter(meta -> !meta.isSigner())
-                .map(AccountMeta::getPubkey)
-                .collect(Collectors.toSet());
+
+        Set<PublicKey> replaceableKeys = getLookupAvailableKeys(staticAccounts);
+
         for (AddressLookupTableAccount lookupTable: lookupTableAccounts) {
             Set<PublicKey> tableCrossKeys = new HashSet<>(replaceableKeys);
             tableCrossKeys.retainAll(lookupTable.getState().getAddresses());
@@ -79,21 +91,21 @@ public class MessageV0Builder extends MessageBuilder<MessageV0> {
     }
 
     @Override
-    protected MessageV0 build(MessageComponents messageComponents) {
-        List<MessageAddressTableLookup> tableLookups = getLookupAccounts(messageComponents.getAccountMetas());
+    protected MessageV0 build(MessageBuildArgs messageBuildArgs) {
+        List<MessageAddressTableLookup> tableLookups = getLookupAccounts(messageBuildArgs.getAccountMetas());
 
         int lookupAccountsSize = tableLookups.stream()
                 .mapToInt(lookup ->  lookup.getWritableIndexes().length + lookup.getReadonlyIndexes().length)
                 .sum();
 
-        List<PublicKey> finalKeys = messageComponents.getAccountKeys().subList(0, messageComponents.getAccountKeys().size() - lookupAccountsSize);
-        return new MessageV0(messageComponents.getMessageHeader(), finalKeys, messageComponents.getRecentBlockhash(),
-                messageComponents.getCompiledInstructions(), tableLookups);
+        List<PublicKey> finalKeys = messageBuildArgs.getAccountKeys().subList(0, messageBuildArgs.getAccountKeys().size() - lookupAccountsSize);
+        return new MessageV0(messageBuildArgs.getMessageHeader(), finalKeys, getRecentBlockHash(),
+                messageBuildArgs.getCompiledInstructions(), tableLookups);
     }
 
     private List<MessageAddressTableLookup> getLookupAccounts(List<AccountMeta> allAccounts) {
         Map<PublicKey, AccountMeta> accountMetaMap = allAccounts.stream()
-                .filter(meta -> !meta.isSigner())
+                .filter(this::isLookupAvailable)
                 .collect(Collectors.toMap(AccountMeta::getPubkey, a -> a));
 
         List<MessageAddressTableLookup> messageAddressTableLookups = new ArrayList<>();

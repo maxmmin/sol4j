@@ -4,6 +4,7 @@ import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.ShortU16;
 import io.github.maxmmin.sol.core.crypto.transaction.CompiledInstruction;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionInstruction;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Getter(AccessLevel.PROTECTED)
 public abstract class MessageBuilder<M> {
     private String recentBlockHash;
     private PublicKey feePayer;
@@ -46,18 +48,19 @@ public abstract class MessageBuilder<M> {
         return accountsIndexes;
     }
 
-    protected abstract M build(MessageComponents messageComponents);
+    protected abstract M build(MessageBuildArgs messageBuildArgs);
 
     public M build() {
         if (feePayer == null) throw new IllegalArgumentException("Fee payer cannot be null");
         if (recentBlockHash == null) throw new IllegalArgumentException("Block hash cannot be null");
+
         List<AccountMeta> accounts = getInstructionsOrderedAccounts();
         MessageHeader messageHeader = buildMessageHeader(accounts);
         List<CompiledInstruction> compiledInstructions = compileInstructions(transactionInstructions, accounts);
         List<PublicKey> accountKeys = accounts.stream().map(AccountMeta::getPubkey).collect(Collectors.toList());
 
-        MessageComponents messageComponents = new MessageComponents(messageHeader, accountKeys, accounts, recentBlockHash, feePayer, compiledInstructions);
-        return build(messageComponents);
+        MessageBuildArgs messageBuildArgs = new MessageBuildArgs(messageHeader, accountKeys, accounts, compiledInstructions);
+        return build(messageBuildArgs);
     }
 
     protected MessageHeader buildMessageHeader(List<AccountMeta> accounts) {
@@ -142,12 +145,10 @@ public abstract class MessageBuilder<M> {
 
     @Getter
     @RequiredArgsConstructor
-    protected static class MessageComponents {
+    protected static class MessageBuildArgs {
         private final MessageHeader messageHeader;
         private final List<PublicKey> accountKeys;
         private final List<AccountMeta> accountMetas;
-        private final String recentBlockhash;
-        private final PublicKey feePayer;
         private final List<CompiledInstruction> compiledInstructions;
     }
 

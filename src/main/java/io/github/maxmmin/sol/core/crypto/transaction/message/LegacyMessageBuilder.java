@@ -29,7 +29,7 @@ public class LegacyMessageBuilder extends MessageBuilder<Message> {
     }
 
     @Override
-    protected Message build(MessageComponents messageComponents) {
-        return new Message(messageComponents.getMessageHeader(), messageComponents.getAccountKeys(), messageComponents.getRecentBlockhash(), messageComponents.getCompiledInstructions());
+    protected Message build(MessageBuildArgs messageBuildArgs) {
+        return new Message(messageBuildArgs.getMessageHeader(), messageBuildArgs.getAccountKeys(), getRecentBlockHash(), messageBuildArgs.getCompiledInstructions());
     }
 }
