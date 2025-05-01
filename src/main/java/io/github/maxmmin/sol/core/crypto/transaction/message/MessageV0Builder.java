@@ -11,23 +11,27 @@ public class MessageV0Builder extends MessageBuilder<MessageV0> {
     private final List<AddressLookupTableAccount> lookupTableAccounts = new ArrayList<>();
 
     @Override
-    public MessageBuilder<MessageV0> setBlockHash(String blockHash) {
-        return super.setBlockHash(blockHash);
+    public MessageV0Builder setBlockHash(String blockHash) {
+        super.setBlockHash(blockHash);
+        return this;
     }
 
     @Override
-    public MessageBuilder<MessageV0> setFeePayer(PublicKey feePayer) {
-        return super.setFeePayer(feePayer);
+    public MessageV0Builder setFeePayer(PublicKey feePayer) {
+        super.setFeePayer(feePayer);
+        return this;
     }
 
     @Override
-    public MessageBuilder<MessageV0> addInstruction(TransactionInstruction transactionInstruction) {
-        return super.addInstruction(transactionInstruction);
+    public MessageV0Builder addInstruction(TransactionInstruction transactionInstruction) {
+        super.addInstruction(transactionInstruction);
+        return this;
     }
 
     @Override
-    public MessageBuilder<MessageV0> addInstructions(TransactionInstruction... transactionInstructions) {
-        return super.addInstructions(transactionInstructions);
+    public MessageV0Builder addInstructions(TransactionInstruction... transactionInstructions) {
+        super.addInstructions(transactionInstructions);
+        return this;
     }
 
     public MessageV0Builder addLookupTable(AddressLookupTableAccount lookupTable) {

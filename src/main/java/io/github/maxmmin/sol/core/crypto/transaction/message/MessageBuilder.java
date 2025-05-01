@@ -154,4 +154,8 @@ public abstract class MessageBuilder<M> {
     public static LegacyMessageBuilder getBuilder() {
         return new LegacyMessageBuilder();
     }
+
+    public static MessageV0Builder getV0Builder() {
+        return new MessageV0Builder();
+    }
 }

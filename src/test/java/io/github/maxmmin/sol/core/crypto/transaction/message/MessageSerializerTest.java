@@ -2,15 +2,17 @@ package io.github.maxmmin.sol.core.crypto.transaction.message;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.program.SystemProgram;
+import io.github.maxmmin.sol.program.alt.AddressLookupTableAccount;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class MessageSerializerTest {
     @Test
-    public void serializeLegacyMessage() {
+    public void testLegacyMessageSerializing() {
         PublicKey signer = PublicKey.fromBase58("11111111111111111111111111111111");
 
         PublicKey from = PublicKey.fromBase58("BNzpkiBcpXNbH5ubrRBGVJex62df1kc1DWwu2kkxaUMX");
@@ -24,7 +26,7 @@ public class MessageSerializerTest {
                 .addInstruction(SystemProgram.transfer(transferParams))
                 .build();
 
-        int [] expected = {
+        int[] expected = {
                 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 154, 55, 114, 130, 251, 232, 203, 4, 208, 61, 153, 42, 179, 56, 141, 170, 245, 129, 51, 180,
                 244, 214, 112, 162, 189, 217, 74, 240, 231, 141, 114, 42, 87, 131, 180, 174, 96, 169, 112, 113, 104,
@@ -34,6 +36,43 @@ public class MessageSerializerTest {
         };
 
         assertArrayEquals(expected, toUintArray(MessageSerializer.getSerializer().serialize(message)));
+    }
+
+    @Test
+    public void testMessageV0Serializing() {
+        PublicKey signer = PublicKey.fromBase58("11111111111111111111111111111111");
+
+        PublicKey from = PublicKey.fromBase58("BNzpkiBcpXNbH5ubrRBGVJex62df1kc1DWwu2kkxaUMX");
+        PublicKey to = PublicKey.fromBase58("6tcxA4dVKGJecuXRHsa9NmW1JKXAJBtuPNAVoh2knm7j");
+        BigInteger lamports = BigInteger.valueOf(500);
+        SystemProgram.TransferParams transferParams = new SystemProgram.TransferParams(from, to, lamports);
+
+        AddressLookupTableAccount.AddressLookupTableState state = new AddressLookupTableAccount.AddressLookupTableState(
+          new BigInteger("0xffffffffffffffff"),
+          BigInteger.ZERO,
+          BigInteger.ZERO,
+          null,
+          List.of(SystemProgram.PROGRAM_ID)
+        );
+        AddressLookupTableAccount tableAccount = new AddressLookupTableAccount(PublicKey.fromBase58("11111111111111111111111111111111"), state);
+
+        MessageV0 message = new MessageV0Builder()
+                .setFeePayer(signer)
+                .setBlockHash("Eit7RCyhUixAe2hGBS8oqnw59QK3kgMMjfLME5bm9wRn")
+                .addInstruction(SystemProgram.transfer(transferParams))
+                .addLookupTable(tableAccount)
+                .build();
+
+        int[] expected = {
+                128, 1, 0, 1, 3, 132, 145, 88, 164, 100, 107, 216, 93, 63, 65, 182, 88, 10, 174, 42, 20, 134, 170, 142,
+                55, 16, 236, 6, 48, 88, 135, 39, 201, 252, 185, 8, 181, 125, 29, 24, 78, 227, 70, 205, 34, 79, 110, 148,
+                4, 24, 164, 137, 232, 121, 90, 120, 206, 212, 82, 227, 64, 110, 81, 167, 215, 158, 165, 167, 219, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 203, 226, 136,
+                193, 153, 148, 240, 50, 230, 98, 9, 79, 221, 179, 243, 174, 90, 67, 104, 169, 6, 187, 165, 72, 36, 156,
+                19, 57, 132, 38, 69, 245, 1, 2, 2, 0, 1, 12, 2, 0, 0, 0, 64, 66, 15, 0, 0, 0, 0, 0, 0
+        };
+
+        assertArrayEquals(expected, toUintArray(MessageSerializer.getSerializerV0().serialize(message)));
     }
 
     protected int[] toUintArray(byte[] source) {
