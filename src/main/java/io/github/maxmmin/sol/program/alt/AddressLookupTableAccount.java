@@ -10,6 +10,8 @@ import java.util.List;
 @Getter
 @RequiredArgsConstructor
 public class AddressLookupTableAccount {
+    private final static BigInteger ACTIVE_FLAG = new BigInteger("0xffffffffffffffff");
+
     private final PublicKey key;
     private final AddressLookupTableState state;
 
@@ -21,5 +23,9 @@ public class AddressLookupTableAccount {
         private final BigInteger lastExtendedSlotStartIndex;
         private final PublicKey authority;
         private final List<PublicKey> addresses;
+    }
+
+    public boolean isActive() {
+        return getState().getDeactivationSlot().equals(ACTIVE_FLAG);
     }
 }
