@@ -74,7 +74,12 @@ public class MessageV0Builder extends MessageBuilder<MessageV0> {
     @Override
     protected MessageV0 build(MessageComponents messageComponents) {
         List<MessageAddressTableLookup> tableLookups = getLookupAccounts(messageComponents.getAccountMetas());
-        List<PublicKey> finalKeys = messageComponents.getAccountKeys().subList(0, messageComponents.getAccountKeys().size() - messageComponents.getAccountMetas().size());
+
+        int lookupAccountsSize = tableLookups.stream()
+                .mapToInt(lookup ->  lookup.getWritableIndexes().length + lookup.getReadonlyIndexes().length)
+                .sum();
+
+        List<PublicKey> finalKeys = messageComponents.getAccountKeys().subList(0, messageComponents.getAccountKeys().size() - lookupAccountsSize);
         return new MessageV0(messageComponents.getMessageHeader(), finalKeys, messageComponents.getRecentBlockhash(),
                 messageComponents.getCompiledInstructions(), tableLookups);
     }
