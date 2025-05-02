@@ -1,8 +1,10 @@
 package io.github.maxmmin.sol.core.crypto;
 
-import io.github.maxmmin.sol.core.crypto.exception.InvalidOnCurvePositionException;
+import io.github.maxmmin.sol.core.crypto.exception.NonceNotFoundException;
+import io.github.maxmmin.sol.core.crypto.exception.OnCurvePositionException;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.i2p.crypto.eddsa.math.GroupElement;
-import net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,7 +25,20 @@ public class PublicKeyFactory {
         }
     }
 
-    public PublicKey createProgramAddressSync(byte[][] seeds, PublicKey programId) throws InvalidOnCurvePositionException {
+    public PubkeyWithNonce findProgramAddressSync(byte[][] seeds, PublicKey programId) throws NonceNotFoundException {
+        byte[][] seedsBuffer = new byte[seeds.length + 1][];
+        System.arraycopy(seeds, 0, seedsBuffer, 0, seeds.length);
+        for (int nonce = 255; nonce > 0; nonce--) {
+            seedsBuffer[seedsBuffer.length - 1] = new byte[]{(byte) nonce};
+            try {
+                PublicKey address = createProgramAddressSync(seedsBuffer, programId);
+                return new PubkeyWithNonce(address, nonce);
+            } catch (OnCurvePositionException ignored) {}
+        }
+        throw new NonceNotFoundException();
+    }
+
+    public PublicKey createProgramAddressSync(byte[][] seeds, PublicKey programId) throws OnCurvePositionException {
         byte[] data;
 
         try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
@@ -47,12 +62,19 @@ public class PublicKeyFactory {
 
         byte[] pubKeyBytes = sha256Digest.digest(data);
         if (isOnCurve(pubKeyBytes))
-            throw new InvalidOnCurvePositionException("Invalid seeds, address must fall off the curve");
+            throw new OnCurvePositionException("Invalid seeds, address must fall off the curve");
         else return new PublicKey(pubKeyBytes);
     }
 
     private static boolean isOnCurve(byte[] publicKeyBytes) {
         GroupElement point = new GroupElement(EdDSANamedCurveSpecs.ED_25519.getCurve(), publicKeyBytes);;
         return point.isOnCurve();
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class PubkeyWithNonce {
+        private final PublicKey address;
+        private final int nonce;
     }
 }
