@@ -19,10 +19,23 @@ public class PublicKeyUtilsTest {
     @Test
     public void findProgramAddressTest() throws NonceNotFoundException, OnCurvePositionException {
         PublicKey programId = PublicKey.fromBase58("BPFLoader1111111111111111111111111111111111");
+
         byte[] seed = "".getBytes();
         PublicKeyUtils.PubkeyWithNonce pubkey = PublicKeyUtils.findProgramAddress(new byte[][] {seed}, programId);
         PublicKey generated = PublicKeyUtils.createProgramAddress(new byte[][] {seed, {pubkey.getNonce()}}, programId);
         assertEquals(generated, pubkey.getAddress());
+    }
+
+    @Test
+    public void findProgramAddressWithExpectedResultTest() throws NonceNotFoundException {
+        PublicKey expectedKey = PublicKey.fromBase58("HsVL8JiWUwb4TE6SoEG5kY999p4nxtimv4bnDHX9ZxkE");
+        byte expectedNonce = (byte) 249;
+
+        PublicKey programId = PublicKey.fromBase58("BPFLoader1111111111111111111111111111111111");
+        PublicKeyUtils.PubkeyWithNonce keyWithNonce = PublicKeyUtils.findProgramAddress(new byte[][]{"seed-48".getBytes()}, programId);
+
+        assertEquals(expectedKey, keyWithNonce.getAddress());
+        assertEquals(expectedNonce, keyWithNonce.getNonce());
     }
 
     @Test
