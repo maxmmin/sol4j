@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Base64;
 
 public class AddressLookupTableProgram {
@@ -23,8 +24,12 @@ public class AddressLookupTableProgram {
         PublicKeyUtils.findProgramAddress(params.getAuthority().getBytes(), Base64.getEncoder().encode(params.getRecentSlot().toByteArray()))
     }
 
-    //@todo write BigInt u64 enc
-    private
+    private byte[] serializeUint64(BigInteger uint64) {
+        byte[] bytes = uint64.toByteArray();
+        int uintLength = bytes[0] == 0 ? bytes.length - 1 : bytes.length;
+        if (uintLength > 8) throw new IllegalArgumentException("Number is too large for uint64");
+        return BufferUtil.allocateLE(8).putLong(uint64.longValue()).array();
+    }
 
     @Getter
     @RequiredArgsConstructor
