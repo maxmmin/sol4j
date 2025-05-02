@@ -2,13 +2,12 @@ package io.github.maxmmin.sol.program.alt;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.PublicKeyUtils;
+import io.github.maxmmin.sol.core.crypto.exception.NonceNotFoundException;
 import io.github.maxmmin.sol.util.BufferUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Base64;
 
 public class AddressLookupTableProgram {
     public static final PublicKey PROGRAM_ID = PublicKey.fromBase58("AddressLookupTab1e1111111111111111111111111");
@@ -20,11 +19,23 @@ public class AddressLookupTableProgram {
     public static int CLOSE_LOOKUP_TABLE = 4;
 
     public static void createLookupTable(CreateLookupTableParams params) {
-        BufferUtil.allocateLE(8).putLong(params.getRecentSlot());
-        PublicKeyUtils.findProgramAddress(params.getAuthority().getBytes(), Base64.getEncoder().encode(params.getRecentSlot().toByteArray()))
+        if (params.getRecentSlot().compareTo(BigInteger.ZERO) < 0)
+            throw new IllegalArgumentException("Recent slot can't be negative");
+
+        PublicKeyUtils.PubkeyWithNonce pubkeyWithNonce;
+        try {
+            pubkeyWithNonce = PublicKeyUtils.findProgramAddress(
+                    new byte[][]{params.getAuthority().getBytes(), serializeUint64LE(params.getRecentSlot())},
+                    PROGRAM_ID
+            );
+        } catch (NonceNotFoundException e) {
+            throw new RuntimeException("Could not found the nonce for PDA", e);
+        }
+
+        // @todo
     }
 
-    private byte[] serializeUint64(BigInteger uint64) {
+    private static byte[] serializeUint64LE(BigInteger uint64) {
         byte[] bytes = uint64.toByteArray();
         int uintLength = bytes[0] == 0 ? bytes.length - 1 : bytes.length;
         if (uintLength > 8) throw new IllegalArgumentException("Number is too large for uint64");
