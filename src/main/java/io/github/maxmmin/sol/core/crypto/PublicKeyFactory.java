@@ -66,7 +66,7 @@ public class PublicKeyFactory {
         else return new PublicKey(pubKeyBytes);
     }
 
-    private static boolean isOnCurve(byte[] publicKeyBytes) {
+    public boolean isOnCurve(byte[] publicKeyBytes) {
         GroupElement point = new GroupElement(EdDSANamedCurveSpecs.ED_25519.getCurve(), publicKeyBytes);;
         return point.isOnCurve();
     }
