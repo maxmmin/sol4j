@@ -1,6 +1,7 @@
 package io.github.maxmmin.sol.core.crypto;
 
 import io.github.maxmmin.sol.core.crypto.exception.InvalidOnCurvePositionException;
+import net.i2p.crypto.eddsa.math.GroupElement;
 import net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec;
 
 import java.io.ByteArrayOutputStream;
@@ -51,7 +52,7 @@ public class PublicKeyFactory {
     }
 
     private static boolean isOnCurve(byte[] publicKeyBytes) {
-        EdDSAPublicKeySpec publicKeySpec = new EdDSAPublicKeySpec(publicKeyBytes, EdDSANamedCurveSpecs.ED_25519);
-        return publicKeySpec.getA().isOnCurve();
+        GroupElement point = new GroupElement(EdDSANamedCurveSpecs.ED_25519.getCurve(), publicKeyBytes);;
+        return point.isOnCurve();
     }
 }
