@@ -1,6 +1,7 @@
 package io.github.maxmmin.sol.core.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.github.maxmmin.sol.core.client.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.client.request.BatchedRequest;
 import io.github.maxmmin.sol.core.client.request.Request;
 import io.github.maxmmin.sol.core.client.request.registry.*;
@@ -107,4 +108,8 @@ public interface RpcClient {
     SendTransactionRequest sendTransaction(TransactionV0 transactionV0, @NotNull SendTransactionConfig config);
 
     MinimumLedgerSlotRequest minimumLedgerSlot();
+
+    static RpcClient create(RpcGateway rpcGateway) {
+        return new SimpleRpcClient(rpcGateway);
+    }
 }

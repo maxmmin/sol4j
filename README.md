@@ -89,7 +89,7 @@ Not implemented yet
 <dependency>
     <groupId>io.github.maxmmin</groupId>
     <artifactId>sol4j</artifactId>
-    <version>1.1</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
@@ -102,7 +102,9 @@ RpcGateway rpcGateway = HttpRpcGateway.create("https://api.mainnet-beta.solana.c
 <b>Creating RPC Client</b>
 
 ```java
-RpcClient client = new SimpleRpcClient(rpcGateway);
+import io.github.maxmmin.sol.core.client.RpcClient;
+
+RpcClient client = RpcClient.create(rpcGateway);
 ```
 
 <b>Making requests</b>
@@ -114,11 +116,15 @@ List<SolanaNodeInfo> nodes = client.getClusterNodes().send();
 <b>Multiple encodings support for specific methods</b>
 
 ```java
+import io.github.maxmmin.sol.core.client.type.response.tx.base.BaseEncConfirmedTransaction;
+import io.github.maxmmin.sol.core.client.type.response.tx.json.JsonConfirmedTransaction;
+import io.github.maxmmin.sol.core.client.type.response.tx.jsonparsed.JsonParsedConfirmedTransaction;
+
 GetTransactionRequest txRequest = client.getTransaction(txSignature);
 
 var defaultEncodedTx = txRequest.send();
-BaseEncTransaction base58EncodedTx = txRequest.base58();
-BaseEncTransaction base64EncodedTx = txRequest.base64();
-JsonTransaction jsonEncodedTx = txRequest.json();
-JsonParsedTransaction jsonParsedEncTx = txRequest.jsonParsed();
+BaseEncConfirmedTransaction base58EncodedTx = txRequest.base58();
+BaseEncConfirmedTransaction base64EncodedTx = txRequest.base64();
+JsonConfirmedTransaction jsonEncodedTx = txRequest.json();
+JsonParsedConfirmedTransaction jsonParsedEncTx = txRequest.jsonParsed();
 ```
