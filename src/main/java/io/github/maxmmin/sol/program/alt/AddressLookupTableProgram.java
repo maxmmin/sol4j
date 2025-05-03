@@ -23,7 +23,7 @@ public class AddressLookupTableProgram {
     public static int FREEZE_LOOKUP_TABLE_INDEX = 1;
     public static int EXTEND_LOOKUP_TABLE_INDEX = 2;
     public static int DEACTIVATE_LOOKUP_TABLE_INDEX = 3;
-    public static int CLOSE_LOOKUP_TABLE = 4;
+    public static int CLOSE_LOOKUP_TABLE_INDEX = 4;
 
     public static TransactionInstruction createLookupTable(CreateLookupTableParams params) {
         if (params.getRecentSlot().compareTo(BigInteger.ZERO) < 0)
@@ -104,6 +104,18 @@ public class AddressLookupTableProgram {
         return new TransactionInstruction(PROGRAM_ID, accounts, data);
     }
 
+    public static TransactionInstruction closeLookupTable(CloseLookupTableParams params) {
+        byte[] data = SerializationUtils.allocateLE(4).putInt(CLOSE_LOOKUP_TABLE_INDEX).array();
+
+        List<AccountMeta> accounts = List.of(
+                new AccountMeta(params.getLookupTable(), false, true),
+                new AccountMeta(params.getAuthority(), true, false),
+                new AccountMeta(params.getRecipient(), false, true)
+        );
+
+        return new TransactionInstruction(PROGRAM_ID, accounts, data);
+    }
+
     @Getter
     @RequiredArgsConstructor
     public static class CreateLookupTableParams {
@@ -133,5 +145,13 @@ public class AddressLookupTableProgram {
     public static class DeactivateLookupTableParams {
         private final PublicKey lookupTable;
         private final PublicKey authority;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class CloseLookupTableParams {
+        private final PublicKey lookupTable;
+        private final PublicKey authority;
+        private final PublicKey recipient;
     }
 }
