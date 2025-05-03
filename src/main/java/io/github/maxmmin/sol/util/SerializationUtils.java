@@ -2,10 +2,11 @@ package io.github.maxmmin.sol.util;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class BufferUtil {
+public class SerializationUtils {
     public static ByteBuffer putBytes(ByteBuffer buffer, int offset, byte[] bytes) {
         int cursor = offset;
         for (byte b: bytes) {
@@ -20,5 +21,12 @@ public class BufferUtil {
 
     public static ByteBuffer allocateLE(int capacity) {
         return ByteBuffer.allocate(capacity).order(ByteOrder.LITTLE_ENDIAN);
+    }
+
+    public static byte[] serializeUint64LE(BigInteger uint64) {
+        byte[] bytes = uint64.toByteArray();
+        int uintLength = bytes[0] == 0 ? bytes.length - 1 : bytes.length;
+        if (uintLength > 8) throw new IllegalArgumentException("Number is too large for uint64");
+        return SerializationUtils.allocateLE(8).putLong(uint64.longValue()).array();
     }
 }

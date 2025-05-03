@@ -4,7 +4,7 @@ import io.github.maxmmin.sol.core.crypto.Base58;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionInstruction;
 import io.github.maxmmin.sol.program.SystemProgram;
-import io.github.maxmmin.sol.util.BufferUtil;
+import io.github.maxmmin.sol.util.SerializationUtils;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
@@ -75,7 +75,7 @@ public class SystemProgramTest {
         assertTrue(instruction.getAccounts().get(0).isSigner());
         assertTrue(instruction.getAccounts().get(0).isWritable());
 
-        byte[] expected = BufferUtil.allocateLE(36)
+        byte[] expected = SerializationUtils.allocateLE(36)
                 .putInt(ASSIGN_INDEX)
                 .put(newOwner.getBytes())
                 .array();
