@@ -151,12 +151,4 @@ public abstract class MessageBuilder<M> {
         private final List<AccountMeta> accountMetas;
         private final List<CompiledInstruction> compiledInstructions;
     }
-
-    public static LegacyMessageBuilder getBuilder() {
-        return new LegacyMessageBuilder();
-    }
-
-    public static MessageV0Builder getV0Builder() {
-        return new MessageV0Builder();
-    }
 }

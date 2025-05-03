@@ -19,7 +19,7 @@ public class TransactionV0BuilderTest {
         PublicKey recipient = PublicKey.fromBase58("GrDMoeqMLFjeXQ24H56S1RLgT4R76jsuWCd6SvXyGPQ5");
         BigInteger lamports = BigInteger.valueOf(100);
 
-        MessageV0 message = MessageBuilder.getV0Builder()
+        MessageV0 message = MessageV0.builder()
                 .setBlockHash("EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N")
                 .setFeePayer(sender.getPublicKey())
                 .addInstruction(SystemProgram.transfer(new SystemProgram.TransferParams(sender.getPublicKey(), recipient, lamports)))

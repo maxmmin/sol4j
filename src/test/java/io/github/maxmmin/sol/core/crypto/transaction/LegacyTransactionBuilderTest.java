@@ -17,7 +17,7 @@ public class LegacyTransactionBuilderTest {
         PublicKey recipient = PublicKey.fromBase58("GrDMoeqMLFjeXQ24H56S1RLgT4R76jsuWCd6SvXyGPQ5");
         BigInteger lamports = BigInteger.valueOf(100);
 
-        Message message = LegacyMessageBuilder.getBuilder()
+        Message message = Message.builder()
                 .setBlockHash("EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N")
                 .setFeePayer(sender.getPublicKey())
                 .addInstruction(SystemProgram.transfer(new SystemProgram.TransferParams(sender.getPublicKey(), recipient, lamports)))

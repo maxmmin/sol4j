@@ -27,4 +27,8 @@ public class MessageV0 {
     public PublicKey getFeePayer() {
         return accountKeys.get(0);
     }
+
+    public static MessageV0Builder builder() {
+        return new MessageV0Builder();
+    }
 }

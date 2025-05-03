@@ -23,4 +23,8 @@ public class Message {
     public PublicKey getFeePayer() {
         return accountKeys.get(0);
     }
+
+    public static LegacyMessageBuilder builder() {
+        return new LegacyMessageBuilder();
+    }
 }
