@@ -6,6 +6,7 @@ import io.github.maxmmin.sol.core.client.request.Request;
 import io.github.maxmmin.sol.core.client.request.registry.*;
 import io.github.maxmmin.sol.core.client.type.request.*;
 import io.github.maxmmin.sol.core.crypto.transaction.Transaction;
+import io.github.maxmmin.sol.core.crypto.transaction.TransactionV0;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
@@ -102,6 +103,8 @@ public interface RpcClient {
 
     SendTransactionRequest sendTransaction(Transaction transaction);
     SendTransactionRequest sendTransaction(Transaction transaction, @NotNull SendTransactionConfig config);
+    SendTransactionRequest sendTransaction(TransactionV0 transactionV0);
+    SendTransactionRequest sendTransaction(TransactionV0 transactionV0, @NotNull SendTransactionConfig config);
 
     MinimumLedgerSlotRequest minimumLedgerSlot();
 }

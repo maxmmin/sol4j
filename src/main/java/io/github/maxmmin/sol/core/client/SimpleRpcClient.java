@@ -11,6 +11,7 @@ import io.github.maxmmin.sol.core.crypto.transaction.Transaction;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionSerializer;
 import io.github.maxmmin.sol.core.client.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.client.type.response.RpcResponse;
+import io.github.maxmmin.sol.core.crypto.transaction.TransactionV0;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -315,6 +316,17 @@ public class SimpleRpcClient implements RpcClient {
     @Override
     public SendTransactionRequest sendTransaction(Transaction transaction, @NotNull SendTransactionConfig config) {
         byte[] txBytes = TransactionSerializer.getSerializer().serialize(transaction);
+        return new SendTransactionRequest(rpcGateway, Base64.getEncoder().encodeToString(txBytes), config);
+    }
+
+    @Override
+    public SendTransactionRequest sendTransaction(TransactionV0 transactionV0) {
+        return sendTransaction(transactionV0, SendTransactionConfig.empty());
+    }
+
+    @Override
+    public SendTransactionRequest sendTransaction(TransactionV0 transactionV0, @NotNull SendTransactionConfig config) {
+        byte[] txBytes = TransactionSerializer.getSerializerV0().serialize(transactionV0);
         return new SendTransactionRequest(rpcGateway, Base64.getEncoder().encodeToString(txBytes), config);
     }
 
