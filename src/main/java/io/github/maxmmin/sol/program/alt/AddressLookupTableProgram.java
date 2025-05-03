@@ -9,6 +9,7 @@ import io.github.maxmmin.sol.program.SystemProgram;
 import io.github.maxmmin.sol.util.SerializationUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
@@ -65,6 +66,29 @@ public class AddressLookupTableProgram {
         return new TransactionInstruction(PROGRAM_ID, accounts, data);
     }
 
+    public static TransactionInstruction extendLookupTable(ExtendLookupTableParams params) {
+        List<PublicKey> addresses = params.getAddresses();
+        int addressesSpace = addresses.size() * 32;
+        ByteBuffer buffer = SerializationUtils.allocateLE(4 + 8 + addressesSpace)
+                .putInt(0, EXTEND_LOOKUP_TABLE_INDEX);
+
+        SerializationUtils.putUint64(buffer, 4, BigInteger.valueOf(addressesSpace));
+        int offset = 12;
+        for (PublicKey address : addresses) {
+            buffer.put(address.getBytes(), offset, addressesSpace);
+            offset += 32;
+        }
+
+        byte[] data = buffer.array();
+
+        List<AccountMeta> accounts = List.of(
+                new AccountMeta(params.getLookupTable(), false, true),
+                new AccountMeta(params.getAuthority(), true, false)
+        );
+
+        return new TransactionInstruction(PROGRAM_ID, accounts, data);
+    }
+
     @Getter
     @RequiredArgsConstructor
     public static class CreateLookupTableParams {
@@ -78,5 +102,14 @@ public class AddressLookupTableProgram {
     public static class FreezeLookupTableParams {
         private final PublicKey lookupTable;
         private final PublicKey authority;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class ExtendLookupTableParams {
+        private final PublicKey lookupTable;
+        private final PublicKey authority;
+        private final @Nullable PublicKey payer;
+        private final List<PublicKey> addresses;
     }
 }
