@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.maxmmin.sol.core.client.request.BatchedRequest;
 import io.github.maxmmin.sol.core.client.request.Request;
 import io.github.maxmmin.sol.core.client.request.registry.*;
+import io.github.maxmmin.sol.core.client.type.request.*;
 import io.github.maxmmin.sol.core.crypto.transaction.Transaction;
-import io.github.maxmmin.sol.core.type.request.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;

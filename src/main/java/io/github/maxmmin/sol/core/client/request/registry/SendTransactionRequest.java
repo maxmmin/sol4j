@@ -3,10 +3,10 @@ package io.github.maxmmin.sol.core.client.request.registry;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
-import io.github.maxmmin.sol.core.gateway.RpcGateway;
-import io.github.maxmmin.sol.core.type.request.Encoding;
-import io.github.maxmmin.sol.core.type.request.RpcRequest;
-import io.github.maxmmin.sol.core.type.request.SendTransactionConfig;
+import io.github.maxmmin.sol.core.client.gateway.RpcGateway;
+import io.github.maxmmin.sol.core.client.type.request.Encoding;
+import io.github.maxmmin.sol.core.client.type.request.RpcRequest;
+import io.github.maxmmin.sol.core.client.type.request.SendTransactionConfig;
 
 import java.util.List;
 import java.util.Map;
