@@ -4,8 +4,9 @@
 ![Java required version: 11](https://img.shields.io/badge/Java-11+-yellow)
 [![Solana Badge](https://img.shields.io/badge/Solana-%23000000?logo=solana&logoColor=white)](https://solana.com/docs/rpc)
 
-Pure java lib for interacting with Solana RPC API
+Pure java lib for interacting with Solana RPC API.
 
+The library supports both legacy and versioned transactions and provides a set of core programs for interacting with the Solana blockchain.
 <h2>Requirements</h2>
 - Java 11+
 
@@ -13,6 +14,7 @@ Pure java lib for interacting with Solana RPC API
 
 - OkHttp
 - Jackson
+- net.i2p.crypto.eddsa
 
 <h2>OutOfBox supported methods</h2>
 <details>
