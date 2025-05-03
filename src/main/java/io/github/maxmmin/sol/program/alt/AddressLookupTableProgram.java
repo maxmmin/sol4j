@@ -54,11 +54,29 @@ public class AddressLookupTableProgram {
         return new TransactionInstruction(PROGRAM_ID, accounts, data);
     }
 
+    public static TransactionInstruction freezeLookupTable(FreezeLookupTableParams params) {
+        byte[] data = SerializationUtils.allocateLE(4).putInt(FREEZE_LOOKUP_TABLE_INDEX).array();
+
+        List<AccountMeta> accounts = List.of(
+                new AccountMeta(PROGRAM_ID, false, true),
+                new AccountMeta(params.getAuthority(), true, false)
+        );
+
+        return new TransactionInstruction(PROGRAM_ID, accounts, data);
+    }
+
     @Getter
     @RequiredArgsConstructor
     public static class CreateLookupTableParams {
         private final PublicKey authority;
         private final PublicKey payer;
         private final BigInteger recentSlot;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class FreezeLookupTableParams {
+        private final PublicKey lookupTable;
+        private final PublicKey authority;
     }
 }
