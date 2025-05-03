@@ -1,6 +1,6 @@
-package io.github.maxmmin.sol.core.crypto.transaction.message;
+package io.github.maxmmin.sol.core.crypto;
 
-public class MessageSerializingTestsUtils {
+public class SerializingTestsUtil {
     public static int[] toUintArray(byte[] source) {
         int[] target = new int[source.length];
         for (int i = 0; i < source.length; i++) {

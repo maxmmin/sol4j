@@ -40,10 +40,10 @@ public class AddressLookupTableProgram {
             throw new RuntimeException("Could not found the nonce for PDA", e);
         }
 
-        ByteBuffer buffer = SerializationUtils.allocateLE(4 + 8 + 4);
+        ByteBuffer buffer = SerializationUtils.allocateLE(4 + 8 + 1);
         buffer.putInt(0, CREATE_LOOKUP_TABLE_INDEX);
         SerializationUtils.putBytes(buffer, 4, recentSlotBytes);
-        buffer.put(pubkeyWithNonce.getNonce());
+        buffer.put(12, pubkeyWithNonce.getNonce());
         byte[] data = buffer.array();
 
         List<AccountMeta> accounts = List.of(
@@ -73,10 +73,10 @@ public class AddressLookupTableProgram {
         ByteBuffer buffer = SerializationUtils.allocateLE(4 + 8 + addressesSpace)
                 .putInt(0, EXTEND_LOOKUP_TABLE_INDEX);
 
-        SerializationUtils.putUint64(buffer, 4, BigInteger.valueOf(addressesSpace));
+        SerializationUtils.putUint64(buffer, 4, BigInteger.valueOf(addresses.size()));
         int offset = 12;
         for (PublicKey address : addresses) {
-            buffer.put(address.getBytes(), offset, addressesSpace);
+            SerializationUtils.putPubkey(buffer, offset, address);
             offset += 32;
         }
 
@@ -138,6 +138,13 @@ public class AddressLookupTableProgram {
         private final PublicKey authority;
         private final @Nullable PublicKey payer;
         private final List<PublicKey> addresses;
+
+        public ExtendLookupTableParams(PublicKey lookupTable, PublicKey authority, List<PublicKey> addresses) {
+            this.lookupTable = lookupTable;
+            this.authority = authority;
+            this.payer = null;
+            this.addresses = addresses;
+        }
     }
 
     @Getter

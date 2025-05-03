@@ -1,6 +1,7 @@
 package io.github.maxmmin.sol.core.crypto.transaction.message;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
+import io.github.maxmmin.sol.core.crypto.SerializingTestsUtil;
 import io.github.maxmmin.sol.program.SystemProgram;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +34,6 @@ public class LegacyMessageSerializerTest {
                 165, 72, 36, 156, 19, 57, 132, 38, 69, 245, 1, 0, 2, 1, 2, 12, 2, 0, 0, 0, 244, 1, 0, 0, 0, 0, 0, 0
         };
 
-        assertArrayEquals(expected, MessageSerializingTestsUtils.toUintArray(MessageSerializer.getSerializer().serialize(message)));
+        assertArrayEquals(expected, SerializingTestsUtil.toUintArray(MessageSerializer.getSerializer().serialize(message)));
     }
 }
