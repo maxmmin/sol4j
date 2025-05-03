@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddressLookupTableProgram {
@@ -46,7 +47,7 @@ public class AddressLookupTableProgram {
         byte[] data = buffer.array();
 
         List<AccountMeta> accounts = List.of(
-                new AccountMeta(PROGRAM_ID, false, true),
+                new AccountMeta(pubkeyWithNonce.getAddress(), false, true),
                 new AccountMeta(params.getAuthority(), true, false),
                 new AccountMeta(params.getPayer(), true, true),
                 new AccountMeta(SystemProgram.PROGRAM_ID, false, false)
@@ -59,7 +60,7 @@ public class AddressLookupTableProgram {
         byte[] data = SerializationUtils.allocateLE(4).putInt(FREEZE_LOOKUP_TABLE_INDEX).array();
 
         List<AccountMeta> accounts = List.of(
-                new AccountMeta(PROGRAM_ID, false, true),
+                new AccountMeta(params.getLookupTable(), false, true),
                 new AccountMeta(params.getAuthority(), true, false)
         );
 
@@ -80,6 +81,20 @@ public class AddressLookupTableProgram {
         }
 
         byte[] data = buffer.array();
+
+        List<AccountMeta> accounts = new ArrayList<>();
+        accounts.add(new AccountMeta(params.getLookupTable(), false, true));
+        accounts.add(new AccountMeta(params.getAuthority(), true, false));
+        if (params.getPayer() != null) {
+            accounts.add(new AccountMeta(params.getPayer(), true, true));
+            accounts.add(new AccountMeta(SystemProgram.PROGRAM_ID, false, false));
+        }
+
+        return new TransactionInstruction(PROGRAM_ID, List.copyOf(accounts), data);
+    }
+
+    public static TransactionInstruction deactivateLookupTable(DeactivateLookupTableParams params) {
+        byte[] data = SerializationUtils.allocateLE(4).putInt(DEACTIVATE_LOOKUP_TABLE_INDEX).array();
 
         List<AccountMeta> accounts = List.of(
                 new AccountMeta(params.getLookupTable(), false, true),
@@ -111,5 +126,12 @@ public class AddressLookupTableProgram {
         private final PublicKey authority;
         private final @Nullable PublicKey payer;
         private final List<PublicKey> addresses;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class DeactivateLookupTableParams {
+        private final PublicKey lookupTable;
+        private final PublicKey authority;
     }
 }
