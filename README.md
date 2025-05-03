@@ -128,3 +128,22 @@ BaseEncConfirmedTransaction base64EncodedTx = txRequest.base64();
 JsonConfirmedTransaction jsonEncodedTx = txRequest.json();
 JsonParsedConfirmedTransaction jsonParsedEncTx = txRequest.jsonParsed();
 ```
+
+<b>Transferring lamports via SystemProgram</b>
+
+```java
+Account sender = Account.fromSecretKey(secretKey);
+PublicKey receiverPubkey = PublicKey.fromBase58("2ZqPxLUgUFLCyQdqokCNJqnhb4kLY7Bn8T28ABQAjfq4");
+BigInteger lamports = BigInteger.valueOf(3000);
+
+Message txMessage = Message.builder()
+        .addInstruction(SystemProgram.transfer(new SystemProgram.TransferParams(sender.getPublicKey(), receiverPubkey, lamports)))
+        .setBlockHash(rpcClient.getLatestBlockhash().send().getBlockhash())
+        .setFeePayer(sender.getPublicKey())
+        .build();
+
+Transaction transaction = TransactionBuilder.build(txMessage, sender);
+String txId = rpcClient.sendTransaction(transaction).base64();
+```
+
+<small>(Tx-building API will be updated in the future to make sending transactions easier)</small>
