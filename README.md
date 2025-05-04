@@ -92,7 +92,7 @@ Not implemented yet
 <dependency>
     <groupId>io.github.maxmmin</groupId>
     <artifactId>sol4j</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
 </dependency>
 ```
 
