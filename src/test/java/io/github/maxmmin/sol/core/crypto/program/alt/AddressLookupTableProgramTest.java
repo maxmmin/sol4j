@@ -3,13 +3,13 @@ package io.github.maxmmin.sol.core.crypto.program.alt;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.SerializingTestsUtil;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionInstruction;
-import io.github.maxmmin.sol.program.alt.AddressLookupTableProgram;
+import io.github.maxmmin.sol.program.AddressLookupTableProgram;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 import java.util.List;
 
-import static io.github.maxmmin.sol.program.alt.AddressLookupTableProgram.*;
+import static io.github.maxmmin.sol.program.AddressLookupTableProgram.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AddressLookupTableProgramTest {
