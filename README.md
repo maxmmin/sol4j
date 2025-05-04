@@ -135,6 +135,8 @@ JsonParsedConfirmedTransaction jsonParsedEncTx = txRequest.jsonParsed();
 <b>Transferring lamports via SystemProgram</b>
 
 ```java
+import io.github.maxmmin.sol.core.crypto.transaction.Transaction;
+
 Account sender = Account.fromSecretKey(secretKey);
 PublicKey receiverPubkey = PublicKey.fromBase58("2ZqPxLUgUFLCyQdqokCNJqnhb4kLY7Bn8T28ABQAjfq4");
 BigInteger lamports = BigInteger.valueOf(3000);
@@ -145,7 +147,7 @@ Message txMessage = Message.builder()
         .setFeePayer(sender.getPublicKey())
         .build();
 
-Transaction transaction = TransactionBuilder.build(txMessage, sender);
+Transaction transaction = Transaction.build(txMessage, sender);
 String txId = rpcClient.sendTransaction(transaction).base64();
 ```
 
