@@ -105,8 +105,6 @@ RpcGateway rpcGateway = HttpRpcGateway.create("https://api.mainnet-beta.solana.c
 <b>Creating RPC Client</b>
 
 ```java
-import io.github.maxmmin.sol.core.client.RpcClient;
-
 RpcClient client = RpcClient.create(rpcGateway);
 ```
 
@@ -119,10 +117,6 @@ List<SolanaNodeInfo> nodes = client.getClusterNodes().send();
 <b>Multiple encodings support for specific methods</b>
 
 ```java
-import io.github.maxmmin.sol.core.client.type.response.tx.base.BaseEncConfirmedTransaction;
-import io.github.maxmmin.sol.core.client.type.response.tx.json.JsonConfirmedTransaction;
-import io.github.maxmmin.sol.core.client.type.response.tx.jsonparsed.JsonParsedConfirmedTransaction;
-
 GetTransactionRequest txRequest = client.getTransaction(txSignature);
 
 var defaultEncodedTx = txRequest.send();
@@ -135,8 +129,6 @@ JsonParsedConfirmedTransaction jsonParsedEncTx = txRequest.jsonParsed();
 <b>Transferring lamports via SystemProgram</b>
 
 ```java
-import io.github.maxmmin.sol.core.crypto.transaction.Transaction;
-
 Account sender = Account.fromSecretKey(secretKey);
 PublicKey receiverPubkey = PublicKey.fromBase58("2ZqPxLUgUFLCyQdqokCNJqnhb4kLY7Bn8T28ABQAjfq4");
 BigInteger lamports = BigInteger.valueOf(3000);
