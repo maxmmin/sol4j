@@ -1,7 +1,7 @@
 package io.github.maxmmin.sol.util;
 
-import io.github.maxmmin.sol.core.type.request.RpcRequest;
-import io.github.maxmmin.sol.core.type.response.RpcResponse;
+import io.github.maxmmin.sol.core.client.type.request.RpcRequest;
+import io.github.maxmmin.sol.core.client.type.response.RpcResponse;
 
 import java.util.Arrays;
 import java.util.HashMap;

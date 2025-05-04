@@ -1,5 +1,6 @@
 package io.github.maxmmin.sol.core.crypto.transaction;
 
+import io.github.maxmmin.sol.core.crypto.transaction.message.Message;
 import lombok.Getter;
 
 import java.util.List;

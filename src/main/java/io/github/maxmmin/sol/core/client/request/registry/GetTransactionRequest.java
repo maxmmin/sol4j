@@ -3,27 +3,27 @@ package io.github.maxmmin.sol.core.client.request.registry;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
-import io.github.maxmmin.sol.core.exception.RpcException;
-import io.github.maxmmin.sol.core.gateway.RpcGateway;
-import io.github.maxmmin.sol.core.type.request.Encoding;
-import io.github.maxmmin.sol.core.type.request.GetTransactionConfig;
-import io.github.maxmmin.sol.core.type.request.RpcRequest;
-import io.github.maxmmin.sol.core.type.response.tx.base.BaseEncTransaction;
-import io.github.maxmmin.sol.core.type.response.tx.json.JsonTransaction;
-import io.github.maxmmin.sol.core.type.response.tx.jsonparsed.JsonParsedTransaction;
+import io.github.maxmmin.sol.core.client.exception.RpcException;
+import io.github.maxmmin.sol.core.client.gateway.RpcGateway;
+import io.github.maxmmin.sol.core.client.type.request.Encoding;
+import io.github.maxmmin.sol.core.client.type.request.GetTransactionConfig;
+import io.github.maxmmin.sol.core.client.type.request.RpcRequest;
+import io.github.maxmmin.sol.core.client.type.response.tx.base.BaseEncConfirmedTransaction;
+import io.github.maxmmin.sol.core.client.type.response.tx.json.JsonConfirmedTransaction;
+import io.github.maxmmin.sol.core.client.type.response.tx.jsonparsed.JsonParsedConfirmedTransaction;
 
 import java.util.List;
 import java.util.Map;
 
 
-public class GetTransactionRequest extends MultiEncRequest<JsonTransaction, BaseEncTransaction, JsonTransaction, JsonParsedTransaction> {
+public class GetTransactionRequest extends MultiEncRequest<JsonConfirmedTransaction, BaseEncConfirmedTransaction, JsonConfirmedTransaction, JsonParsedConfirmedTransaction> {
     private final String signature;
     private final GetTransactionConfig config;
     private final ObjectMapper mapper = new ObjectMapper();
 
     public GetTransactionRequest(RpcGateway gateway, String signature, GetTransactionConfig config) {
         super(
-                new RpcTypes<JsonTransaction, BaseEncTransaction, JsonTransaction, JsonParsedTransaction>() {},
+                new RpcTypes<JsonConfirmedTransaction, BaseEncConfirmedTransaction, JsonConfirmedTransaction, JsonParsedConfirmedTransaction>() {},
                 EncodingSupport.fullWithCompressing(),
                 gateway
         );
@@ -39,27 +39,27 @@ public class GetTransactionRequest extends MultiEncRequest<JsonTransaction, Base
     }
 
     @Override
-    public JsonTransaction send() throws RpcException {
+    public JsonConfirmedTransaction send() throws RpcException {
         return super.send();
     }
 
     @Override
-    public BaseEncTransaction base58() throws RpcException, UnsupportedOperationException {
+    public BaseEncConfirmedTransaction base58() throws RpcException, UnsupportedOperationException {
         return super.base58();
     }
 
     @Override
-    public BaseEncTransaction base64() throws RpcException, UnsupportedOperationException {
+    public BaseEncConfirmedTransaction base64() throws RpcException, UnsupportedOperationException {
         return super.base64();
     }
 
     @Override
-    public JsonTransaction json() throws RpcException, UnsupportedOperationException {
+    public JsonConfirmedTransaction json() throws RpcException, UnsupportedOperationException {
         return super.json();
     }
 
     @Override
-    public JsonParsedTransaction jsonParsed() throws RpcException, UnsupportedOperationException {
+    public JsonParsedConfirmedTransaction jsonParsed() throws RpcException, UnsupportedOperationException {
         return super.jsonParsed();
     }
 }

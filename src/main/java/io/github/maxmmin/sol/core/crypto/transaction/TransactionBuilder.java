@@ -4,28 +4,30 @@ import io.github.maxmmin.sol.core.crypto.Account;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.sign.MessageSignException;
 import io.github.maxmmin.sol.core.crypto.sign.MessageSigner;
+import io.github.maxmmin.sol.core.crypto.transaction.message.Message;
+import io.github.maxmmin.sol.core.crypto.transaction.message.MessageV0;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.*;
 
-public class TransactionBuilder {
+public abstract class TransactionBuilder<T, M> {
     private final Map<PublicKey, String> signatures;
-    private final Message message;
-    private final MessageSigner messageSigner;
+    private final M message;
+    private final MessageSigner<M> messageSigner;
     private final byte[] messageBytes;
 
-    public TransactionBuilder(Message message) {
-        this(message, new MessageSigner());
-    }
 
-    public TransactionBuilder(Message message, MessageSigner messageSigner) {
+    public TransactionBuilder(M message, byte[] serializedMessage,
+                              MessageSigner<M> messageSigner) {
         this.message = message;
         this.messageSigner = messageSigner;
-        this.messageBytes = MessageSerializer.serialize(message);
+        this.messageBytes = serializedMessage;
         this.signatures = new HashMap<>();
         getSigners(message).forEach(signer -> signatures.put(signer, null));
     }
 
-    public TransactionBuilder sign(Account account) {
+    public TransactionBuilder<T, M> sign(Account account) {
         PublicKey publicKey = account.getPublicKey();
         if (!signatures.containsKey(publicKey)) throw new IllegalArgumentException("Account isn't related to any signer: " + publicKey);
         try {
@@ -37,8 +39,7 @@ public class TransactionBuilder {
         return this;
     }
 
-    public Transaction build () throws IllegalStateException {
-        if (getSignersCount() != signatures.size()) throw new IllegalStateException("Signers and signatures sizes diff");
+    public T build () throws IllegalStateException {
         List<String> signaturesList = new ArrayList<>(signatures.size());
         List<PublicKey> signers = getSigners(message);
         for (int i = 0; i < signers.size(); i++) {
@@ -49,32 +50,48 @@ public class TransactionBuilder {
             );
             signaturesList.add(signature);
         }
-        return new Transaction(signaturesList, message);
+        TransactionComponents transactionComponents = new TransactionComponents(signers, signaturesList, message);
+        return build(transactionComponents);
     }
 
-    public static TransactionBuilder getBuilder(Message message) {
-        return new TransactionBuilder(message);
+    protected abstract T build(TransactionComponents transactionComponents);
+
+    protected abstract List<PublicKey> getSigners(M message);
+
+    @Getter
+    @RequiredArgsConstructor
+    protected class TransactionComponents {
+        private final List<PublicKey> signers;
+        private final List<String> signatures;
+        private final M message;
+    }
+
+    public static LegacyTransactionBuilder getBuilder(Message message) {
+        return new LegacyTransactionBuilder(message, MessageSigner.getSigner());
+    }
+
+    public static TransactionV0Builder getBuilderV0(MessageV0 message) {
+        return new TransactionV0Builder(message);
     }
 
     public static Transaction build(Message message, List<Account> signers) {
-        TransactionBuilder builder = new TransactionBuilder(message);
+        LegacyTransactionBuilder builder = getBuilder(message);
         signers.forEach(builder::sign);
         return builder.build();
     }
 
     public static Transaction build(Message message, Account signer) {
-        return new TransactionBuilder(message).sign(signer).build();
+        return getBuilder(message).sign(signer).build();
     }
 
-    protected int getSignersCount() {
-        return getSignersCount(message);
+    public static TransactionV0 buildV0(MessageV0 message, List<Account> signers) {
+        TransactionV0Builder builder = getBuilderV0(message);
+        signers.forEach(builder::sign);
+        return builder.build();
     }
 
-    private static int getSignersCount(Message message) {
-        return Byte.toUnsignedInt(message.getMessageHeader().getNumRequiredSignatures());
+    public static TransactionV0 build(MessageV0 message, Account signer) {
+        return getBuilderV0(message).sign(signer).build();
     }
 
-    private static List<PublicKey> getSigners(Message message) {
-        return message.getAccountKeys().subList(0, getSignersCount(message));
-    }
 }

@@ -1,10 +1,10 @@
 package io.github.maxmmin.sol.core.client.request;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import io.github.maxmmin.sol.core.exception.RpcException;
-import io.github.maxmmin.sol.core.gateway.RpcGateway;
-import io.github.maxmmin.sol.core.type.request.RpcRequest;
-import io.github.maxmmin.sol.core.type.response.RpcResponse;
+import io.github.maxmmin.sol.core.client.exception.RpcException;
+import io.github.maxmmin.sol.core.client.gateway.RpcGateway;
+import io.github.maxmmin.sol.core.client.type.request.RpcRequest;
+import io.github.maxmmin.sol.core.client.type.response.RpcResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;

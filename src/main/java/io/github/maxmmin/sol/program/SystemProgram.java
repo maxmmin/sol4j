@@ -1,9 +1,9 @@
 package io.github.maxmmin.sol.program;
 
-import io.github.maxmmin.sol.core.crypto.transaction.AccountMeta;
+import io.github.maxmmin.sol.core.crypto.transaction.message.AccountMeta;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionInstruction;
-import io.github.maxmmin.sol.util.BufferUtil;
+import io.github.maxmmin.sol.util.SerializationUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -32,11 +32,11 @@ public class SystemProgram {
         if (space.compareTo(BigInteger.ZERO) < 0)
             throw new IllegalArgumentException("Space must not be negative");
 
-        ByteBuffer buffer = BufferUtil.allocateLE(4 + 8 + 8 + 32);
+        ByteBuffer buffer = SerializationUtils.allocateLE(4 + 8 + 8 + 32);
         buffer.putInt(0, CREATE_ACCOUNT_INDEX);
         buffer.putLong(4, createAccountParams.getLamports().longValue());
         buffer.putLong(12, createAccountParams.getSpace().longValue());
-        BufferUtil.putPubkey(buffer, 20, createAccountParams.getProgramId());
+        SerializationUtils.putPubkey(buffer, 20, createAccountParams.getProgramId());
         byte[] data = buffer.array();
 
         List<AccountMeta> accounts = List.of(
@@ -48,9 +48,9 @@ public class SystemProgram {
     }
 
     public static TransactionInstruction assign(AssignParams assignParams) {
-        ByteBuffer buffer = BufferUtil.allocateLE(4 + 32);
+        ByteBuffer buffer = SerializationUtils.allocateLE(4 + 32);
         buffer.putInt(0, ASSIGN_INDEX);
-        BufferUtil.putPubkey(buffer, 4, assignParams.getProgramId());
+        SerializationUtils.putPubkey(buffer, 4, assignParams.getProgramId());
         byte[] data = buffer.array();
 
         List<AccountMeta> accounts = List.of(new AccountMeta(assignParams.getAccountPubkey(), true, true));
@@ -62,7 +62,7 @@ public class SystemProgram {
         if (transferParams.getLamports().compareTo(BigInteger.ZERO) < 0)
             throw new IllegalArgumentException("Lamports cannot be negative");
 
-        ByteBuffer buffer = BufferUtil.allocateLE(4 + 8);
+        ByteBuffer buffer = SerializationUtils.allocateLE(4 + 8);
         buffer.putInt(0, TRANSFER_INDEX);
         buffer.putLong(4, transferParams.getLamports().longValue());
         byte[] data = buffer.array();
@@ -76,7 +76,7 @@ public class SystemProgram {
     }
 
     public static TransactionInstruction nonceAdvance(NonceAdvanceParams nonceAdvanceParams) {
-        ByteBuffer buffer = BufferUtil.allocateLE(4);
+        ByteBuffer buffer = SerializationUtils.allocateLE(4);
         buffer.putInt(0, NONCE_ADVANCE_ACCOUNT_INDEX);
         byte[] data = buffer.array();
 
@@ -90,7 +90,7 @@ public class SystemProgram {
     }
 
     public static TransactionInstruction nonceWithdraw(NonceWithdrawParams nonceWithdrawParams) {
-        ByteBuffer buffer = BufferUtil.allocateLE(4 + 8);
+        ByteBuffer buffer = SerializationUtils.allocateLE(4 + 8);
         buffer.putInt(0, NONCE_WITHDRAW_ACCOUNT_INDEX);
         buffer.putLong(4, nonceWithdrawParams.getLamports().longValue());
         byte[] data = buffer.array();
@@ -107,9 +107,9 @@ public class SystemProgram {
     }
 
     public static TransactionInstruction nonceInitialize(NonceInitializeParams nonceInitializeParams) {
-        ByteBuffer buffer = BufferUtil.allocateLE(4 + 32);
+        ByteBuffer buffer = SerializationUtils.allocateLE(4 + 32);
         buffer.putInt(0, NONCE_INITIALIZE_ACCOUNT_INDEX);
-        BufferUtil.putPubkey(buffer, 4, nonceInitializeParams.getAuthorizedPubkey());
+        SerializationUtils.putPubkey(buffer, 4, nonceInitializeParams.getAuthorizedPubkey());
         byte[] data = buffer.array();
 
         List<AccountMeta> accounts = List.of(
@@ -122,9 +122,9 @@ public class SystemProgram {
     }
 
     public static TransactionInstruction nonceAuthorize(NonceAuthorizeParams nonceAuthorizeParams) {
-        ByteBuffer buffer = BufferUtil.allocateLE(4 + 32);
+        ByteBuffer buffer = SerializationUtils.allocateLE(4 + 32);
         buffer.putInt(0, NONCE_AUTHORIZE_ACCOUNT_INDEX);
-        BufferUtil.putPubkey(buffer, 4, nonceAuthorizeParams.getNewAuthorizedPubkey());
+        SerializationUtils.putPubkey(buffer, 4, nonceAuthorizeParams.getNewAuthorizedPubkey());
         byte[] data = buffer.array();
 
         List<AccountMeta> accounts = List.of(
@@ -136,7 +136,7 @@ public class SystemProgram {
     }
 
     public static TransactionInstruction allocate(AllocateParams allocateParams) {
-        ByteBuffer buffer = BufferUtil.allocateLE(4 + 8);
+        ByteBuffer buffer = SerializationUtils.allocateLE(4 + 8);
         buffer.putInt(ALLOCATE_INDEX);
         buffer.putLong(4, allocateParams.getSpace().longValue());
         byte[] data = buffer.array();
