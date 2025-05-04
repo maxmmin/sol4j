@@ -1,4 +1,4 @@
-package io.github.maxmmin.sol.util;
+package io.github.maxmmin.sol.core.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;

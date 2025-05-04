@@ -6,14 +6,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PublicKeyUtilsTest {
+public class PublicKeyUtilTest {
     @Test
     public void isOnCurveTest() {
         PublicKey onCurve = KeyGen.generate().getPublicKey();
-        assertTrue(PublicKeyUtils.isOnCurve(onCurve));
+        assertTrue(PublicKeyUtil.isOnCurve(onCurve));
 
         PublicKey offCurve = PublicKey.fromBase58("HtDPaF1e1FNgKn2bffMn8GTLByrSxNDcebMUpC9ZFfSd");
-        assertFalse(PublicKeyUtils.isOnCurve(offCurve));
+        assertFalse(PublicKeyUtil.isOnCurve(offCurve));
     }
 
     @Test
@@ -21,8 +21,8 @@ public class PublicKeyUtilsTest {
         PublicKey programId = PublicKey.fromBase58("BPFLoader1111111111111111111111111111111111");
 
         byte[] seed = "".getBytes();
-        PublicKeyUtils.PubkeyWithNonce pubkey = PublicKeyUtils.findProgramAddress(new byte[][] {seed}, programId);
-        PublicKey generated = PublicKeyUtils.createProgramAddress(new byte[][] {seed, {pubkey.getNonce()}}, programId);
+        PublicKeyUtil.PubkeyWithNonce pubkey = PublicKeyUtil.findProgramAddress(new byte[][] {seed}, programId);
+        PublicKey generated = PublicKeyUtil.createProgramAddress(new byte[][] {seed, {pubkey.getNonce()}}, programId);
         assertEquals(generated, pubkey.getAddress());
     }
 
@@ -32,7 +32,7 @@ public class PublicKeyUtilsTest {
         byte expectedNonce = (byte) 249;
 
         PublicKey programId = PublicKey.fromBase58("BPFLoader1111111111111111111111111111111111");
-        PublicKeyUtils.PubkeyWithNonce keyWithNonce = PublicKeyUtils.findProgramAddress(new byte[][]{"seed-48".getBytes()}, programId);
+        PublicKeyUtil.PubkeyWithNonce keyWithNonce = PublicKeyUtil.findProgramAddress(new byte[][]{"seed-48".getBytes()}, programId);
 
         assertEquals(expectedKey, keyWithNonce.getAddress());
         assertEquals(expectedNonce, keyWithNonce.getNonce());
@@ -45,34 +45,34 @@ public class PublicKeyUtilsTest {
 
         PublicKey programAddress;
 
-        programAddress = PublicKeyUtils.createProgramAddress(
+        programAddress = PublicKeyUtil.createProgramAddress(
           new byte[][] {"".getBytes(), {1}}, programId
         );
         assertEquals(PublicKey.fromBase58("3gF2KMe9KiC6FNVBmfg9i267aMPvK37FewCip4eGBFcT"), programAddress);
 
-        programAddress = PublicKeyUtils.createProgramAddress(
+        programAddress = PublicKeyUtil.createProgramAddress(
                 new byte[][] {"☉".getBytes()}, programId
         );
         assertEquals(PublicKey.fromBase58("7ytmC1nT1xY4RfxCV2ZgyA7UakC93do5ZdyhdF3EtPj7"), programAddress);
 
-        programAddress = PublicKeyUtils.createProgramAddress(
+        programAddress = PublicKeyUtil.createProgramAddress(
                 new byte[][] {"Talking".getBytes(), "Squirrels".getBytes()}, programId
         );
         assertEquals(PublicKey.fromBase58("HwRVBufQ4haG5XSgpspwKtNd3PC9GM9m1196uJW36vds"), programAddress);
 
-        programAddress = PublicKeyUtils.createProgramAddress(
+        programAddress = PublicKeyUtil.createProgramAddress(
                 new byte[][] {publicKey.getBytes()}, programId
         );
         assertEquals(PublicKey.fromBase58("GUs5qLUfsEHkcMB9T38vjr18ypEhRuNWiePW2LoK4E3K"), programAddress);
 
-        PublicKey programAddress2 = PublicKeyUtils.createProgramAddress(
+        PublicKey programAddress2 = PublicKeyUtil.createProgramAddress(
                 new byte[][] {"Talking".getBytes()}, programId
         );
         assertNotEquals(programAddress, programAddress2);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            PublicKeyUtils.createProgramAddress(
-                    new byte[][] {new byte[PublicKeyUtils.MAX_SEED_LENGTH + 1]}, programId
+            PublicKeyUtil.createProgramAddress(
+                    new byte[][] {new byte[PublicKeyUtil.MAX_SEED_LENGTH + 1]}, programId
             );
         });
 

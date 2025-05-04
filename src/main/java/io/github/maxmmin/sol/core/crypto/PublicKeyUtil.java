@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class PublicKeyUtils {
+public class PublicKeyUtil {
     public static int MAX_SEED_LENGTH = 32;
     public static String DERIVED_ADDRESS_FLAG = "ProgramDerivedAddress";
 

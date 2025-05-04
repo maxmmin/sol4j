@@ -1,12 +1,10 @@
-package io.github.maxmmin.sol.util;
-
-import io.github.maxmmin.sol.core.crypto.PublicKey;
+package io.github.maxmmin.sol.core.crypto;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class SerializationUtils {
+public class BytesUtil {
     public static ByteBuffer putBytes(ByteBuffer buffer, int offset, byte[] bytes) {
         int cursor = offset;
         for (byte b: bytes) {
@@ -28,7 +26,7 @@ public class SerializationUtils {
     }
 
     public static byte[] serializeUint64LE(BigInteger uint64) {
-        return SerializationUtils.allocateLE(8).putLong(uint64ToLong(uint64)).array();
+        return BytesUtil.allocateLE(8).putLong(uint64ToLong(uint64)).array();
     }
 
     private static long uint64ToLong(BigInteger uint64) {

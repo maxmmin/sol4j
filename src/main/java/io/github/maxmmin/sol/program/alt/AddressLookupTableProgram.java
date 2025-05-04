@@ -1,12 +1,12 @@
 package io.github.maxmmin.sol.program.alt;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
-import io.github.maxmmin.sol.core.crypto.PublicKeyUtils;
+import io.github.maxmmin.sol.core.crypto.PublicKeyUtil;
 import io.github.maxmmin.sol.core.crypto.exception.NonceNotFoundException;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionInstruction;
 import io.github.maxmmin.sol.core.crypto.transaction.message.AccountMeta;
 import io.github.maxmmin.sol.program.SystemProgram;
-import io.github.maxmmin.sol.util.SerializationUtils;
+import io.github.maxmmin.sol.core.crypto.BytesUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
@@ -29,20 +29,20 @@ public class AddressLookupTableProgram {
         if (params.getRecentSlot().compareTo(BigInteger.ZERO) < 0)
             throw new IllegalArgumentException("Recent slot can't be negative");
 
-        PublicKeyUtils.PubkeyWithNonce pubkeyWithNonce;
-        byte[] recentSlotBytes = SerializationUtils.serializeUint64LE(params.getRecentSlot());
+        PublicKeyUtil.PubkeyWithNonce pubkeyWithNonce;
+        byte[] recentSlotBytes = BytesUtil.serializeUint64LE(params.getRecentSlot());
         try {
-            pubkeyWithNonce = PublicKeyUtils.findProgramAddress(
-                    new byte[][]{params.getAuthority().getBytes(), SerializationUtils.serializeUint64LE(params.getRecentSlot())},
+            pubkeyWithNonce = PublicKeyUtil.findProgramAddress(
+                    new byte[][]{params.getAuthority().getBytes(), BytesUtil.serializeUint64LE(params.getRecentSlot())},
                     PROGRAM_ID
             );
         } catch (NonceNotFoundException e) {
             throw new RuntimeException("Could not found the nonce for PDA", e);
         }
 
-        ByteBuffer buffer = SerializationUtils.allocateLE(4 + 8 + 1);
+        ByteBuffer buffer = BytesUtil.allocateLE(4 + 8 + 1);
         buffer.putInt(0, CREATE_LOOKUP_TABLE_INDEX);
-        SerializationUtils.putBytes(buffer, 4, recentSlotBytes);
+        BytesUtil.putBytes(buffer, 4, recentSlotBytes);
         buffer.put(12, pubkeyWithNonce.getNonce());
         byte[] data = buffer.array();
 
@@ -57,7 +57,7 @@ public class AddressLookupTableProgram {
     }
 
     public static TransactionInstruction freezeLookupTable(FreezeLookupTableParams params) {
-        byte[] data = SerializationUtils.allocateLE(4).putInt(FREEZE_LOOKUP_TABLE_INDEX).array();
+        byte[] data = BytesUtil.allocateLE(4).putInt(FREEZE_LOOKUP_TABLE_INDEX).array();
 
         List<AccountMeta> accounts = List.of(
                 new AccountMeta(params.getLookupTable(), false, true),
@@ -70,13 +70,13 @@ public class AddressLookupTableProgram {
     public static TransactionInstruction extendLookupTable(ExtendLookupTableParams params) {
         List<PublicKey> addresses = params.getAddresses();
         int addressesSpace = addresses.size() * 32;
-        ByteBuffer buffer = SerializationUtils.allocateLE(4 + 8 + addressesSpace)
+        ByteBuffer buffer = BytesUtil.allocateLE(4 + 8 + addressesSpace)
                 .putInt(0, EXTEND_LOOKUP_TABLE_INDEX);
 
-        SerializationUtils.putUint64(buffer, 4, BigInteger.valueOf(addresses.size()));
+        BytesUtil.putUint64(buffer, 4, BigInteger.valueOf(addresses.size()));
         int offset = 12;
         for (PublicKey address : addresses) {
-            SerializationUtils.putPubkey(buffer, offset, address);
+            BytesUtil.putPubkey(buffer, offset, address);
             offset += 32;
         }
 
@@ -94,7 +94,7 @@ public class AddressLookupTableProgram {
     }
 
     public static TransactionInstruction deactivateLookupTable(DeactivateLookupTableParams params) {
-        byte[] data = SerializationUtils.allocateLE(4).putInt(DEACTIVATE_LOOKUP_TABLE_INDEX).array();
+        byte[] data = BytesUtil.allocateLE(4).putInt(DEACTIVATE_LOOKUP_TABLE_INDEX).array();
 
         List<AccountMeta> accounts = List.of(
                 new AccountMeta(params.getLookupTable(), false, true),
@@ -105,7 +105,7 @@ public class AddressLookupTableProgram {
     }
 
     public static TransactionInstruction closeLookupTable(CloseLookupTableParams params) {
-        byte[] data = SerializationUtils.allocateLE(4).putInt(CLOSE_LOOKUP_TABLE_INDEX).array();
+        byte[] data = BytesUtil.allocateLE(4).putInt(CLOSE_LOOKUP_TABLE_INDEX).array();
 
         List<AccountMeta> accounts = List.of(
                 new AccountMeta(params.getLookupTable(), false, true),

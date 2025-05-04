@@ -11,8 +11,8 @@ import io.github.maxmmin.sol.core.client.exception.RpcException;
 import io.github.maxmmin.sol.core.client.exception.RpcResponseException;
 import io.github.maxmmin.sol.core.client.type.request.RpcRequest;
 import io.github.maxmmin.sol.core.client.type.response.RpcResponse;
-import io.github.maxmmin.sol.util.Collector;
-import io.github.maxmmin.sol.util.Types;
+import io.github.maxmmin.sol.core.client.Collector;
+import io.github.maxmmin.sol.core.client.Types;
 import lombok.Getter;
 
 import java.io.IOException;
