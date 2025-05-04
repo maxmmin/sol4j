@@ -3,7 +3,6 @@ package io.github.maxmmin.sol.core.crypto.transaction.message;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.SerializingTestsUtil;
 import io.github.maxmmin.sol.program.SystemProgram;
-import io.github.maxmmin.sol.program.alt.AddressLookupTableAccount;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
