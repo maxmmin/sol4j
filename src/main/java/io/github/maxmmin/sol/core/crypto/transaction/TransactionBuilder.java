@@ -66,30 +66,36 @@ public abstract class TransactionBuilder<T, M> {
         private final M message;
     }
 
+    @Deprecated
     public static LegacyTransactionBuilder getBuilder(Message message) {
         return new LegacyTransactionBuilder(message, MessageSigner.getSigner());
     }
 
+    @Deprecated
     public static TransactionV0Builder getBuilderV0(MessageV0 message) {
         return new TransactionV0Builder(message);
     }
 
+    @Deprecated
     public static Transaction build(Message message, List<Account> signers) {
         LegacyTransactionBuilder builder = getBuilder(message);
         signers.forEach(builder::sign);
         return builder.build();
     }
 
+    @Deprecated
     public static Transaction build(Message message, Account signer) {
         return getBuilder(message).sign(signer).build();
     }
 
+    @Deprecated
     public static TransactionV0 buildV0(MessageV0 message, List<Account> signers) {
         TransactionV0Builder builder = getBuilderV0(message);
         signers.forEach(builder::sign);
         return builder.build();
     }
 
+    @Deprecated
     public static TransactionV0 build(MessageV0 message, Account signer) {
         return getBuilderV0(message).sign(signer).build();
     }
