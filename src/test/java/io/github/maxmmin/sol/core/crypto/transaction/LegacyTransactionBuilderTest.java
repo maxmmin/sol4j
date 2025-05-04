@@ -23,7 +23,7 @@ public class LegacyTransactionBuilderTest {
                 .addInstruction(SystemProgram.transfer(new SystemProgram.TransferParams(sender.getPublicKey(), recipient, lamports)))
                 .build();
 
-        Transaction tx = TransactionBuilder.build(message, sender);
+        Transaction tx = Transaction.build(message, sender);
 
         Assertions.assertEquals(1, tx.getSignatures().size());
     }

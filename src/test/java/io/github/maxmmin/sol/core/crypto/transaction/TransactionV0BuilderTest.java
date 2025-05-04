@@ -25,7 +25,7 @@ public class TransactionV0BuilderTest {
                 .addInstruction(SystemProgram.transfer(new SystemProgram.TransferParams(sender.getPublicKey(), recipient, lamports)))
                 .build();
 
-        TransactionV0 tx = TransactionBuilder.build(message, sender);
+        TransactionV0 tx = TransactionV0.build(message, sender);
 
         Assertions.assertEquals(1, tx.getSignatures().size());
     }
