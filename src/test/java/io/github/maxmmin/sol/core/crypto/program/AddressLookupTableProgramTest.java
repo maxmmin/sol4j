@@ -1,4 +1,4 @@
-package io.github.maxmmin.sol.core.crypto.program.alt;
+package io.github.maxmmin.sol.core.crypto.program;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.SerializingTestsUtil;
