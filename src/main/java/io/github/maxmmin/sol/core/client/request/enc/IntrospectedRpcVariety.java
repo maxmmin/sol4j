@@ -106,7 +106,7 @@ public abstract class IntrospectedRpcVariety<D, B, J, P> {
         }
 
         public static EncodingSupport baseWithCompressing() {
-            return new EncodingSupport(Encoding.BASE58, Encoding.BASE64, Encoding.BASE64);
+            return new EncodingSupport(Encoding.BASE58, Encoding.BASE64, Encoding.BASE64_ZSTD);
         }
 
         public static EncodingSupport full() {
