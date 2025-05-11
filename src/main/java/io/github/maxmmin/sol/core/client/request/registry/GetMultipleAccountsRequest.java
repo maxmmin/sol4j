@@ -24,7 +24,8 @@ public class GetMultipleAccountsRequest extends MultiEncRequest<ContextWrapper<L
         super(
                 new RpcTypes<ContextWrapper<List<BaseEncAccount>>, ContextWrapper<List<BaseEncAccount>>, Void, ContextWrapper<List<JsonParsedAccount>>>() {},
                 EncodingSupport.fullWithCompressing(),
-                gateway);
+                gateway
+        );
         this.accounts = accounts;
         this.config = config;
     }
