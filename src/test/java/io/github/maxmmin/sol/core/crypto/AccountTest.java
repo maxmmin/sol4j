@@ -1,7 +1,8 @@
 package io.github.maxmmin.sol.core.crypto;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AccountTest {
     @Test

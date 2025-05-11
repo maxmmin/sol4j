@@ -1,16 +1,16 @@
 package io.github.maxmmin.sol.core.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.github.maxmmin.sol.core.client.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.client.request.BatchedRequest;
 import io.github.maxmmin.sol.core.client.request.Request;
 import io.github.maxmmin.sol.core.client.request.SimpleBatchedRequest;
 import io.github.maxmmin.sol.core.client.request.SimpleRequest;
 import io.github.maxmmin.sol.core.client.request.registry.*;
 import io.github.maxmmin.sol.core.client.type.request.*;
+import io.github.maxmmin.sol.core.client.type.response.RpcResponse;
 import io.github.maxmmin.sol.core.crypto.transaction.Transaction;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionSerializer;
-import io.github.maxmmin.sol.core.client.gateway.RpcGateway;
-import io.github.maxmmin.sol.core.client.type.response.RpcResponse;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionV0;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;

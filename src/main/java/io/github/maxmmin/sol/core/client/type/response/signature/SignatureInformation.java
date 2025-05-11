@@ -1,7 +1,9 @@
 package io.github.maxmmin.sol.core.client.type.response.signature;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 

@@ -1,8 +1,8 @@
 package io.github.maxmmin.sol.core.client.request.enc;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import io.github.maxmmin.sol.core.client.type.request.Encoding;
 import io.github.maxmmin.sol.core.client.Types;
+import io.github.maxmmin.sol.core.client.type.request.Encoding;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;

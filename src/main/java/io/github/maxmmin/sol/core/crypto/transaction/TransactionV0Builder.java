@@ -2,8 +2,8 @@ package io.github.maxmmin.sol.core.crypto.transaction;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.sign.MessageSigner;
-import io.github.maxmmin.sol.core.crypto.transaction.message.*;
 import io.github.maxmmin.sol.core.crypto.transaction.message.MessageSerializer;
+import io.github.maxmmin.sol.core.crypto.transaction.message.MessageV0;
 
 import java.util.List;
 

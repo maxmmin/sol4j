@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.maxmmin.sol.core.client.type.response.JsonParsedContent;
 import io.github.maxmmin.sol.core.client.type.response.JsonParsedData;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

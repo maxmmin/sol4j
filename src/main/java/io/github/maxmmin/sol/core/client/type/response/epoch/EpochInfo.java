@@ -1,7 +1,6 @@
 package io.github.maxmmin.sol.core.client.type.response.epoch;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Nullable;

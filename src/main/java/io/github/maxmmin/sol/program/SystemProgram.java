@@ -1,9 +1,9 @@
 package io.github.maxmmin.sol.program;
 
-import io.github.maxmmin.sol.core.crypto.transaction.message.AccountMeta;
+import io.github.maxmmin.sol.core.crypto.BytesUtil;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionInstruction;
-import io.github.maxmmin.sol.core.crypto.BytesUtil;
+import io.github.maxmmin.sol.core.crypto.transaction.message.AccountMeta;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

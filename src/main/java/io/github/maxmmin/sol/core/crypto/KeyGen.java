@@ -6,7 +6,6 @@ import net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec;
 
 import java.security.KeyPair;
 import java.security.KeyPairGeneratorSpi;
-import java.util.Arrays;
 
 public class KeyGen {
     private final static KeyPairGeneratorSpi keyPairGenerator = new KeyPairGenerator();

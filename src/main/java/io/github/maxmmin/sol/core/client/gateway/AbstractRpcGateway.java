@@ -6,13 +6,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.maxmmin.sol.core.client.Collector;
+import io.github.maxmmin.sol.core.client.Types;
 import io.github.maxmmin.sol.core.client.exception.RpcBatchedResponseException;
 import io.github.maxmmin.sol.core.client.exception.RpcException;
 import io.github.maxmmin.sol.core.client.exception.RpcResponseException;
 import io.github.maxmmin.sol.core.client.type.request.RpcRequest;
 import io.github.maxmmin.sol.core.client.type.response.RpcResponse;
-import io.github.maxmmin.sol.core.client.Collector;
-import io.github.maxmmin.sol.core.client.Types;
 import lombok.Getter;
 
 import java.io.IOException;

@@ -2,7 +2,8 @@ package io.github.maxmmin.sol.core.crypto;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Base58Test {
     @Test

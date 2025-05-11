@@ -9,7 +9,10 @@ import io.github.maxmmin.sol.core.crypto.transaction.message.MessageV0;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class TransactionBuilder<T, M> {
     private final Map<PublicKey, String> signatures;

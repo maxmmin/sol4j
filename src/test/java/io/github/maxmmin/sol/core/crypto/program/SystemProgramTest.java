@@ -1,16 +1,16 @@
 package io.github.maxmmin.sol.core.crypto.program;
 
 import io.github.maxmmin.sol.core.crypto.Base58;
+import io.github.maxmmin.sol.core.crypto.BytesUtil;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionInstruction;
 import io.github.maxmmin.sol.program.SystemProgram;
-import io.github.maxmmin.sol.core.crypto.BytesUtil;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static io.github.maxmmin.sol.program.SystemProgram.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SystemProgramTest {
     @Test
