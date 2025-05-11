@@ -2,7 +2,6 @@ package io.github.maxmmin.sol.core.crypto.alt;
 
 import io.github.maxmmin.sol.core.crypto.BytesUtil;
 import io.github.maxmmin.sol.core.crypto.PublicKey;
-import io.github.maxmmin.sol.core.crypto.TypeIndex;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
@@ -15,9 +14,9 @@ public class AddressLookupTableAccountDeserializer {
     public static int LOOKUP_TABLE_META_SIZE = 56;
 
     public AddressLookupTableState deserialize(byte[] data) {
-        int typeIndex = getTypeIndex(data);
-        if (typeIndex != TypeIndex.ADDRESS_LOOKUP_TABLE)
-            throw new IllegalArgumentException("Type index does not match address lookup table");
+        int typeIndex = getDiscriminantor(data);
+        if (typeIndex != AltProgramStateDiscriminator.LOOKUP_TABLE)
+            throw new IllegalArgumentException("Isn't valid initialized address lookup table. Discriminator mismatch: " + typeIndex);
 
         BigInteger deactivationSlot = getDeactivationSlot(data);
         BigInteger lastExtendedSlot = getLastExtendedSlot(data);
@@ -28,7 +27,7 @@ public class AddressLookupTableAccountDeserializer {
         return new AddressLookupTableState(deactivationSlot, lastExtendedSlot, lastExtendedStartIndex, authority, addresses);
     }
 
-    protected int getTypeIndex(byte[] data) {
+    protected int getDiscriminantor(byte[] data) {
         if (data.length < 4)
             throw new IllegalArgumentException("Invalid account data length: cannot read type index");
 
