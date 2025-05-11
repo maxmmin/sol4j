@@ -29,10 +29,22 @@ public class BytesUtil {
         return BytesUtil.allocateLE(8).putLong(uint64ToLong(uint64)).array();
     }
 
+    public static byte[] reverseBytes(byte[] bytes) {
+        byte[] reversed = new byte[bytes.length];
+        for (int i = 0; i < bytes.length; i++) {
+            reversed[i] = bytes[bytes.length - 1 - i];
+        }
+        return reversed;
+    }
+
     private static long uint64ToLong(BigInteger uint64) {
         byte[] bytes = uint64.toByteArray();
         int uintLength = bytes[0] == 0 ? bytes.length - 1 : bytes.length;
         if (uintLength > 8) throw new IllegalArgumentException("Number is too large for uint64");
         return uint64.longValue();
+    }
+
+    public static BigInteger readUint64LE(byte[] littleEndianBytes) {
+        return new BigInteger(1, reverseBytes(littleEndianBytes));
     }
 }

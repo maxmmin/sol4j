@@ -8,20 +8,21 @@ import io.github.maxmmin.sol.core.client.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.client.type.request.Encoding;
 import io.github.maxmmin.sol.core.client.type.request.GetAccountInfoConfig;
 import io.github.maxmmin.sol.core.client.type.request.RpcRequest;
+import io.github.maxmmin.sol.core.client.type.response.ContextWrapper;
 import io.github.maxmmin.sol.core.client.type.response.account.base.BaseEncAccount;
 import io.github.maxmmin.sol.core.client.type.response.account.jsonparsed.JsonParsedAccount;
 
 import java.util.List;
 import java.util.Map;
 
-public class GetAccountInfoRequest extends MultiEncRequest<BaseEncAccount, BaseEncAccount, Void, JsonParsedAccount> {
+public class GetAccountInfoRequest extends MultiEncRequest<ContextWrapper<BaseEncAccount>, ContextWrapper<BaseEncAccount>, Void, ContextWrapper<JsonParsedAccount>> {
     private final String pubKey;
     private final GetAccountInfoConfig cfg;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GetAccountInfoRequest(RpcGateway gateway, String pubKey, GetAccountInfoConfig config) {
         super(
-                new RpcTypes<BaseEncAccount, BaseEncAccount, Void, JsonParsedAccount>() {},
+                new RpcTypes<ContextWrapper<BaseEncAccount>, ContextWrapper<BaseEncAccount>, Void, ContextWrapper<JsonParsedAccount>>() {},
                 new EncodingSupport(Encoding.BASE58, Encoding.BASE64, Encoding.BASE64_ZSTD, Encoding.JSON_PARSED),
                 gateway
         );
@@ -37,17 +38,17 @@ public class GetAccountInfoRequest extends MultiEncRequest<BaseEncAccount, BaseE
     }
 
     @Override
-    public BaseEncAccount send() throws RpcException {
+    public ContextWrapper<BaseEncAccount> send() throws RpcException {
         return super.send();
     }
 
     @Override
-    public BaseEncAccount base58() throws RpcException, UnsupportedOperationException {
+    public ContextWrapper<BaseEncAccount> base58() throws RpcException, UnsupportedOperationException {
         return super.base58();
     }
 
     @Override
-    public BaseEncAccount base64() throws RpcException, UnsupportedOperationException {
+    public ContextWrapper<BaseEncAccount> base64() throws RpcException, UnsupportedOperationException {
         return super.base64();
     }
 
@@ -57,7 +58,7 @@ public class GetAccountInfoRequest extends MultiEncRequest<BaseEncAccount, BaseE
     }
 
     @Override
-    public JsonParsedAccount jsonParsed() throws RpcException, UnsupportedOperationException {
+    public ContextWrapper<JsonParsedAccount> jsonParsed() throws RpcException, UnsupportedOperationException {
         return super.jsonParsed();
     }
 }
