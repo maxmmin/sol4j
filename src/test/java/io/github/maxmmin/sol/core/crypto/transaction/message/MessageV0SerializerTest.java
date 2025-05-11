@@ -2,6 +2,8 @@ package io.github.maxmmin.sol.core.crypto.transaction.message;
 
 import io.github.maxmmin.sol.core.crypto.PublicKey;
 import io.github.maxmmin.sol.core.crypto.SerializingTestsUtil;
+import io.github.maxmmin.sol.core.crypto.alt.AddressLookupTableAccount;
+import io.github.maxmmin.sol.core.crypto.alt.AddressLookupTableState;
 import io.github.maxmmin.sol.program.SystemProgram;
 import org.junit.jupiter.api.Test;
 
@@ -15,10 +17,10 @@ public class MessageV0SerializerTest {
     public void testSimpleMessageSerializing() {
         PublicKey signer = PublicKey.fromBase58("11111111111111111111111111111111");
 
-        AddressLookupTableAccount.AddressLookupTableState state = new AddressLookupTableAccount.AddressLookupTableState(
+        AddressLookupTableState state = new AddressLookupTableState(
                 new BigInteger("ffffffffffffffff", 16),
                 BigInteger.ZERO,
-                BigInteger.ZERO,
+                0,
                 null,
                 List.of(SystemProgram.PROGRAM_ID)
         );
@@ -55,10 +57,10 @@ public class MessageV0SerializerTest {
         PublicKey signer = PublicKey.fromBase58("11111111111111111111111111111111");
         PublicKey recipient = PublicKey.fromBase58("6tcxA4dVKGJecuXRHsa9NmW1JKXAJBtuPNAVoh2knm7j");
 
-        AddressLookupTableAccount.AddressLookupTableState state = new AddressLookupTableAccount.AddressLookupTableState(
+        AddressLookupTableState state = new AddressLookupTableState(
                 new BigInteger("ffffffffffffffff", 16),
                 BigInteger.ZERO,
-                BigInteger.ZERO,
+                0,
                 null,
                 List.of(SystemProgram.PROGRAM_ID, recipient)
         );
@@ -94,10 +96,10 @@ public class MessageV0SerializerTest {
         PublicKey signer = PublicKey.fromBase58("5tzFkiKscXHK5ZXCGbXZxdw7gTjjD1mBwuoFbhUvuAi9");
         PublicKey recipient = PublicKey.fromBase58("6tcxA4dVKGJecuXRHsa9NmW1JKXAJBtuPNAVoh2knm7j");
 
-        AddressLookupTableAccount.AddressLookupTableState state = new AddressLookupTableAccount.AddressLookupTableState(
+        AddressLookupTableState state = new AddressLookupTableState(
                 new BigInteger("ffffffffffffffff", 16),
                 BigInteger.ZERO,
-                BigInteger.ZERO,
+                0,
                 null,
                 List.of(SystemProgram.PROGRAM_ID, recipient)
         );

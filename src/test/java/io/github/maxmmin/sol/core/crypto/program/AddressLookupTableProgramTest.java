@@ -10,7 +10,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 import static io.github.maxmmin.sol.program.AddressLookupTableProgram.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class AddressLookupTableProgramTest {
     @Test
