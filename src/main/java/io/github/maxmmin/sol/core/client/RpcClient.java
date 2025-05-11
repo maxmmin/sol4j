@@ -23,6 +23,9 @@ public interface RpcClient {
     GetBalanceRequest getBalance(String publicKey);
     GetBalanceRequest getBalance(String publicKey, @NotNull GetBalanceConfig config);
 
+    GetBlockRequest getBlock(BigInteger slotNumber);
+    GetBlockRequest getBlock(BigInteger slotNumber, @NotNull GetBlockConfig config);
+
     GetBlockCommitmentRequest getBlockCommitment(BigInteger blockNumber);
 
     GetBlockHeightRequest getBlockHeight();

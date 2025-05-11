@@ -174,6 +174,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetBlockRequest getBlock(BigInteger slotNumber) {
+        return getBlock(slotNumber, GetBlockConfig.empty());
+    }
+
+    @Override
+    public GetBlockRequest getBlock(BigInteger slotNumber, @NotNull GetBlockConfig config) {
+        return new GetBlockRequest(rpcGateway, slotNumber, config);
+    }
+
+    @Override
     public GetBlockCommitmentRequest getBlockCommitment(BigInteger blockNumber) {
         return new GetBlockCommitmentRequest(rpcGateway, blockNumber);
     }

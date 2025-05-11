@@ -1,10 +1,15 @@
 package io.github.maxmmin.sol.core.client.type.response.epoch;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 
-@Data
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class EpochSchedule {
     private BigInteger firstNormalEpoch;
     private BigInteger firstNormalSlot;

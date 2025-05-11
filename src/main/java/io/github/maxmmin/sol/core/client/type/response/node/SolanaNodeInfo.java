@@ -1,8 +1,12 @@
 package io.github.maxmmin.sol.core.client.type.response.node;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class SolanaNodeInfo {
     private Long featureSet;
     private String gossip;

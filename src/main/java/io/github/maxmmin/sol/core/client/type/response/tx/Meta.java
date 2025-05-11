@@ -1,12 +1,17 @@
 package io.github.maxmmin.sol.core.client.type.response.tx;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 import java.util.List;
 
-@Data
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Meta<I> {
     @JsonProperty("computeUnitsConsumed")
     private int computeUnitsConsumed;
@@ -39,6 +44,6 @@ public class Meta<I> {
     private List<? extends TokenBalance> preTokenBalances;
 
     @JsonProperty("rewards")
-    private List<? extends Reward> rewards;
+    private List<? extends TxReward> rewards;
 }
 

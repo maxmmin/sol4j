@@ -1,12 +1,17 @@
 package io.github.maxmmin.sol.core.client.type.response.tx;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 
-@Data
-public class Reward {
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class TxReward {
     @JsonProperty("pubkey")
     private String pubkey;
 

@@ -1,11 +1,16 @@
 package io.github.maxmmin.sol.core.client.type.response.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 
-@Data
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account<D> {
     @JsonProperty("data")
     private D data;
