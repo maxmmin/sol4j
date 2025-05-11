@@ -101,7 +101,7 @@ public abstract class IntrospectedRpcVariety<D, B, J, P> {
             this.supportedEncodings = Arrays.stream(encodings).collect(Collectors.toSet());
         }
 
-        public static EncodingSupport baseOnly() {
+        public static EncodingSupport base() {
             return new EncodingSupport(Encoding.BASE58, Encoding.BASE64);
         }
 
