@@ -1,12 +1,17 @@
 package io.github.maxmmin.sol.core.client.type.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RpcRequest {
     @JsonProperty("jsonrpc")
     private String jsonrpc;

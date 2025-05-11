@@ -1,8 +1,13 @@
 package io.github.maxmmin.sol.core.client.type.response.inflation;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class InflationGovernor {
     private Double foundation;
     private Double foundationTerm;

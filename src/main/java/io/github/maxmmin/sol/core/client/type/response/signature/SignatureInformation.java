@@ -1,11 +1,13 @@
 package io.github.maxmmin.sol.core.client.type.response.signature;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigInteger;
 
-@Data
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class SignatureInformation {
     @JsonProperty("signature")
     private String signature;

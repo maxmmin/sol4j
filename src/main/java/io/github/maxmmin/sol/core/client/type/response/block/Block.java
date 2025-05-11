@@ -1,10 +1,15 @@
 package io.github.maxmmin.sol.core.client.type.response.block;
 
-import io.github.maxmmin.sol.core.client.type.response.tx.TxReward;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 import java.util.List;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Block<T> {
     private BigInteger blockHeight;
     private BigInteger blockTime;

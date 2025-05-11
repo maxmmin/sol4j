@@ -1,11 +1,16 @@
 package io.github.maxmmin.sol.core.client.type.response.tx;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 
-@Data
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class TokenBalance {
     @JsonProperty("accountIndex")
     private Integer accountIndex;
@@ -22,7 +27,9 @@ public class TokenBalance {
     @JsonProperty("uiTokenAmount")
     private UiTokenAmount uiTokenAmount;
 
-    @Data
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class UiTokenAmount{
         @JsonProperty("amount")
         private BigInteger amount;
