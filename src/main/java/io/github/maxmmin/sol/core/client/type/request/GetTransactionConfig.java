@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GetTransactionConfig {
     private final Commitment commitment;
-    private final Integer maxSupportedTransactionVersion = 0;
+    private final Integer maxSupportedTransactionVersion;
 
     public static GetTransactionConfig empty() {
         return builder().build();
