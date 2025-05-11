@@ -6,7 +6,7 @@ import lombok.Data;
 import java.math.BigInteger;
 
 @Data
-public class Reward {
+public class TxReward {
     @JsonProperty("pubkey")
     private String pubkey;
 

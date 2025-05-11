@@ -39,6 +39,6 @@ public class Meta<I> {
     private List<? extends TokenBalance> preTokenBalances;
 
     @JsonProperty("rewards")
-    private List<? extends Reward> rewards;
+    private List<? extends TxReward> rewards;
 }
 

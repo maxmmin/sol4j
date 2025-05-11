@@ -2,10 +2,11 @@ package io.github.maxmmin.sol.core.client.type.response.tx;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.Getter;
 
 import java.math.BigInteger;
 
-@Data
+@Getter
 public class ConfirmedTransaction<T, I> {
     @JsonProperty("meta")
     private Meta<I> meta;
