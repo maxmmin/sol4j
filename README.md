@@ -26,7 +26,7 @@ Under active development
 
 - getAccountInfo ✅
 - getBalance ✅
-- getBlock ❌
+- getBlock ✅
 - getBlockCommitment ✅
 - getBlockHeight ✅
 - getBlockProduction ✅
