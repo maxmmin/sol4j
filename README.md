@@ -30,8 +30,8 @@ Under active development
 - getBlockCommitment ✅
 - getBlockHeight ✅
 - getBlockProduction ✅
-- getBlocks ❌
-- getBlocksWithLimit ❌
+- getBlocks ✅
+- getBlocksWithLimit ✅
 - getBlockTime ✅
 - getClusterNodes ✅
 - getEpochInfo ✅
