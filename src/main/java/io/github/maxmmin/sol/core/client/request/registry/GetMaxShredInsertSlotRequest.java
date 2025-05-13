@@ -10,7 +10,7 @@ import java.util.List;
 
 public class GetMaxShredInsertSlotRequest extends SimpleRequest<BigInteger> {
     public GetMaxShredInsertSlotRequest(RpcGateway rpcGateway) {
-        super(new TypeReference<BigInteger>() {}, rpcGateway, "getMaxShredInsert", List.of());
+        super(new TypeReference<BigInteger>() {}, rpcGateway, "getMaxShredInsertSlot", List.of());
     }
 
     @Override

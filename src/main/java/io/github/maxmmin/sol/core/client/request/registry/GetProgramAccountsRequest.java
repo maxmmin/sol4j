@@ -11,27 +11,30 @@ import io.github.maxmmin.sol.core.client.type.request.RpcRequest;
 import io.github.maxmmin.sol.core.client.type.response.account.base.BaseEncProgramAccount;
 import io.github.maxmmin.sol.core.client.type.response.account.json.JsonProgramAccount;
 import io.github.maxmmin.sol.core.client.type.response.account.jsonparsed.JsonParsedProgramAccount;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class GetProgramAccountsRequest extends MultiEncRequest<List<JsonProgramAccount>, List<BaseEncProgramAccount>, List<JsonProgramAccount>, List<JsonParsedProgramAccount>> {
     private final String programId;
-    private final GetProgramAccountsConfig config;
+    private final @Nullable GetProgramAccountsConfig config;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public GetProgramAccountsRequest(RpcGateway gateway, String programId, GetProgramAccountsConfig config) {
+    public GetProgramAccountsRequest(RpcGateway gateway, String programId, @Nullable GetProgramAccountsConfig config) {
         super(
                 new RpcTypes<List<JsonProgramAccount>, List<BaseEncProgramAccount>, List<JsonProgramAccount>, List<JsonParsedProgramAccount>>() {},
                 EncodingSupport.fullWithCompressing(),
                 gateway);
-        this.programId = programId;
+        this.programId = Objects.requireNonNull(programId, "Program id must be specified");
         this.config = config;
     }
 
     @Override
     protected RpcRequest construct(Encoding encoding) {
-        Map<String, ObjectMapper> cfg = objectMapper.convertValue(config, new TypeReference<Map<String, ObjectMapper>>() {});
+        Map<String, ObjectMapper> cfg = config != null ? objectMapper.convertValue(config, new TypeReference<Map<String, ObjectMapper>>() {}) : new HashMap<>();
         if (!encoding.isNil()) cfg.put("encoding", new ObjectMapper());
         return new RpcRequest("getProgramAccounts", List.of(programId, cfg));
     }

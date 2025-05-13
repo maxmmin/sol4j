@@ -6,12 +6,19 @@ import io.github.maxmmin.sol.core.client.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.client.request.SimpleRequest;
 import io.github.maxmmin.sol.core.client.type.request.GetBlockProductionConfig;
 import io.github.maxmmin.sol.core.client.type.response.block.BlockProduction;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GetBlockProductionRequest extends SimpleRequest<BlockProduction> {
-    public GetBlockProductionRequest(RpcGateway rpcGateway, GetBlockProductionConfig config) {
-        super(new TypeReference<BlockProduction>() {}, rpcGateway, "getBlockProduction", List.of(config));
+    public GetBlockProductionRequest(RpcGateway rpcGateway, @Nullable GetBlockProductionConfig config) {
+        super(new TypeReference<BlockProduction>() {}, rpcGateway, "getBlockProduction", getParams(config));
+    }
+
+    private static List<Object> getParams (@Nullable GetBlockProductionConfig config) {
+        return Stream.of(config).collect(Collectors.toUnmodifiableList());
     }
 
     @Override

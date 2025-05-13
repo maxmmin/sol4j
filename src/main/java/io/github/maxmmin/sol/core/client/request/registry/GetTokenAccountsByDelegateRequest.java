@@ -13,33 +13,37 @@ import io.github.maxmmin.sol.core.client.type.response.ContextWrapper;
 import io.github.maxmmin.sol.core.client.type.response.account.base.BaseEncProgramAccount;
 import io.github.maxmmin.sol.core.client.type.response.account.json.JsonProgramAccount;
 import io.github.maxmmin.sol.core.client.type.response.account.jsonparsed.JsonParsedProgramAccount;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class GetTokenAccountsByDelegateRequest extends MultiEncRequest<ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<BaseEncProgramAccount>>,
         ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<JsonParsedProgramAccount>>> {
     private final String delegate;
-    private final GetTokenAccountsByDelegateConfig config;
     private final GetTokenAccountsByDelegateParams params;
+    private final @Nullable GetTokenAccountsByDelegateConfig config;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public GetTokenAccountsByDelegateRequest(RpcGateway gateway, String delegate, GetTokenAccountsByDelegateConfig config, GetTokenAccountsByDelegateParams params) {
+    public GetTokenAccountsByDelegateRequest(RpcGateway gateway, String delegate, GetTokenAccountsByDelegateParams params, GetTokenAccountsByDelegateConfig config) {
         super(
                 new RpcTypes<ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<BaseEncProgramAccount>>, ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<JsonParsedProgramAccount>>>() {},
                 new EncodingSupport(Encoding.BASE58, Encoding.BASE64, Encoding.BASE64_ZSTD, Encoding.JSON_PARSED),
                 gateway
         );
-        this.delegate = delegate;
+        this.delegate = Objects.requireNonNull(delegate, "Delegate must be specified");
+        this.params = Objects.requireNonNull(params, "Params must be specified");
         this.config = config;
-        this.params = params;
     }
 
 
     @Override
     protected RpcRequest construct(Encoding encoding) {
         Map<String, Object> paramsMap = objectMapper.convertValue(params, new TypeReference<Map<String, Object>>() {});
-        Map<String, Object> cfgMap = objectMapper.convertValue(config, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> cfgMap = config != null ? objectMapper.convertValue(config, new TypeReference<Map<String, Object>>() {}) : new HashMap<>();
         if (!encoding.isNil()) cfgMap.put("encoding", encoding);
         return new RpcRequest("getTokenAccountsByDelegate", List.of(delegate, paramsMap, cfgMap));
     }

@@ -11,14 +11,18 @@ import io.github.maxmmin.sol.core.client.type.request.RpcRequest;
 import io.github.maxmmin.sol.core.client.type.response.tx.base.BaseEncConfirmedTransaction;
 import io.github.maxmmin.sol.core.client.type.response.tx.json.JsonConfirmedTransaction;
 import io.github.maxmmin.sol.core.client.type.response.tx.jsonparsed.JsonParsedConfirmedTransaction;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class GetTransactionRequest extends MultiEncRequest<JsonConfirmedTransaction, BaseEncConfirmedTransaction, JsonConfirmedTransaction, JsonParsedConfirmedTransaction> {
     private final String signature;
-    private final GetTransactionConfig config;
+    private final @Nullable GetTransactionConfig config;
+
     private final ObjectMapper mapper = new ObjectMapper();
 
     public GetTransactionRequest(RpcGateway gateway, String signature, GetTransactionConfig config) {
@@ -27,13 +31,13 @@ public class GetTransactionRequest extends MultiEncRequest<JsonConfirmedTransact
                 EncodingSupport.fullWithCompressing(),
                 gateway
         );
-        this.signature = signature;
+        this.signature = Objects.requireNonNull(signature, "Signature must be specified");
         this.config = config;
     }
 
     @Override
     protected RpcRequest construct(Encoding encoding) {
-        Map<String, Object> mapCfg = mapper.convertValue(config, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> mapCfg = config != null ? mapper.convertValue(config, new TypeReference<Map<String, Object>>() {}) : new HashMap<>();
         if (!encoding.isNil()) mapCfg.put("encoding", encoding);
         return new RpcRequest("getTransaction", List.of(signature, mapCfg));
     }

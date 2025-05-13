@@ -13,15 +13,19 @@ import io.github.maxmmin.sol.core.client.type.response.ContextWrapper;
 import io.github.maxmmin.sol.core.client.type.response.account.base.BaseEncProgramAccount;
 import io.github.maxmmin.sol.core.client.type.response.account.json.JsonProgramAccount;
 import io.github.maxmmin.sol.core.client.type.response.account.jsonparsed.JsonParsedProgramAccount;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class GetTokenAccountsByOwnerRequest extends MultiEncRequest<ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<BaseEncProgramAccount>>,
         ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<JsonParsedProgramAccount>>> {
     private final String owner;
     private final GetTokenAccountsByOwnerParams params;
-    private final GetTokenAccountsByOwnerConfig config;
+    private final @Nullable GetTokenAccountsByOwnerConfig config;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GetTokenAccountsByOwnerRequest(RpcGateway gateway, String owner, GetTokenAccountsByOwnerParams params, GetTokenAccountsByOwnerConfig config) {
@@ -30,15 +34,15 @@ public class GetTokenAccountsByOwnerRequest extends MultiEncRequest<ContextWrapp
                 new EncodingSupport(Encoding.BASE58, Encoding.BASE64, Encoding.BASE64_ZSTD, Encoding.JSON_PARSED),
                 gateway
         );
-        this.owner = owner;
-        this.params = params;
+        this.owner = Objects.requireNonNull(owner, "Owner must be specified");
+        this.params = Objects.requireNonNull(params, "Params must be specified");
         this.config = config;
     }
 
     @Override
     protected RpcRequest construct(Encoding encoding) {
         Map<String, Object> paramsMap = objectMapper.convertValue(params, new TypeReference<Map<String, Object>>() {});
-        Map<String, Object> cfgMap = objectMapper.convertValue(config, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> cfgMap = config != null ? objectMapper.convertValue(config, new TypeReference<Map<String, Object>>() {}) : new HashMap<>();
         if (!encoding.isNil()) cfgMap.put("encoding", encoding);
         return new RpcRequest("getTokenAccountsByOwner", List.of(owner, paramsMap, cfgMap));
     }
