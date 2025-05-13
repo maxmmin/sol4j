@@ -32,13 +32,16 @@ public interface RpcClient {
     GetBlocksRequest getBlocks(BigInteger startBlock, @Nullable BigInteger endBlock);
     GetBlocksRequest getBlocks(BigInteger startBlock, @Nullable BigInteger endBlock, @NotNull GetBlocksConfig config);
 
+    GetBlocksWithLimitRequest getBlocksWithLimit(BigInteger startBlock, @Nullable BigInteger limit);
+    GetBlocksWithLimitRequest getBlocksWithLimit(BigInteger startBlock, @Nullable BigInteger limit, @NotNull GetBlocksConfig config);
+
     GetBlockHeightRequest getBlockHeight();
     GetBlockHeightRequest getBlockHeight(@NotNull GetBlockHeightConfig config);
 
     GetBlockProductionRequest getBlockProduction();
     GetBlockProductionRequest getBlockProduction(@NotNull GetBlockProductionConfig config);
 
-    GetBlockTimeRequest getBlockTime(BigInteger blockNumber);
+    GetBlockTimeRequest getBlockTime(@NotNull BigInteger blockNumber);
 
     GetFirstAvailableBlockRequest getFirstAvailableBlock();
 
@@ -66,26 +69,26 @@ public interface RpcClient {
 
     GetEpochScheduleRequest getEpochSchedule();
 
-    GetFeeForMessageRequest getFeeForMessage(String base64EncodedMessage);
-    GetFeeForMessageRequest getFeeForMessage(String base64EncodedMessage, GetFeeForMessageConfig config);
+    GetFeeForMessageRequest getFeeForMessage(@NotNull String base64EncodedMessage);
+    GetFeeForMessageRequest getFeeForMessage(@NotNull String base64EncodedMessage, @Nullable GetFeeForMessageConfig config);
 
-    GetSignaturesForAddressRequest getSignaturesForAddress(String address);
-    GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config);
+    GetSignaturesForAddressRequest getSignaturesForAddress(@NotNull String address);
+    GetSignaturesForAddressRequest getSignaturesForAddress(@NotNull String address, @NotNull GetSignaturesForAddressConfig config);
 
-    GetProgramAccountsRequest getProgramAccounts(String programId);
-    GetProgramAccountsRequest getProgramAccounts(String programId, @NotNull GetProgramAccountsConfig config);
+    GetProgramAccountsRequest getProgramAccounts(@NotNull String programId);
+    GetProgramAccountsRequest getProgramAccounts(@NotNull String programId, @NotNull GetProgramAccountsConfig config);
 
-    GetTokenAccountBalanceRequest getTokenAccountBalance(String publicKey);
-    GetTokenAccountBalanceRequest getTokenAccountBalance(String publicKey, @NotNull GetTokenAccountBalanceConfig config);
+    GetTokenAccountBalanceRequest getTokenAccountBalance(@NotNull String publicKey);
+    GetTokenAccountBalanceRequest getTokenAccountBalance(@NotNull String publicKey, @NotNull GetTokenAccountBalanceConfig config);
 
-    GetTokenAccountsByDelegateRequest getTokenAccountsByDelegate(String delegate, GetTokenAccountsByDelegateParams params);
-    GetTokenAccountsByDelegateRequest getTokenAccountsByDelegate(String delegate, GetTokenAccountsByDelegateParams params, @NotNull GetTokenAccountsByDelegateConfig config);
+    GetTokenAccountsByDelegateRequest getTokenAccountsByDelegate(@NotNull String delegate, GetTokenAccountsByDelegateParams params);
+    GetTokenAccountsByDelegateRequest getTokenAccountsByDelegate(@NotNull String delegate, GetTokenAccountsByDelegateParams params, @NotNull GetTokenAccountsByDelegateConfig config);
 
-    GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params);
-    GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @NotNull GetTokenAccountsByOwnerConfig config);
+    GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(@NotNull String owner, GetTokenAccountsByOwnerParams params);
+    GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(@NotNull String owner, GetTokenAccountsByOwnerParams params, @NotNull GetTokenAccountsByOwnerConfig config);
 
-    GetTokenLargestAccountsRequest getTokenLargestAccounts(String publicKey);
-    GetTokenLargestAccountsRequest getTokenLargestAccounts(String publicKey, @NotNull GetTokenLargestAccountsConfig config);
+    GetTokenLargestAccountsRequest getTokenLargestAccounts(@NotNull String publicKey);
+    GetTokenLargestAccountsRequest getTokenLargestAccounts(@NotNull String publicKey, @NotNull GetTokenLargestAccountsConfig config);
 
     GetStakeMinimumDelegationRequest getStakeMinimumDelegation();
     GetStakeMinimumDelegationRequest getStakeMinimumDelegation(@NotNull GetStakeMinimumDelegationConfig config);
@@ -99,8 +102,8 @@ public interface RpcClient {
     GetMaxRetransmitSlotRequest getMaxRetransmitSlot();
     GetMaxShredInsertSlotRequest getMaxShredInsertSlot();
 
-    GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts);
-    GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts, @NotNull GetMultipleAccountsConfig config);
+    GetMultipleAccountsRequest getMultipleAccounts(@NotNull List<String> accounts);
+    GetMultipleAccountsRequest getMultipleAccounts(@NotNull List<String> accounts, @NotNull GetMultipleAccountsConfig config);
 
     GetClusterNodesRequest getClusterNodes();
 

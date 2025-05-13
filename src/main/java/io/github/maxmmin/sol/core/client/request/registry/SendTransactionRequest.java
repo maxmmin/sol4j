@@ -2,6 +2,7 @@ package io.github.maxmmin.sol.core.client.request.registry;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.maxmmin.sol.core.client.exception.RpcException;
 import io.github.maxmmin.sol.core.client.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.client.request.enc.MultiEncRequest;
 import io.github.maxmmin.sol.core.client.type.request.Encoding;
@@ -28,7 +29,6 @@ public class SendTransactionRequest extends MultiEncRequest<String, String, Void
         this.config = config;
     }
 
-
     @Override
     protected RpcRequest construct(Encoding encoding) {
         Map<String, Object> cfgMap = config == null ? new HashMap<>() : objectMapper.convertValue(config, new TypeReference<Map<String, Object>>() {});
@@ -36,4 +36,28 @@ public class SendTransactionRequest extends MultiEncRequest<String, String, Void
         return new RpcRequest("sendTransaction", List.of(encodedTransaction, cfgMap));
     }
 
+    @Override
+    public String send() throws RpcException {
+        return super.send();
+    }
+
+    @Override
+    public String base58() throws RpcException, UnsupportedOperationException {
+        return super.base58();
+    }
+
+    @Override
+    public String base64() throws RpcException, UnsupportedOperationException {
+        return super.base64();
+    }
+
+    @Override
+    public Void json() throws RpcException, UnsupportedOperationException {
+        return super.json();
+    }
+
+    @Override
+    public Void jsonParsed() throws RpcException, UnsupportedOperationException {
+        return super.jsonParsed();
+    }
 }

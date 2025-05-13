@@ -8,7 +8,6 @@ import io.github.maxmmin.sol.core.client.request.SimpleBatchedRequest;
 import io.github.maxmmin.sol.core.client.request.SimpleRequest;
 import io.github.maxmmin.sol.core.client.request.registry.*;
 import io.github.maxmmin.sol.core.client.type.request.*;
-import io.github.maxmmin.sol.core.client.type.response.RpcResponse;
 import io.github.maxmmin.sol.core.crypto.transaction.Transaction;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionSerializer;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionV0;
@@ -40,67 +39,63 @@ public class SimpleRpcClient implements RpcClient {
         return new SimpleBatchedRequest<>(typeRef, rpcGateway, requests);
     }
 
-    protected <V> V extractRpcResponse(RpcResponse<V> rpcResponse) {
-       return rpcResponse.getResult();
-    }
-
     @Override
-    public GetSignaturesForAddressRequest getSignaturesForAddress(String address) {
+    public GetSignaturesForAddressRequest getSignaturesForAddress(@NotNull String address) {
         return getSignaturesForAddress(address, GetSignaturesForAddressConfig.empty());
     }
 
     @Override
-    public GetSignaturesForAddressRequest getSignaturesForAddress(String address, @NotNull GetSignaturesForAddressConfig config) {
+    public GetSignaturesForAddressRequest getSignaturesForAddress(@NotNull String address, @NotNull GetSignaturesForAddressConfig config) {
         return new GetSignaturesForAddressRequest(rpcGateway, address, config);
     }
 
     @Override
-    public GetProgramAccountsRequest getProgramAccounts(String programId) {
+    public GetProgramAccountsRequest getProgramAccounts(@NotNull String programId) {
         return getProgramAccounts(programId, GetProgramAccountsConfig.empty());
     }
 
     @Override
-    public GetProgramAccountsRequest getProgramAccounts(String programId, @NotNull GetProgramAccountsConfig config) {
+    public GetProgramAccountsRequest getProgramAccounts(@NotNull String programId, @NotNull GetProgramAccountsConfig config) {
         return new GetProgramAccountsRequest(rpcGateway, programId, config);
     }
 
     @Override
-    public GetTokenAccountBalanceRequest getTokenAccountBalance(String publicKey) {
+    public GetTokenAccountBalanceRequest getTokenAccountBalance(@NotNull String publicKey) {
         return getTokenAccountBalance(publicKey, GetTokenAccountBalanceConfig.empty());
     }
 
     @Override
-    public GetTokenAccountBalanceRequest getTokenAccountBalance(String publicKey, @NotNull GetTokenAccountBalanceConfig config) {
+    public GetTokenAccountBalanceRequest getTokenAccountBalance(@NotNull String publicKey, @NotNull GetTokenAccountBalanceConfig config) {
         return new GetTokenAccountBalanceRequest(rpcGateway, publicKey, config);
     }
 
     @Override
-    public GetTokenAccountsByDelegateRequest getTokenAccountsByDelegate(String delegate, GetTokenAccountsByDelegateParams params) {
+    public GetTokenAccountsByDelegateRequest getTokenAccountsByDelegate(@NotNull String delegate, GetTokenAccountsByDelegateParams params) {
         return getTokenAccountsByDelegate(delegate, params, GetTokenAccountsByDelegateConfig.empty());
     }
 
     @Override
-    public GetTokenAccountsByDelegateRequest getTokenAccountsByDelegate(String delegate, GetTokenAccountsByDelegateParams params, @NotNull GetTokenAccountsByDelegateConfig config) {
-        return new GetTokenAccountsByDelegateRequest(rpcGateway, delegate, config, params);
+    public GetTokenAccountsByDelegateRequest getTokenAccountsByDelegate(@NotNull String delegate, GetTokenAccountsByDelegateParams params, @NotNull GetTokenAccountsByDelegateConfig config) {
+        return new GetTokenAccountsByDelegateRequest(rpcGateway, delegate, params, config);
     }
 
     @Override
-    public GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params) {
+    public GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(@NotNull String owner, GetTokenAccountsByOwnerParams params) {
         return getTokenAccountsByOwner(owner, params, GetTokenAccountsByOwnerConfig.empty());
     }
 
     @Override
-    public GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(String owner, GetTokenAccountsByOwnerParams params, @NotNull GetTokenAccountsByOwnerConfig config) {
+    public GetTokenAccountsByOwnerRequest getTokenAccountsByOwner(@NotNull String owner, GetTokenAccountsByOwnerParams params, @NotNull GetTokenAccountsByOwnerConfig config) {
         return new GetTokenAccountsByOwnerRequest(rpcGateway, owner, params, config);
     }
 
     @Override
-    public GetTokenLargestAccountsRequest getTokenLargestAccounts(String publicKey) {
+    public GetTokenLargestAccountsRequest getTokenLargestAccounts(@NotNull String publicKey) {
         return getTokenLargestAccounts(publicKey, GetTokenLargestAccountsConfig.empty());
     }
 
     @Override
-    public GetTokenLargestAccountsRequest getTokenLargestAccounts(String publicKey, @NotNull GetTokenLargestAccountsConfig config) {
+    public GetTokenLargestAccountsRequest getTokenLargestAccounts(@NotNull String publicKey, @NotNull GetTokenLargestAccountsConfig config) {
         return new GetTokenLargestAccountsRequest(rpcGateway, publicKey, config);
     }
 
@@ -145,12 +140,12 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
-    public GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts) {
+    public GetMultipleAccountsRequest getMultipleAccounts(@NotNull List<String> accounts) {
         return getMultipleAccounts(accounts, GetMultipleAccountsConfig.empty());
     }
 
     @Override
-    public GetMultipleAccountsRequest getMultipleAccounts(List<String> accounts, @NotNull GetMultipleAccountsConfig config) {
+    public GetMultipleAccountsRequest getMultipleAccounts(@NotNull List<String> accounts, @NotNull GetMultipleAccountsConfig config) {
         return new GetMultipleAccountsRequest(rpcGateway, accounts, config);
     }
 
@@ -200,6 +195,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetBlocksWithLimitRequest getBlocksWithLimit(BigInteger startBlock, @Nullable BigInteger limit) {
+        return getBlocksWithLimit(startBlock, limit, GetBlocksConfig.empty());
+    }
+
+    @Override
+    public GetBlocksWithLimitRequest getBlocksWithLimit(BigInteger startBlock, @Nullable BigInteger limit, @NotNull GetBlocksConfig config) {
+        return new GetBlocksWithLimitRequest(rpcGateway, startBlock, limit, config);
+    }
+
+    @Override
     public GetBlockHeightRequest getBlockHeight() {
         return getBlockHeight(GetBlockHeightConfig.empty());
     }
@@ -220,7 +225,7 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
-    public GetBlockTimeRequest getBlockTime(BigInteger blockNumber) {
+    public GetBlockTimeRequest getBlockTime(@NotNull BigInteger blockNumber) {
         return new GetBlockTimeRequest(rpcGateway, blockNumber);
     }
 
@@ -300,12 +305,12 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
-    public GetFeeForMessageRequest getFeeForMessage(String base64EncodedMessage) {
+    public GetFeeForMessageRequest getFeeForMessage(@NotNull String base64EncodedMessage) {
         return getFeeForMessage(base64EncodedMessage, GetFeeForMessageConfig.empty());
     }
 
     @Override
-    public GetFeeForMessageRequest getFeeForMessage(String base64EncodedMessage, GetFeeForMessageConfig config) {
+    public GetFeeForMessageRequest getFeeForMessage(@NotNull String base64EncodedMessage, GetFeeForMessageConfig config) {
         return new GetFeeForMessageRequest(rpcGateway, base64EncodedMessage, config);
     }
 
