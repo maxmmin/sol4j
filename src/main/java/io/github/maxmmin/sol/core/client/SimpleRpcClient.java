@@ -14,6 +14,7 @@ import io.github.maxmmin.sol.core.crypto.transaction.TransactionSerializer;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionV0;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.util.Base64;
@@ -186,6 +187,16 @@ public class SimpleRpcClient implements RpcClient {
     @Override
     public GetBlockCommitmentRequest getBlockCommitment(BigInteger blockNumber) {
         return new GetBlockCommitmentRequest(rpcGateway, blockNumber);
+    }
+
+    @Override
+    public GetBlocksRequest getBlocks(BigInteger startBlock, @Nullable BigInteger endBlock) {
+        return getBlocks(startBlock, endBlock, GetBlocksConfig.empty());
+    }
+
+    @Override
+    public GetBlocksRequest getBlocks(BigInteger startBlock, @Nullable BigInteger endBlock, @NotNull GetBlocksConfig config) {
+        return new GetBlocksRequest(rpcGateway, startBlock, endBlock, config);
     }
 
     @Override

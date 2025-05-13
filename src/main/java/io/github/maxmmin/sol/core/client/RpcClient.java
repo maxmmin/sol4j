@@ -9,6 +9,7 @@ import io.github.maxmmin.sol.core.client.type.request.*;
 import io.github.maxmmin.sol.core.crypto.transaction.Transaction;
 import io.github.maxmmin.sol.core.crypto.transaction.TransactionV0;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -27,6 +28,9 @@ public interface RpcClient {
     GetBlockRequest getBlock(BigInteger slotNumber, @NotNull GetBlockConfig config);
 
     GetBlockCommitmentRequest getBlockCommitment(BigInteger blockNumber);
+
+    GetBlocksRequest getBlocks(BigInteger startBlock, @Nullable BigInteger endBlock);
+    GetBlocksRequest getBlocks(BigInteger startBlock, @Nullable BigInteger endBlock, @NotNull GetBlocksConfig config);
 
     GetBlockHeightRequest getBlockHeight();
     GetBlockHeightRequest getBlockHeight(@NotNull GetBlockHeightConfig config);
