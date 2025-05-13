@@ -8,20 +8,18 @@ import io.github.maxmmin.sol.core.client.type.request.GetBlocksConfig;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GetBlocksRequest extends SimpleRequest<List<BigInteger>> {
     public GetBlocksRequest(RpcGateway rpcGateway, BigInteger startBlock, @Nullable BigInteger endBlock, @Nullable GetBlocksConfig config) {
-        super(new TypeReference<List<BigInteger>>(){}, rpcGateway, "getBlocks", getParamsList(startBlock, endBlock, config));
+        super(new TypeReference<List<BigInteger>>(){}, rpcGateway, "getBlocks", getParams(startBlock, endBlock, config));
     }
 
-    private static List<Object> getParamsList(BigInteger startBlock, BigInteger endBlock, GetBlocksConfig config) {
-        List<Object> params = new ArrayList<>(3);
-        params.add(startBlock);
-        if (endBlock != null) params.add(endBlock);
-        if (config != null) params.add(config);
-        return params;
+    private static List<Object> getParams(BigInteger startBlock, @Nullable BigInteger endBlock, @Nullable GetBlocksConfig config) {
+        return Stream.of(Objects.requireNonNull(startBlock, "Start block must be specified"), endBlock, config).collect(Collectors.toUnmodifiableList());
     }
 
     @Override

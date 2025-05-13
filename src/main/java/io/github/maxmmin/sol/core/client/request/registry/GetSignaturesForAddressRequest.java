@@ -7,14 +7,23 @@ import io.github.maxmmin.sol.core.client.gateway.RpcGateway;
 import io.github.maxmmin.sol.core.client.request.SimpleRequest;
 import io.github.maxmmin.sol.core.client.type.request.GetSignaturesForAddressConfig;
 import io.github.maxmmin.sol.core.client.type.response.signature.SignatureInformation;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GetSignaturesForAddressRequest extends SimpleRequest<List<SignatureInformation>> {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    public GetSignaturesForAddressRequest(RpcGateway gateway, String address, @Nullable GetSignaturesForAddressConfig config) {
+        super(new TypeReference<List<SignatureInformation>>() {}, gateway, "getSignaturesForAddress", getParams(address, config));
+    }
 
-    public GetSignaturesForAddressRequest(RpcGateway gateway, String address, GetSignaturesForAddressConfig config) {
-        super(new TypeReference<List<SignatureInformation>>() {}, gateway, "getSignaturesForAddress", List.of(address, config));
+    private static List<Object> getParams(String address, @Nullable GetSignaturesForAddressConfig config) {
+        return Stream.of(
+                Objects.requireNonNull(address, "Address must be specified"),
+                config
+        ).collect(Collectors.toUnmodifiableList());
     }
 
     @Override
