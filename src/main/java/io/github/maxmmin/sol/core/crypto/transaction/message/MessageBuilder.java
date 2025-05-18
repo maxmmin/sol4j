@@ -57,7 +57,7 @@ public abstract class MessageBuilder<M> {
         List<AccountMeta> accounts = getInstructionsOrderedAccounts();
         MessageHeader messageHeader = buildMessageHeader(accounts);
         List<CompiledInstruction> compiledInstructions = compileInstructions(transactionInstructions, accounts);
-        List<PublicKey> accountKeys = accounts.stream().map(AccountMeta::getPubkey).collect(Collectors.toList());
+        List<PublicKey> accountKeys = accounts.stream().map(AccountMeta::getPubkey).collect(Collectors.toUnmodifiableList());
 
         MessageBuildArgs messageBuildArgs = new MessageBuildArgs(messageHeader, accountKeys, accounts, compiledInstructions);
         return build(messageBuildArgs);
@@ -100,7 +100,7 @@ public abstract class MessageBuilder<M> {
                     accountMap.values().stream()
                                 .sorted(accountMetaComparator)
                 )
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 
     protected static final Comparator<AccountMeta> accountMetaComparator = (AccountMeta o1, AccountMeta o2) -> {
@@ -128,7 +128,7 @@ public abstract class MessageBuilder<M> {
                     return new CompiledInstruction(programIdIndex, ShortU16.valueOf(instructionAccountIndexes.length),
                             instructionAccountIndexes, ShortU16.valueOf(data.length), txInstruction.getData());
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 
     protected byte[] getInstructionAccountIndexes(TransactionInstruction instruction, Map<PublicKey, Byte> indexMap) {

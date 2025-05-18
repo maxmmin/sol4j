@@ -34,7 +34,7 @@ public class SimpleRpcClient implements RpcClient {
     public <V> BatchedRequest<V> callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef) {
         List<Request<V>>requests = params.stream()
                 .map(param -> new SimpleRequest<V>(typeRef, rpcGateway, method, param))
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
 
         return new SimpleBatchedRequest<>(typeRef, rpcGateway, requests);
     }
@@ -280,6 +280,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetLargestAccountsRequest getLargestAccounts() {
+        return getLargestAccounts(GetLargestAccountsConfig.empty());
+    }
+
+    @Override
+    public GetLargestAccountsRequest getLargestAccounts(@NotNull GetLargestAccountsConfig config) {
+        return new GetLargestAccountsRequest(rpcGateway, config);
+    }
+
+    @Override
     public GetLatestBlockhashRequest getLatestBlockhash() {
         return getLatestBlockhash(GetLatestBlockhashConfig.empty());
     }
@@ -287,6 +297,16 @@ public class SimpleRpcClient implements RpcClient {
     @Override
     public GetLatestBlockhashRequest getLatestBlockhash(@NotNull GetLatestBlockhashConfig config) {
         return new GetLatestBlockhashRequest(rpcGateway, config);
+    }
+
+    @Override
+    public GetLeaderScheduleRequest getLeaderSchedule(@Nullable BigInteger slotNumber) {
+        return getLeaderSchedule(slotNumber, GetLeaderScheduleConfig.empty());
+    }
+
+    @Override
+    public GetLeaderScheduleRequest getLeaderSchedule(@Nullable BigInteger slotNumber, @NotNull GetLeaderScheduleConfig config) {
+        return new GetLeaderScheduleRequest(rpcGateway, slotNumber, config);
     }
 
     @Override

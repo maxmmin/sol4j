@@ -61,8 +61,14 @@ public interface RpcClient {
     GetInflationRewardRequest getInflationReward(List<String> addresses);
     GetInflationRewardRequest getInflationReward(List<String> addresses, @NotNull GetInflationRewardConfig config);
 
+    GetLargestAccountsRequest getLargestAccounts();
+    GetLargestAccountsRequest getLargestAccounts(@NotNull GetLargestAccountsConfig config);
+
     GetLatestBlockhashRequest getLatestBlockhash();
     GetLatestBlockhashRequest getLatestBlockhash(@NotNull GetLatestBlockhashConfig config);
+
+    GetLeaderScheduleRequest getLeaderSchedule(@Nullable BigInteger slotNumber);
+    GetLeaderScheduleRequest getLeaderSchedule(@Nullable BigInteger slotNumber, @NotNull GetLeaderScheduleConfig config);
 
     GetEpochInfoRequest getEpochInfo();
     GetEpochInfoRequest getEpochInfo(@NotNull GetEpochInfoConfig config);

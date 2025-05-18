@@ -45,9 +45,9 @@ Under active development
 - getInflationGovernor ✅
 - getInflationRate ✅
 - getInflationReward ✅
-- getLargestAccounts ❌
+- getLargestAccounts ✅
 - getLatestBlockhash ✅
-- getLeaderSchedule ❌
+- getLeaderSchedule ✅
 - getMaxRetransmitSlot ✅
 - getMaxShredInsertSlot ✅
 - getMinimumBalanceForRentExemption ❌
