@@ -6,11 +6,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import io.github.maxmmin.sol.core.client.Collector;
 import io.github.maxmmin.sol.core.client.Types;
 import io.github.maxmmin.sol.core.client.exception.RpcBatchedResponseException;
 import io.github.maxmmin.sol.core.client.exception.RpcException;
 import io.github.maxmmin.sol.core.client.exception.RpcResponseException;
+import io.github.maxmmin.sol.core.client.serialization.ParamJsonSerializer;
+import io.github.maxmmin.sol.core.client.type.request.Param;
 import io.github.maxmmin.sol.core.client.type.request.RpcRequest;
 import io.github.maxmmin.sol.core.client.type.response.RpcResponse;
 import lombok.Getter;
@@ -32,9 +35,13 @@ public abstract class AbstractRpcGateway implements RpcGateway {
     }
 
     private static ObjectMapper createMapper() {
+        SimpleModule paramSerializingModule = new SimpleModule();
+        paramSerializingModule.addSerializer(Param.class, new ParamJsonSerializer());
+
         return new ObjectMapper()
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                .registerModule(paramSerializingModule);
     }
 
     protected void checkIfSuccessful(RpcResponse<?>rpcResponse) throws RpcResponseException {
