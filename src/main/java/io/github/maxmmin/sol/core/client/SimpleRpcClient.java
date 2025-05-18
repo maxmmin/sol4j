@@ -280,6 +280,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetLargestAccountsRequest getLargestAccounts() {
+        return getLargestAccounts(GetLargestAccountsConfig.empty());
+    }
+
+    @Override
+    public GetLargestAccountsRequest getLargestAccounts(@NotNull GetLargestAccountsConfig config) {
+        return new GetLargestAccountsRequest(rpcGateway, config);
+    }
+
+    @Override
     public GetLatestBlockhashRequest getLatestBlockhash() {
         return getLatestBlockhash(GetLatestBlockhashConfig.empty());
     }
