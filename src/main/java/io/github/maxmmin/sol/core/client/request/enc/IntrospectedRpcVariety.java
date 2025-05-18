@@ -29,8 +29,8 @@ public abstract class IntrospectedRpcVariety<D, B, J, P> {
 
     public IntrospectedRpcVariety(RpcTypes<D, B, J, P> rpcTypes, EncodingSupport encodingSupport) {
         this.rpcTypes = rpcTypes;
-        this.typesMetadata = introspectTypes(rpcTypes);
         this.encodingSupport = encodingSupport;
+        this.typesMetadata = introspectTypes(rpcTypes);
     }
 
     protected RpcTypes<D, B, J , P> getRpcTypes() {
