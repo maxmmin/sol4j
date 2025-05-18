@@ -300,6 +300,16 @@ public class SimpleRpcClient implements RpcClient {
     }
 
     @Override
+    public GetLeaderScheduleRequest getLeaderSchedule(@Nullable BigInteger slotNumber) {
+        return getLeaderSchedule(slotNumber, GetLeaderScheduleConfig.empty());
+    }
+
+    @Override
+    public GetLeaderScheduleRequest getLeaderSchedule(@Nullable BigInteger slotNumber, @NotNull GetLeaderScheduleConfig config) {
+        return new GetLeaderScheduleRequest(rpcGateway, slotNumber, config);
+    }
+
+    @Override
     public GetEpochInfoRequest getEpochInfo() {
         return getEpochInfo(GetEpochInfoConfig.empty());
     }

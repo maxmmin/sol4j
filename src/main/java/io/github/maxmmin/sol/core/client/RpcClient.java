@@ -67,6 +67,9 @@ public interface RpcClient {
     GetLatestBlockhashRequest getLatestBlockhash();
     GetLatestBlockhashRequest getLatestBlockhash(@NotNull GetLatestBlockhashConfig config);
 
+    GetLeaderScheduleRequest getLeaderSchedule(@Nullable BigInteger slotNumber);
+    GetLeaderScheduleRequest getLeaderSchedule(@Nullable BigInteger slotNumber, @NotNull GetLeaderScheduleConfig config);
+
     GetEpochInfoRequest getEpochInfo();
     GetEpochInfoRequest getEpochInfo(@NotNull GetEpochInfoConfig config);
 
