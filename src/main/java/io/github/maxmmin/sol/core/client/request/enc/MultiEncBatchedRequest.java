@@ -22,10 +22,13 @@ public class MultiEncBatchedRequest<D, B, J, P> extends IntrospectedRpcVariety<D
     }
 
     protected <T> List<T> execute(TypeReference<T> typeReference, Encoding encoding) throws RpcException {
-        List<RpcRequest> rpcRequests = requests.stream().map(request -> request.construct(encoding)).collect(Collectors.toList());
+        List<RpcRequest> rpcRequests = requests.stream()
+                .map(request -> request.construct(encoding))
+                .collect(Collectors.toUnmodifiableList());
+
         return gateway.sendBatched(rpcRequests, typeReference).stream()
                 .map(RpcResponse::getResult)
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
@@ -62,9 +65,8 @@ public class MultiEncBatchedRequest<D, B, J, P> extends IntrospectedRpcVariety<D
     private static EncodingSupport getEncodingSupport(Collection<? extends MultiEncRequest<?, ?, ?, ?>> requests) {
         List<Set<Encoding>> encodings = new ArrayList<>(requests.size());
         requests.forEach(request -> encodings.add(request.getSupportedEncodings()));
-        Set<Encoding> commonEncodings = new HashSet<>();
         Iterator<Set<Encoding>> iterator = encodings.iterator();
-        commonEncodings.addAll(iterator.next());
+        Set<Encoding> commonEncodings = new HashSet<>(iterator.next());
         while (iterator.hasNext()) {
             commonEncodings.retainAll(iterator.next());
         }

@@ -24,12 +24,12 @@ public class SimpleBatchedRequest<V> implements BatchedRequest<V> {
     public List<V> send() throws RpcException {
         List<RpcRequest>rpcRequests = requests.stream()
                 .map(Request::construct)
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
 
         return rpcGateway.sendBatched(rpcRequests, typeReference)
                 .stream()
                 .map(RpcResponse::getResult)
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 
 }

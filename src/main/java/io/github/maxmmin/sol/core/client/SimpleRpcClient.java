@@ -34,7 +34,7 @@ public class SimpleRpcClient implements RpcClient {
     public <V> BatchedRequest<V> callBatched(String method, List<List<Object>> params, TypeReference<V> typeRef) {
         List<Request<V>>requests = params.stream()
                 .map(param -> new SimpleRequest<V>(typeRef, rpcGateway, method, param))
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
 
         return new SimpleBatchedRequest<>(typeRef, rpcGateway, requests);
     }
