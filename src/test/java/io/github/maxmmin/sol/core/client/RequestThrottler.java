@@ -15,8 +15,4 @@ public class RequestThrottler {
     public void throttle() {
         LockSupport.parkNanos(nanosGap);
     }
-
-    public static RequestThrottler create () {
-        return new RequestThrottler(TestClientProperties.getRequestsPerSecond());
-    }
 }
