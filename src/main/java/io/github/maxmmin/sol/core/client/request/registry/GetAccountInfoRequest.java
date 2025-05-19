@@ -10,6 +10,7 @@ import io.github.maxmmin.sol.core.client.type.request.GetAccountInfoConfig;
 import io.github.maxmmin.sol.core.client.type.request.RpcRequest;
 import io.github.maxmmin.sol.core.client.type.response.ContextWrapper;
 import io.github.maxmmin.sol.core.client.type.response.account.base.BaseEncAccount;
+import io.github.maxmmin.sol.core.client.type.response.account.base.DefaultEncAccount;
 import io.github.maxmmin.sol.core.client.type.response.account.jsonparsed.JsonParsedAccount;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,14 +19,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class GetAccountInfoRequest extends MultiEncRequest<ContextWrapper<BaseEncAccount>, ContextWrapper<BaseEncAccount>, Void, ContextWrapper<JsonParsedAccount>> {
+public class GetAccountInfoRequest extends MultiEncRequest<ContextWrapper<DefaultEncAccount>, ContextWrapper<BaseEncAccount>, Void, ContextWrapper<JsonParsedAccount>> {
     private final String pubKey;
     private final GetAccountInfoConfig cfg;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GetAccountInfoRequest(RpcGateway gateway, String pubKey, @Nullable GetAccountInfoConfig config) {
         super(
-                new RpcTypes<ContextWrapper<BaseEncAccount>, ContextWrapper<BaseEncAccount>, Void, ContextWrapper<JsonParsedAccount>>() {},
+                new RpcTypes<ContextWrapper<DefaultEncAccount>, ContextWrapper<BaseEncAccount>, Void, ContextWrapper<JsonParsedAccount>>() {},
                 new EncodingSupport(Encoding.BASE58, Encoding.BASE64, Encoding.BASE64_ZSTD, Encoding.JSON_PARSED),
                 gateway
         );
@@ -41,7 +42,7 @@ public class GetAccountInfoRequest extends MultiEncRequest<ContextWrapper<BaseEn
     }
 
     @Override
-    public ContextWrapper<BaseEncAccount> send() throws RpcException {
+    public ContextWrapper<DefaultEncAccount> send() throws RpcException {
         return super.send();
     }
 
