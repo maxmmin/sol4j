@@ -1,6 +1,7 @@
 package io.github.maxmmin.sol.core.client.request.registry;
 
 import io.github.maxmmin.sol.core.client.ITClientContext;
+import io.github.maxmmin.sol.core.client.ITClientConstants;
 import io.github.maxmmin.sol.core.client.exception.RpcException;
 import io.github.maxmmin.sol.core.client.type.request.Encoding;
 import io.github.maxmmin.sol.core.client.type.response.account.base.BaseEncAccount;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GetAccountInfoIT {
 
     protected GetAccountInfoRequest getAccountInfo() {
-        return ITClientContext.getRpcClient().getAccountInfo("Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB");
+        return ITClientContext.getRpcClient().getAccountInfo(ITClientConstants.ACCOUNT_PUBKEY);
     }
 
     @Test
