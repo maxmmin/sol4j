@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(ITClientContext.class)
-public class ITGetAccountInfoTest {
+public class GetAccountInfoIT {
 
     protected GetAccountInfoRequest getAccountInfo() {
         return ITClientContext.getRpcClient().getAccountInfo("Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB");
