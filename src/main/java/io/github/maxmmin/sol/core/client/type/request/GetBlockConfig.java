@@ -11,7 +11,7 @@ public class GetBlockConfig {
     private final Commitment commitment;
     private final Encoding encoding;
     private final TransactionDetails transactionDetails;
-    private final Integer maxSupportedVersion;
+    private final Integer maxSupportedTransactionVersion;
     private final Boolean rewards;
 
     public static GetBlockConfig empty() {
