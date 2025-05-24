@@ -174,7 +174,10 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <includes>**/IT*.java</includes>
+                    <includes>
+                        <include>**/*IT.java</include>
+                        <include>**/IT*.java</include>
+                    </includes>
                 </configuration>
             </plugin>
         </plugins>
