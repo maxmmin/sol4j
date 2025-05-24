@@ -161,6 +161,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <excludes>**/IT*.java</excludes>
+                    <excludes>**/*IT.java</excludes>
                 </configuration>
             </plugin>
             <plugin>
