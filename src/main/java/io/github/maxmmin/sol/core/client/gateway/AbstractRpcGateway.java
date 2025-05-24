@@ -115,7 +115,7 @@ public abstract class AbstractRpcGateway implements RpcGateway {
             else {
                 String body = new String(jsonBytes);
                 if (body.length() > 128) body = body.substring(0, 128)+"...";
-                error = String.format("An error was thrown during response deserialization.\n\tTarget type: %s\n\tPresent body:\n\t%s{}",  javaType, body);
+                error = String.format("An error was thrown during response deserialization.\n\tTarget type: %s\n\tPresent body:\n\t%s",  javaType, body);
             }
 
             throw new RpcException(error);
