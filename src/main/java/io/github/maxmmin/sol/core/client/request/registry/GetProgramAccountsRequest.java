@@ -27,7 +27,8 @@ public class GetProgramAccountsRequest extends MultiEncRequest<List<JsonProgramA
         super(
                 new RpcTypes<List<JsonProgramAccount>, List<BaseEncProgramAccount>, List<JsonProgramAccount>, List<JsonParsedProgramAccount>>() {},
                 EncodingSupport.fullWithCompressing(),
-                gateway);
+                gateway
+        );
         this.programId = Objects.requireNonNull(programId, "Program id must be specified");
         this.config = config;
     }
