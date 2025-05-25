@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 public class GetTokenAccountsByOwnerConfig {
-    private final String commitment;
+    private final Commitment commitment;
     private final Long minContextSlot;
     private final DataSlice dataSlice;
     private final Encoding encoding;
