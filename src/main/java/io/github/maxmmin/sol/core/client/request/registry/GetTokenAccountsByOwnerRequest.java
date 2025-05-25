@@ -11,7 +11,6 @@ import io.github.maxmmin.sol.core.client.type.request.GetTokenAccountsByOwnerPar
 import io.github.maxmmin.sol.core.client.type.request.RpcRequest;
 import io.github.maxmmin.sol.core.client.type.response.ContextWrapper;
 import io.github.maxmmin.sol.core.client.type.response.account.base.BaseEncProgramAccount;
-import io.github.maxmmin.sol.core.client.type.response.account.json.JsonProgramAccount;
 import io.github.maxmmin.sol.core.client.type.response.account.jsonparsed.JsonParsedProgramAccount;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class GetTokenAccountsByOwnerRequest extends MultiEncRequest<ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<BaseEncProgramAccount>>,
-        ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<JsonParsedProgramAccount>>> {
+public class GetTokenAccountsByOwnerRequest extends MultiEncRequest<ContextWrapper<List<BaseEncProgramAccount>>, ContextWrapper<List<BaseEncProgramAccount>>,
+                                                                                                        Void, ContextWrapper<List<JsonParsedProgramAccount>>> {
     private final String owner;
     private final GetTokenAccountsByOwnerParams params;
     private final @Nullable GetTokenAccountsByOwnerConfig config;
@@ -30,7 +29,7 @@ public class GetTokenAccountsByOwnerRequest extends MultiEncRequest<ContextWrapp
 
     public GetTokenAccountsByOwnerRequest(RpcGateway gateway, String owner, GetTokenAccountsByOwnerParams params, GetTokenAccountsByOwnerConfig config) {
         super(
-                new RpcTypes<ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<BaseEncProgramAccount>>, ContextWrapper<List<JsonProgramAccount>>, ContextWrapper<List<JsonParsedProgramAccount>>>() {},
+                new RpcTypes<ContextWrapper<List<BaseEncProgramAccount>>, ContextWrapper<List<BaseEncProgramAccount>>, Void, ContextWrapper<List<JsonParsedProgramAccount>>>() {},
                 new EncodingSupport(Encoding.BASE58, Encoding.BASE64, Encoding.BASE64_ZSTD, Encoding.JSON_PARSED),
                 gateway
         );
@@ -48,7 +47,7 @@ public class GetTokenAccountsByOwnerRequest extends MultiEncRequest<ContextWrapp
     }
 
     @Override
-    public ContextWrapper<List<JsonProgramAccount>> send() throws RpcException {
+    public ContextWrapper<List<BaseEncProgramAccount>> send() throws RpcException {
         return super.send();
     }
 
@@ -63,7 +62,7 @@ public class GetTokenAccountsByOwnerRequest extends MultiEncRequest<ContextWrapp
     }
 
     @Override
-    public ContextWrapper<List<JsonProgramAccount>> json() throws RpcException, UnsupportedOperationException {
+    public Void json() throws RpcException, UnsupportedOperationException {
         return super.json();
     }
 

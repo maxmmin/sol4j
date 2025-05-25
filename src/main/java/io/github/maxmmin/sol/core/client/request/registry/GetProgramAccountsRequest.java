@@ -34,8 +34,8 @@ public class GetProgramAccountsRequest extends MultiEncRequest<List<JsonProgramA
 
     @Override
     protected RpcRequest construct(Encoding encoding) {
-        Map<String, ObjectMapper> cfg = config != null ? objectMapper.convertValue(config, new TypeReference<Map<String, ObjectMapper>>() {}) : new HashMap<>();
-        if (!encoding.isNil()) cfg.put("encoding", new ObjectMapper());
+        Map<String, Object> cfg = config != null ? objectMapper.convertValue(config, new TypeReference<Map<String, Object>>() {}) : new HashMap<>();
+        if (!encoding.isNil()) cfg.put("encoding", encoding);
         return new RpcRequest("getProgramAccounts", List.of(programId, cfg));
     }
 
