@@ -34,7 +34,7 @@ public class ITClientContext implements BeforeAllCallback {
     }
 
     private String loadRpcUrl() {
-        return "https://api.mainnet-beta.solana.com";
+        return "https://solana-rpc.publicnode.com";
     }
 
     private void initRequestThrottler() {
